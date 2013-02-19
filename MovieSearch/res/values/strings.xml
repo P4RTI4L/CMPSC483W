@@ -6,12 +6,15 @@
     <string name="menu_settings">Settings</string>
     <string name="btn_search">Search</string>
     <string name="title_activity_search">SearchActivity</string>
-    
+
     <string-array name="search_array">
         <item>Actor</item>
         <item>Genre</item>
         <item>Director</item>
         <item>Date</item>
     </string-array>
+
+    <string name="title_activity_settings">SettingsActivity</string>
+    <string name="action_settings">Settings</string>
 
 </resources>
