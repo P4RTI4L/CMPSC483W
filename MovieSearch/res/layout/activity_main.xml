@@ -11,8 +11,8 @@
         android:layout_alignBottom="@+id/ImageButton01"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:minHeight="160px"
-        android:minWidth="160px"
+        android:minHeight="160dp"
+        android:minWidth="160dp"
         android:src="@drawable/ic_temp" />
 
     <EditText
@@ -26,16 +26,6 @@
         android:text="Search"
         android:textAlignment="center"
         android:textSize="12sp" />
-
-    <ImageButton
-        android:id="@+id/ImageButton01"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/editText1"
-        android:minHeight="160px"
-        android:minWidth="160px"
-        android:src="@drawable/ic_temp" />
 
     <EditText
         android:id="@+id/EditText01"
@@ -51,5 +41,15 @@
 
         <requestFocus />
     </EditText>
+
+    <ImageButton
+        android:id="@+id/ImageButton01"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/imageButton1"
+        android:minHeight="160dp"
+        android:minWidth="160dp"
+        android:src="@drawable/ic_temp" />
 
 </RelativeLayout>
