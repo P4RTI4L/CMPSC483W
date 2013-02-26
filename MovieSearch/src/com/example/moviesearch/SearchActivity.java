@@ -2,8 +2,11 @@ package com.example.moviesearch;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
 import android.view.Menu;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 
 public class SearchActivity extends Activity {
@@ -16,9 +19,6 @@ public class SearchActivity extends Activity {
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
 				  this, R.array.search_array, android.R.layout.simple_spinner_item );
 				adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item );
-				
-		Spinner searchSpinner = (Spinner)findViewById(R.id.search_spinner);
-		searchSpinner.setAdapter(adapter);
 	}
 
 	@Override

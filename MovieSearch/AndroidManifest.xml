@@ -30,6 +30,10 @@
             android:name="com.example.moviesearch.SettingsActivity"
             android:label="@string/title_activity_settings" >
         </activity>
+        <activity
+            android:name="com.example.moviesearch.ActorSearchActivity"
+            android:label="@string/title_activity_actor_search_activty" >
+        </activity>
     </application>
 
 </manifest>
