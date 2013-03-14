@@ -1,0 +1,51 @@
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="5dp"
+    android:stretchColumns="*"
+    tools:context=".MainMenuActivity" >
+
+    <TableRow
+        android:id="@+id/tableRow1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp" >
+		<TextView
+		    android:id="@+id/main_menu_general_search"
+		 	android:text="@string/main_menu_general_search"
+		 	android:layout_width="0dp"
+		 	android:layout_height="wrap_content"
+		 	android:drawableTop="@drawable/general_search"
+		 	android:gravity="center"
+		 	android:textSize="18sp" />
+		<TextView
+		    android:id="@+id/main_menu_settings"
+		 	android:text="@string/main_menu_settings"
+		 	android:layout_width="0dp"
+		 	android:layout_height="wrap_content"
+		 	android:drawableTop="@drawable/settings"
+		 	android:gravity="center"
+		 	android:textSize="18sp"
+		 	android:clickable="true"
+		 	android:onClick="openSettings" />
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/tableRow2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp" >
+		<TextView
+		    android:id="@+id/main_menu_actor_search"
+		 	android:text="@string/main_menu_actor_search"
+		 	android:layout_width="0dp"
+		 	android:layout_height="wrap_content"
+		 	android:drawableTop="@drawable/actor_search"
+		 	android:gravity="center"
+		 	android:textSize="18sp"
+		 	android:clickable="true"
+		 	android:onClick="openActorSearch" />
+    </TableRow>
+
+</TableLayout>

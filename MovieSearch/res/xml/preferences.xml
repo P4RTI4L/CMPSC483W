@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title="Preferences">
+    
+    <PreferenceScreen android:key="filters"
+        			  android:title="@string/main_default_filters">
+        <MultiSelectListPreference
+            android:title="@string/filters_genres_title"
+            android:key="filterGenreSettings"
+            android:entries="@array/filters_genres_list"
+            android:entryValues="@array/filters_genres_list_values"
+            android:defaultValue="@array/filters_genres_list_values"
+            android:summary="@string/filters_genres_summary" />
+        <MultiSelectListPreference
+            android:title="@string/filters_languages_title"
+            android:key="filterLanguageSettings"
+            android:summary="@string/filters_languages_summary"
+        	android:entries="@array/filters_languages_list"
+        	android:entryValues="@array/filters_languages_list_values"
+        	android:defaultValue="@array/filters_languages_list_values" />
+        <CheckBoxPreference
+            android:title="@string/filters_upcoming_title"
+            android:key="allowUpcoming"
+            android:summaryOn="@string/filters_upcoming_summaryOn"
+            android:summaryOff="@string/filters_upcoming_summaryOff"
+            android:defaultValue="true" />
+    </PreferenceScreen>
+    
+    <CheckBoxPreference
+        android:title="@string/allow_adult_title"
+        android:defaultValue="false"
+        android:key="allowAdult" />
+    
+</PreferenceScreen>

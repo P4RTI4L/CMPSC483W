@@ -1,0 +1,69 @@
+<resources>
+    <string name="main_default_filters">Default filters</string>
+    <string name="filters_genres_title">Genres</string>
+    
+    <string name="filters_genres_summary">Select which genres should be allowed by default. Currently not a representative list of all genres available.</string>
+    <string name="filters_languages_title">Spoken Language</string>
+    <string name="filters_languages_summary">Select which languages to allow by default. Currently not a representative list.</string>
+    
+    <string name="filters_upcoming_title">Allow Upcoming</string>
+    <string name="filters_upcoming_summaryOn">Upcoming movies will be allowed in results by default.</string>
+    <string name="filters_upcoming_summaryOff">Upcoming movies will be filtered from results by default.</string>
+    
+    <string-array name="filters_genres_list">
+        <item>Action</item>
+        <item>Adventure</item>
+        <item>Animation</item>
+        <item>Comedy</item>
+        <item>Drama</item>
+        <item>Fantasy</item>
+        <item>Horror</item>
+        <item>Mystery</item>
+        <item>Romance</item>
+        <item>Science Fiction</item>
+        <item>Thriller</item>
+    </string-array>
+    <string-array name="filters_genres_list_values">
+        <item>action</item>
+        <item>adventure</item>
+        <item>animation</item>
+        <item>comedy</item>
+        <item>drama</item>
+        <item>fantasy</item>
+        <item>horror</item>
+        <item>mystery</item>
+        <item>romance</item>
+        <item>science_fiction</item>
+        <item>thriller</item>
+    </string-array>
+    <string-array name="filters_languages_list">
+        <item>Arabic</item>
+        <item>Chinese</item>
+        <item>English</item>
+        <item>French</item>
+        <item>German</item>
+        <item>Hindi</item>
+        <item>Italian</item>
+        <item>Japanese</item>
+        <item>Portuguese</item>
+        <item>Russian</item>
+        <item>Spanish</item>
+    </string-array>
+    <string-array name="filters_languages_list_values">
+		<item>ar</item>
+		<item>zh</item>
+		<item>en</item>
+		<item>fr</item>
+		<item>de</item>
+		<item>hi</item>
+		<item>it</item>
+		<item>ja</item>
+		<item>pt</item>
+		<item>ru</item>
+		<item>es</item>
+    </string-array>
+    
+    <string name="title_activity_settings">Settings</string>
+    
+    <string name="allow_adult_title">Allow Adult Content</string>
+</resources>
