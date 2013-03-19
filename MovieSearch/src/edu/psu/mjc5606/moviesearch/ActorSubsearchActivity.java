@@ -1,22 +1,39 @@
 package edu.psu.mjc5606.moviesearch;
 
+import java.util.ArrayList;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Toast;
 import android.support.v4.app.NavUtils;
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.res.Resources.NotFoundException;
 import android.os.Build;
 
 public class ActorSubsearchActivity extends Activity {
 
+	private JSONObject lastRequest;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -25,7 +42,45 @@ public class ActorSubsearchActivity extends Activity {
 		ListView list = (ListView)findViewById(R.id.listView);
 		
 		registerForContextMenu(list);
-		
+		final Context context = this;
+		list.setOnItemClickListener(new OnItemClickListener()
+		{
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				try {
+					JSONArray results = lastRequest.getJSONArray("results");
+					JSONObject data = results.getJSONObject(arg2);
+					AlertDialog.Builder builder = new AlertDialog.Builder(context)
+					;
+					builder.setTitle("Confirm selection");
+					builder.setMessage("Add actor '"+data.getString("name")+"'?");
+					builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+						
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							// TODO Auto-generated method stub
+							
+						}
+					});
+					builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+						
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							// TODO Auto-generated method stub
+							
+						}
+					});
+					builder.create().show();
+				} catch (JSONException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+
+			}
+			
+		});
 		// Show the Up button in the action bar.
 		setupActionBar();
 		setupQueryTextListener();
@@ -85,13 +140,65 @@ public class ActorSubsearchActivity extends Activity {
 			@Override
 			public boolean onQueryTextSubmit(String query) {
 				
-				// Temporary code until network code is written
-				Toast.makeText(getApplicationContext(), "Testing search view: "+ query, 0).show();
+				// Perform the search
+				new AsyncTaskActorQuery().execute(query);
+				// Dismiss the keyboard
+				SearchView sv = (SearchView)findViewById(R.id.searchView1);
+				InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+				imm.hideSoftInputFromInputMethod(sv.getWindowToken(),0);
+				
 				return true;
 			}
 			
 			
 		});
+	}
+	
+	// Web queries should always be performed asynchronously to prevent blocking the UI thread, for this purpose
+	//	an AsyncTask is needed to update the interface as data is ready
+	private class AsyncTaskActorQuery extends AsyncTask<String, Integer, JSONObject>
+	{
+		@Override
+		protected JSONObject doInBackground(String... params) {
+			// TODO Auto-generated method stub
+			String nameSubstring = params[0];
+
+			if (params.length > 1)
+			{
+				String page = params[1];
+				return ActorSubsearchModel.synchronousActorSearch(nameSubstring, page);
+			}
+			
+			return ActorSubsearchModel.synchronousActorSearch(nameSubstring);
+		}
+		
+		@Override
+		protected void onPostExecute(JSONObject result)
+		{
+			try {
+				// Copy it to the activity for later use
+				lastRequest = result;
+				// Get a list of the names and populate the list
+				JSONArray actorList = result.getJSONArray("results");
+				ArrayList<String> names = new ArrayList<String>();
+				for (int i=0; i<actorList.length(); i++)
+				{	
+					JSONObject entry = (JSONObject) actorList.get(i);
+					names.add(entry.getString("name"));
+				}
+				ListView listView = (ListView)findViewById(R.id.listView);
+				ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.actor_subsearch_row, names);
+				Log.i("Test", "Length: "+names.size());
+				listView.setAdapter(adapter);
+			} catch (NotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
 	}
 	
 

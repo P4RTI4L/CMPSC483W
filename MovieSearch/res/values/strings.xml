@@ -12,6 +12,8 @@
     <string name="actor_search_exclude">Exclude:</string>
     <string name="actor_search_add_actor">Add new actor</string>
     <string name="title_activity_actor_subsearch">Actor Subsearch Activity</string>
-    <string name="actor_subsearch_context_confirm">Confirm</string>
+    <string name="actor_subsearch_context_confirm">Use this actor</string>
+    <string name="actor_subsearch_context_detail">View detailed information</string>
+    <string name="cancel">Cancel</string>
 
 </resources>

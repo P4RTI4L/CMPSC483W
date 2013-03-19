@@ -1,4 +1,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/subsearch_context_confirm"
         android:title="@string/actor_subsearch_context_confirm" />
+    <item android:id="@+id/subsearch_context_detail"
+        android:title="@string/actor_subsearch_context_detail" />
+    <item android:id="@+id/subsearch_context_cancel"
+        android:title="@string/cancel" />
 </menu>
