@@ -7,7 +7,9 @@
     <uses-sdk
         android:minSdkVersion="11"
         android:targetSdkVersion="17" />
-    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+
+    <uses-permission android:name="android.permission.INTERNET" >
+    </uses-permission>
 
     <application
         android:allowBackup="true"
@@ -46,6 +48,10 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.psu.mjc5606.moviesearch.ActorSearchActivity" />
+        </activity>
+        <activity
+            android:name="edu.psu.mjc5606.moviesearch.ResultsActivity"
+            android:label="@string/title_activity_results" >
         </activity>
     </application>
 

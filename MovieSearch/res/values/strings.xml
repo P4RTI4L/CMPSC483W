@@ -15,5 +15,6 @@
     <string name="actor_subsearch_context_confirm">Use this actor</string>
     <string name="actor_subsearch_context_detail">View detailed information</string>
     <string name="cancel">Cancel</string>
+    <string name="title_activity_results">ResultsActivity</string>
 
 </resources>
