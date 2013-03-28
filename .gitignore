@@ -1,0 +1,5 @@
+
+*.odg#
+*.class
+*.docx#
+.DS_Store
