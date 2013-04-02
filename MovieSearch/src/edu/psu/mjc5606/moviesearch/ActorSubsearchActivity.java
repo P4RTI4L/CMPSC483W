@@ -33,6 +33,7 @@ import android.os.Build;
 public class ActorSubsearchActivity extends Activity {
 
 	private JSONObject lastRequest;
+	private ArrayList<String> names;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +41,12 @@ public class ActorSubsearchActivity extends Activity {
 		setContentView(R.layout.activity_actor_subsearch);
 		
 		ListView list = (ListView)findViewById(R.id.listView);
+		
+		if (savedInstanceState != null)
+		{
+			names = savedInstanceState.getStringArrayList("actor_names");
+			list.setAdapter(new ArrayAdapter<String>(getApplicationContext(), R.layout.actor_subsearch_row, names));		
+		}
 		
 		registerForContextMenu(list);
 		final Context context = this;
@@ -126,6 +133,14 @@ public class ActorSubsearchActivity extends Activity {
 		getMenuInflater().inflate(R.menu.subsearch_context_menu, menu);
 	}
 	
+	@Override
+	public void onSaveInstanceState(Bundle savedInstanceState) {
+
+	    savedInstanceState.putStringArrayList("actor_names", names);
+	    // Always call the superclass so it can save the view hierarchy state
+	    super.onSaveInstanceState(savedInstanceState);
+	}
+	
 	// Sets up the searchview queryTextListener
 	public void setupQueryTextListener()
 	{
@@ -180,7 +195,7 @@ public class ActorSubsearchActivity extends Activity {
 				lastRequest = result;
 				// Get a list of the names and populate the list
 				JSONArray actorList = result.getJSONArray("results");
-				ArrayList<String> names = new ArrayList<String>();
+				names = new ArrayList<String>();
 				for (int i=0; i<actorList.length(); i++)
 				{	
 					JSONObject entry = (JSONObject) actorList.get(i);
@@ -188,7 +203,6 @@ public class ActorSubsearchActivity extends Activity {
 				}
 				ListView listView = (ListView)findViewById(R.id.listView);
 				ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.actor_subsearch_row, names);
-				Log.i("Test", "Length: "+names.size());
 				listView.setAdapter(adapter);
 			} catch (NotFoundException e) {
 				// TODO Auto-generated catch block
