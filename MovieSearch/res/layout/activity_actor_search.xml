@@ -1,20 +1,20 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <LinearLayout
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="20dp">
-
         <TextView
             style="@style/HeaderText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/actor_search_include" />
-
+        <ListView
+            android:id="@+id/actor_search_list"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"></ListView>
         <Button
-            android:id="@+id/button1"
+            android:id="@+id/search_add_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/actor_search_add_actor"
@@ -26,12 +26,15 @@
             android:layout_height="wrap_content"
             android:text="@string/actor_search_exclude" />
 
+        <ListView
+            android:id="@+id/actor_exclude_list"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:maxHeight="100dp"></ListView>
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/exclude_add_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/actor_search_add_actor"
             android:onClick="openSubsearch" />
     </LinearLayout>
-    
-</ScrollView>

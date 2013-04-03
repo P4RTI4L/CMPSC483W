@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.util.Log;
+import android.util.Pair;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
@@ -27,12 +28,13 @@ import android.support.v4.app.NavUtils;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Resources.NotFoundException;
 import android.os.Build;
 
 public class ActorSubsearchActivity extends Activity {
 
-	private JSONObject lastRequest;
+	private Pair<ActorData[],Integer> lastRequest;
 	private ArrayList<String> names;
 	
 	@Override
@@ -45,7 +47,14 @@ public class ActorSubsearchActivity extends Activity {
 		if (savedInstanceState != null)
 		{
 			names = savedInstanceState.getStringArrayList("actor_names");
-			list.setAdapter(new ArrayAdapter<String>(getApplicationContext(), R.layout.actor_subsearch_row, names));		
+			lastRequest = new Pair<ActorData[],Integer>(
+					(ActorData[])savedInstanceState.getParcelableArray("actor_data"),
+					(Integer)savedInstanceState.getInt("total_pages"));
+			
+			if (names != null)
+			{
+				list.setAdapter(new ArrayAdapter<String>(getApplicationContext(), R.layout.actor_subsearch_row, names));		
+			}
 		}
 		
 		registerForContextMenu(list);
@@ -54,36 +63,31 @@ public class ActorSubsearchActivity extends Activity {
 		{
 
 			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+			public void onItemClick(AdapterView<?> arg0, View arg1, final int arg2,
 					long arg3) {
-				try {
-					JSONArray results = lastRequest.getJSONArray("results");
-					JSONObject data = results.getJSONObject(arg2);
-					AlertDialog.Builder builder = new AlertDialog.Builder(context)
-					;
-					builder.setTitle("Confirm selection");
-					builder.setMessage("Add actor '"+data.getString("name")+"'?");
-					builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+				AlertDialog.Builder builder = new AlertDialog.Builder(context);
+				builder.setTitle("Confirm selection");
+				builder.setMessage("Add actor '"+lastRequest.first[arg2].getName()+"'?");
+				builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// Create an intent to pass the actor's data back from the subsearch activity
+						Intent resultIntent = new Intent();
+						resultIntent.putExtra("actor_data", lastRequest.first[arg2]);
+						setResult(Activity.RESULT_OK, resultIntent);
 						
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							// TODO Auto-generated method stub
-							
-						}
-					});
-					builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-						
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							// TODO Auto-generated method stub
-							
-						}
-					});
-					builder.create().show();
-				} catch (JSONException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+						// and finish
+						finish();
+					}
+				});
+				builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// Do nothing
+					}
+				});
+				builder.create().show();
 
 			}
 			
@@ -137,6 +141,13 @@ public class ActorSubsearchActivity extends Activity {
 	public void onSaveInstanceState(Bundle savedInstanceState) {
 
 	    savedInstanceState.putStringArrayList("actor_names", names);
+	    // Save the lastRequest data
+	    if (lastRequest != null)
+	    {
+	    	savedInstanceState.putParcelableArray("actor_data", lastRequest.first);
+	    	savedInstanceState.putInt("total_pages", lastRequest.second);
+	    }
+	    
 	    // Always call the superclass so it can save the view hierarchy state
 	    super.onSaveInstanceState(savedInstanceState);
 	}
@@ -171,10 +182,10 @@ public class ActorSubsearchActivity extends Activity {
 	
 	// Web queries should always be performed asynchronously to prevent blocking the UI thread, for this purpose
 	//	an AsyncTask is needed to update the interface as data is ready
-	private class AsyncTaskActorQuery extends AsyncTask<String, Integer, JSONObject>
+	private class AsyncTaskActorQuery extends AsyncTask<String, Integer, Pair<ActorData[],Integer>>
 	{
 		@Override
-		protected JSONObject doInBackground(String... params) {
+		protected Pair<ActorData[],Integer> doInBackground(String... params) {
 			// TODO Auto-generated method stub
 			String nameSubstring = params[0];
 
@@ -188,26 +199,21 @@ public class ActorSubsearchActivity extends Activity {
 		}
 		
 		@Override
-		protected void onPostExecute(JSONObject result)
+		protected void onPostExecute(Pair<ActorData[],Integer> result)
 		{
 			try {
 				// Copy it to the activity for later use
 				lastRequest = result;
 				// Get a list of the names and populate the list
-				JSONArray actorList = result.getJSONArray("results");
 				names = new ArrayList<String>();
-				for (int i=0; i<actorList.length(); i++)
+				for (int i=0; i<lastRequest.first.length; i++)
 				{	
-					JSONObject entry = (JSONObject) actorList.get(i);
-					names.add(entry.getString("name"));
+					names.add(lastRequest.first[i].getName());
 				}
 				ListView listView = (ListView)findViewById(R.id.listView);
 				ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.actor_subsearch_row, names);
 				listView.setAdapter(adapter);
 			} catch (NotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}

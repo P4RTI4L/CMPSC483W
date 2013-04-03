@@ -13,10 +13,12 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.util.Log;
+import android.util.Pair;
 
 public class ActorSubsearchModel {
 
@@ -27,15 +29,14 @@ public class ActorSubsearchModel {
 	//	the synchronous version is provided to make unit testing easier and can be transformed
 	//	easily into the asynchronous version
 	//
-	// 	TODO: would like to abstract the data for this class rather than returning the JSONObject
-	public static JSONObject synchronousActorSearch(String nameSubstring)
+	public static Pair<ActorData[],Integer> synchronousActorSearch(String nameSubstring)
 	{
 		return synchronousActorSearch(nameSubstring, null);
 	}
 	
 	// Overloaded version of synchronousActorSearch that allows for specifying the page
 	// Omits the page from the query if page is null
-	public static JSONObject synchronousActorSearch(String nameSubstring, String page)
+	public static Pair<ActorData[],Integer> synchronousActorSearch(String nameSubstring, String page)
 	{
 		try {
 			String url = REQUEST_URL + "?api_key="+ API_KEY + "&query=" + URLEncoder.encode(nameSubstring, "UTF-8");
@@ -52,7 +53,8 @@ public class ActorSubsearchModel {
 		return null;
 	}
 	
-	private static JSONObject executeQuery(String url)
+	// Returns a pair consisting of the actor data and the total number of pages
+	private static Pair<ActorData[],Integer> executeQuery(String url)
 	{
 		HttpClient httpClient = new DefaultHttpClient();
 		
@@ -75,19 +77,42 @@ public class ActorSubsearchModel {
 				// Start reading the JSON Response
 				InputStream inputStream = entity.getContent();
 				String result = convertStreamToString(inputStream);
-
+				
 				// Parse the string into a JSONObject
 				JSONObject json;
+				// The resulting actor data object array to return in the pair
+				ActorData[] actors;
+				Integer numResults;
+				
+				Pair<ActorData[],Integer> resultPair;
 				
 				try {
 					json = new JSONObject(result);
+					
+					JSONArray resultsArray = json.getJSONArray("results");
+					numResults = json.getInt("total_results"); 
+					actors = new ActorData[resultsArray.length()];
+					
+					// Fill the actors array
+					for (int i=0; i<resultsArray.length(); i++)
+					{
+						JSONObject resultsEntry = resultsArray.getJSONObject(i);
+						actors[i] = new ActorData(
+								resultsEntry.getBoolean("adult"),
+								resultsEntry.getString("name"),
+								resultsEntry.getInt("id"),
+								resultsEntry.getDouble("popularity"),
+								resultsEntry.getString("profile_path"));
+					}
+					
+					resultPair = new Pair<ActorData[],Integer>(actors,numResults);
 				} catch (JSONException e) {
-					json = null;
+					resultPair = null;
 				}
 				
 				inputStream.close();
 				
-				return json;
+				return resultPair;
 			}
 			
 		} catch (ClientProtocolException e) {
