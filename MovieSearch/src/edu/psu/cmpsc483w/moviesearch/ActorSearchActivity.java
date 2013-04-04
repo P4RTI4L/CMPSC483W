@@ -2,7 +2,7 @@ package edu.psu.cmpsc483w.moviesearch;
 
 import java.util.ArrayList;
 
-import edu.psu.mjc5606.moviesearch.R;
+import edu.psu.cmpsc483w.moviesearch.R;
 
 import android.os.Bundle;
 import android.app.Activity;

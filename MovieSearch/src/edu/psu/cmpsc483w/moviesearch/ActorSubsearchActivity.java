@@ -6,7 +6,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import edu.psu.mjc5606.moviesearch.R;
+import edu.psu.cmpsc483w.moviesearch.R;
 
 import android.os.AsyncTask;
 import android.os.Bundle;

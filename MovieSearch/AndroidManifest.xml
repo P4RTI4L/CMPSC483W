@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="edu.psu.mjc5606.moviesearch"
+    package="edu.psu.cmpsc483w.moviesearch"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -52,6 +52,14 @@
         <activity
             android:name="edu.psu.cmpsc483w.moviesearch.ResultsActivity"
             android:label="@string/title_activity_results" >
+        </activity>
+        <activity
+            android:name="edu.psu.mjc5606.moviesearch.MainActivity"
+            android:label="@string/title_activity_main" >
+        </activity>
+        <activity
+            android:name="edu.psu.cmpsc483w.moviesearch.DetailActivity"
+            android:label="@string/title_activity_detail" >
         </activity>
     </application>
 

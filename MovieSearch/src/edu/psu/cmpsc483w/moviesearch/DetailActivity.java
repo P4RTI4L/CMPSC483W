@@ -1,22 +1,25 @@
 package edu.psu.cmpsc483w.moviesearch;
 
 import edu.psu.cmpsc483w.moviesearch.R;
+import edu.psu.cmpsc483w.moviesearch.R.layout;
+import edu.psu.cmpsc483w.moviesearch.R.menu;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
 
-public class ResultsActivity extends Activity {
+public class DetailActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_results);
+		setContentView(R.layout.activity_detail);
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.results, menu);
+		getMenuInflater().inflate(R.menu.detail, menu);
 		return true;
 	}
 
