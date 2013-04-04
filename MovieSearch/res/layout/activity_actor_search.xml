@@ -4,11 +4,26 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="20dp">
-        <TextView
-            style="@style/HeaderText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/actor_search_include" />
+        <RelativeLayout
+            android:id="@+id/actor_search_relative_header"
+    		android:layout_width="match_parent"
+    		android:layout_height="wrap_content" >
+    		<TextView
+	            style="@style/HeaderText"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="@string/actor_search_include"
+	            android:layout_alignParentLeft="true"
+	            android:layout_centerVertical="true" />
+	    	<Button
+	            android:id="@+id/actor_search_execute_search_button"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="@string/execute_search"
+	            android:layout_alignParentRight="true"
+	            android:layout_centerVertical="true"
+	            android:onClick="performSearch" />
+    	</RelativeLayout>
         <ListView
             android:id="@+id/actor_search_list"
             android:layout_width="match_parent"

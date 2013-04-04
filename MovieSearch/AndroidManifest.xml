@@ -17,7 +17,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="edu.psu.mjc5606.moviesearch.MainMenuActivity"
+            android:name="edu.psu.cmpsc483w.moviesearch.MainMenuActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,31 +26,31 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="edu.psu.mjc5606.moviesearch.SettingsActivity"
+            android:name="edu.psu.cmpsc483w.moviesearch.SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:parentActivityName="edu.psu.mjc5606.moviesearch.MainMenuActivity" >
+            android:parentActivityName="edu.psu.cmpsc483w.moviesearch.MainMenuActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.psu.mjc5606.moviesearch.MainMenuActivity" />
         </activity>
         <activity
-            android:name="edu.psu.mjc5606.moviesearch.ActorSearchActivity"
+            android:name="edu.psu.cmpsc483w.moviesearch.ActorSearchActivity"
             android:label="@string/title_activity_actor_search"
-            android:parentActivityName="edu.psu.mjc5606.moviesearch.MainMenuActivity" >
+            android:parentActivityName="edu.psu.cmpsc483w.moviesearch.MainMenuActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.psu.mjc5606.moviesearch.MainMenuActivity" />
         </activity>
         <activity
-            android:name="edu.psu.mjc5606.moviesearch.ActorSubsearchActivity"
+            android:name="edu.psu.cmpsc483w.moviesearch.ActorSubsearchActivity"
             android:label="@string/title_activity_actor_subsearch"
-            android:parentActivityName="edu.psu.mjc5606.moviesearch.ActorSearchActivity" >
+            android:parentActivityName="edu.psu.cmpsc483w.moviesearch.ActorSearchActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.psu.mjc5606.moviesearch.ActorSearchActivity" />
         </activity>
         <activity
-            android:name="edu.psu.mjc5606.moviesearch.ResultsActivity"
+            android:name="edu.psu.cmpsc483w.moviesearch.ResultsActivity"
             android:label="@string/title_activity_results" >
         </activity>
     </application>

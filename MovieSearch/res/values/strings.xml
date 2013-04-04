@@ -16,5 +16,5 @@
     <string name="actor_subsearch_context_detail">View detailed information</string>
     <string name="cancel">Cancel</string>
     <string name="title_activity_results">ResultsActivity</string>
-
+	<string name="execute_search">Search</string>
 </resources>

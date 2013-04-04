@@ -1,11 +1,9 @@
-package edu.psu.mjc5606.moviesearch;
-
-import org.json.JSONObject;
+package edu.psu.cmpsc483w.moviesearch;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
-// A data object containing the fields returned by the TMDB Api
+// A data object containing the fields returned by the TMDB Api for an Actor search
 
 public class ActorData implements Parcelable {
 	

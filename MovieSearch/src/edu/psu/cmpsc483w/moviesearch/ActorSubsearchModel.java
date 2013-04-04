@@ -1,4 +1,4 @@
-package edu.psu.mjc5606.moviesearch;
+package edu.psu.cmpsc483w.moviesearch;
 
 import java.io.BufferedReader;
 import java.io.IOException;

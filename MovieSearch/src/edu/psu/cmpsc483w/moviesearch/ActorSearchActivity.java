@@ -1,10 +1,13 @@
-package edu.psu.mjc5606.moviesearch;
+package edu.psu.cmpsc483w.moviesearch;
 
 import java.util.ArrayList;
+
+import edu.psu.mjc5606.moviesearch.R;
 
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -123,6 +126,30 @@ public class ActorSearchActivity extends Activity {
 		// list to add the result to
 		startActivityForResult(intent, 
 				v.getId() == R.id.search_add_button ? SUBSEARCH_ID_SEARCH : SUBSEARCH_ID_EXCLUDE);
+	}
+	
+	public void performSearch(View v)
+	{
+		// If no actors to search for, complain
+		if (searchActors.size() == 0)
+		{
+			AlertDialog.Builder noQueryDialog = new AlertDialog.Builder(this);
+			noQueryDialog.setTitle("Search terms needed");
+			noQueryDialog.setMessage("You have not entered any actors to search for!");
+			noQueryDialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					// TODO Auto-generated method stub
+					// Do nothing
+				}
+			});
+			noQueryDialog.create().show();
+		}
+		// Otherwise perform the search
+		else
+		{
+			
+		}
 	}
 	
 	@Override

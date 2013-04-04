@@ -1,10 +1,12 @@
-package edu.psu.mjc5606.moviesearch;
+package edu.psu.cmpsc483w.moviesearch;
 
 import java.util.ArrayList;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import edu.psu.mjc5606.moviesearch.R;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
