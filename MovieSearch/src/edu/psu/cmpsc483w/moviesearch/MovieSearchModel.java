@@ -17,30 +17,28 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.util.Log;
 import android.util.Pair;
 
-public class ActorSubsearchModel {
-
+public class MovieSearchModel {
 	private final static String API_KEY = "1b3f7c24642e7cad05978d7a42184b6f";
-	private final static String REQUEST_URL = "http://api.themoviedb.org/3/search/person";
+	private final static String REQUEST_URL = "http://api.themoviedb.org/3/search/movie";
 	
-	// Synchronously queries the database given a substring of a name to search for
+	// Synchronously queries the database given a substring of a movie to search for
 	//	the synchronous version is provided to make unit testing easier and can be transformed
 	//	easily into the asynchronous version
 	//
-	public static Pair<ActorData[],Integer> synchronousActorSearch(String nameSubstring)
+	public static Pair<MovieListingData[],Integer> synchronousMovieSearch(String movieSubstring)
 	{
-		return synchronousActorSearch(nameSubstring, null);
+		return synchronousMovieSearch(movieSubstring, 1);
 	}
 	
-	// Overloaded version of synchronousActorSearch that allows for specifying the page
+	// Overloaded version of synchronousMovieSearch that allows for specifying the page
 	// Omits the page from the query if page is null
-	public static Pair<ActorData[],Integer> synchronousActorSearch(String nameSubstring, String page)
+	public static Pair<MovieListingData[],Integer> synchronousMovieSearch(String movieSubstring, int page)
 	{
 		try {
-			String url = REQUEST_URL + "?api_key="+ API_KEY + "&query=" + URLEncoder.encode(nameSubstring, "UTF-8");
-			if (page != null)
+			String url = REQUEST_URL + "?api_key="+ API_KEY + "&query=" + URLEncoder.encode(movieSubstring, "UTF-8");
+			if (page > 1)
 			{
 				url += "&page="+page;
 			}
@@ -53,8 +51,8 @@ public class ActorSubsearchModel {
 		return null;
 	}
 	
-	// Returns a pair consisting of the actor data and the total number of pages
-	private static Pair<ActorData[],Integer> executeQuery(String url)
+	// Returns a pair consisting of the movie listing data and the total number of pages
+	private static Pair<MovieListingData[],Integer> executeQuery(String url)
 	{
 		HttpClient httpClient = new DefaultHttpClient();
 		
@@ -80,32 +78,32 @@ public class ActorSubsearchModel {
 				
 				// Parse the string into a JSONObject
 				JSONObject json;
-				// The resulting actor data object array to return in the pair
-				ActorData[] actors;
+				// The resulting movie data object array to return in the pair
+				MovieListingData[] movies;
 				Integer numPages;
 				
-				Pair<ActorData[],Integer> resultPair;
+				Pair<MovieListingData[],Integer> resultPair;
 				
 				try {
 					json = new JSONObject(result);
 					
 					JSONArray resultsArray = json.getJSONArray("results");
 					numPages = json.getInt("total_pages"); 
-					actors = new ActorData[resultsArray.length()];
+					movies = new MovieListingData[resultsArray.length()];
 					
 					// Fill the actors array
 					for (int i=0; i<resultsArray.length(); i++)
 					{
 						JSONObject resultsEntry = resultsArray.getJSONObject(i);
-						actors[i] = new ActorData(
+						movies[i] = new MovieListingData(
 								resultsEntry.getBoolean("adult"),
-								resultsEntry.getString("name"),
+								resultsEntry.getString("title"),
 								resultsEntry.getInt("id"),
-								resultsEntry.getDouble("popularity"),
-								resultsEntry.getString("profile_path"));
+								resultsEntry.getString("release_date"),
+								resultsEntry.getString("poster_path"));
 					}
 					
-					resultPair = new Pair<ActorData[],Integer>(actors,numPages);
+					resultPair = new Pair<MovieListingData[],Integer>(movies,numPages);
 				} catch (JSONException e) {
 					resultPair = null;
 				}

@@ -19,5 +19,6 @@
     <string name="execute_search">Search</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_detail">DetailActivity</string>
+    <string name="title_activity_movie_search_temp">MovieSearchTemp</string>
 
 </resources>

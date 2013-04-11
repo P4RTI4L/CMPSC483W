@@ -48,5 +48,11 @@ public class MainMenuActivity extends Activity {
 		Intent intent = new Intent(this, ActorSearchActivity.class);
 		startActivity(intent);
 	}
+	
+	public void openMovieSearch(View v)
+	{
+		Intent intent = new Intent(this, MovieSearchTemp.class);
+		startActivity(intent);
+	}
 
 }

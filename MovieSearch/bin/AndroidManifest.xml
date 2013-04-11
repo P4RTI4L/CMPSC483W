@@ -61,6 +61,10 @@
             android:name="edu.psu.cmpsc483w.moviesearch.DetailActivity"
             android:label="@string/title_activity_detail" >
         </activity>
+        <activity
+            android:name="edu.psu.cmpsc483w.moviesearch.MovieSearchTemp"
+            android:label="@string/title_activity_movie_search_temp" >
+        </activity>
     </application>
 
 </manifest>
