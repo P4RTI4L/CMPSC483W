@@ -61,10 +61,10 @@ public class ActorSearchActivity extends Activity {
 		// Initialize the listview adapters
 		ListView searchList = (ListView) findViewById(R.id.actor_search_list);
 		ListView excludeList = (ListView) findViewById(R.id.actor_exclude_list);
-
-		searchAdapter = new ActorSearchArrayAdapter(this, searchNames);
-		excludeAdapter = new ActorSearchArrayAdapter(this, excludeNames);
-
+		
+		searchAdapter = new ActorSearchArrayAdapter(this, searchNames, SUBSEARCH_ID_SEARCH);
+		excludeAdapter = new ActorSearchArrayAdapter(this, excludeNames, SUBSEARCH_ID_EXCLUDE);
+		
 		searchList.setAdapter(searchAdapter);
 		excludeList.setAdapter(excludeAdapter);
 	}
@@ -148,8 +148,14 @@ public class ActorSearchActivity extends Activity {
 			noQueryDialog.create().show();
 		}
 		// Otherwise perform the search
-		else {
-
+		else
+		{
+			Intent intent = new Intent(getBaseContext(), ResultsActivity.class);
+			intent.putExtra("type", "actor");
+			intent.putExtra("positiveList", searchActors);
+			intent.putExtra("negativeList", excludeActors);
+			
+			startActivity(intent);
 		}
 	}
 
@@ -188,16 +194,21 @@ public class ActorSearchActivity extends Activity {
 
 		// ViewHolder pattern that reduces calls to findViewById for performance
 		// gains when
+		private final int type;
+		
+		// ViewHolder pattern that reduces calls to findViewById for performance gains when
 		// reusing views
 		private class ViewHolder {
 			public TextView text;
 			public Button remove;
 		}
 
-		public ActorSearchArrayAdapter(Activity context, ArrayList<String> names) {
+		public ActorSearchArrayAdapter(Activity context, ArrayList<String> names, int type)
+		{
 			super(context, R.layout.actor_search_row, names);
 			this.context = context;
 			this.names = names;
+			this.type = type;
 		}
 
 		@Override
@@ -249,6 +260,30 @@ public class ActorSearchActivity extends Activity {
 									// Do nothing
 								}
 							});
+
+					builder.setMessage("Remove actor '"+name+"'?");
+					builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							names.remove(position);
+							if (type == SUBSEARCH_ID_SEARCH)
+							{
+								searchActors.remove(position);
+							}
+							else if (type == SUBSEARCH_ID_EXCLUDE)
+							{
+								excludeActors.remove(position);
+							}
+							self.notifyDataSetChanged();
+						}
+					});
+					builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+						
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							// Do nothing
+						}
+					});
 					builder.create().show();
 
 				}

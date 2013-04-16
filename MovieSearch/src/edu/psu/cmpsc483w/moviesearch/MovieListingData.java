@@ -2,6 +2,7 @@ package edu.psu.cmpsc483w.moviesearch;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 // A data object containing a reduced set of fields of the result of a movie search/actor listing
 
@@ -24,7 +25,14 @@ public class MovieListingData implements Parcelable {
 		this.adult = adult;
 		this.title = title;
 		this.id = id;
-		this.releaseDate = releaseDate;
+		if (releaseDate == null || releaseDate.equals("null"))
+		{
+			this.releaseDate = "Release Date Unavailable";
+		}
+		else
+		{
+			this.releaseDate = releaseDate;
+		}
 		this.poster = poster;
 	}
 
@@ -63,6 +71,20 @@ public class MovieListingData implements Parcelable {
 		return poster;
 	}
 
+	@Override
+	// Overrides the equals method which simply checks if the two id's are equal
+	public boolean equals(Object data)
+	{
+		return this.id == ((MovieListingData)data).id;
+	}
+	
+	@Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + new Integer(id).hashCode();
+        return result;
+    }
 	/* Functions needed for serializing/parceling the object */
 
 	@Override
@@ -100,4 +122,5 @@ public class MovieListingData implements Parcelable {
 		}
 
 	};
+	
 }
