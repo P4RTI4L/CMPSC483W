@@ -22,7 +22,7 @@ public class MainMenuActivity extends Activity {
 		getMenuInflater().inflate(R.menu.main_menu, menu);
 		return true;
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
@@ -36,21 +36,18 @@ public class MainMenuActivity extends Activity {
 
 		return true;
 	}
-	
-	public void openSettings(View v)
-	{
+
+	public void openSettings(View v) {
 		Intent intent = new Intent(this, SettingsActivity.class);
 		startActivity(intent);
 	}
-	
-	public void openActorSearch(View v)
-	{
+
+	public void openActorSearch(View v) {
 		Intent intent = new Intent(this, ActorSearchActivity.class);
 		startActivity(intent);
 	}
-	
-	public void openMovieSearch(View v)
-	{
+
+	public void openMovieSearch(View v) {
 		Intent intent = new Intent(this, MovieSearchTemp.class);
 		startActivity(intent);
 	}

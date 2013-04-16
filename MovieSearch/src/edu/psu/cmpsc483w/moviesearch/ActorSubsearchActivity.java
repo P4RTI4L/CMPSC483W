@@ -36,63 +36,70 @@ import android.os.Build;
 
 public class ActorSubsearchActivity extends Activity {
 
-	private Pair<ActorData[],Integer> lastRequest;
+	private Pair<ActorData[], Integer> lastRequest;
 	private ArrayList<String> names;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_actor_subsearch);
-		
-		ListView list = (ListView)findViewById(R.id.listView);
-		
-		if (savedInstanceState != null)
-		{
+
+		ListView list = (ListView) findViewById(R.id.listView);
+
+		if (savedInstanceState != null) {
 			names = savedInstanceState.getStringArrayList("actor_names");
-			lastRequest = new Pair<ActorData[],Integer>(
-					(ActorData[])savedInstanceState.getParcelableArray("actor_data"),
-					(Integer)savedInstanceState.getInt("total_pages"));
-			
-			if (names != null)
-			{
-				list.setAdapter(new ArrayAdapter<String>(getApplicationContext(), R.layout.actor_subsearch_row, names));		
+			lastRequest = new Pair<ActorData[], Integer>(
+					(ActorData[]) savedInstanceState
+							.getParcelableArray("actor_data"),
+					(Integer) savedInstanceState.getInt("total_pages"));
+
+			if (names != null) {
+				list.setAdapter(new ArrayAdapter<String>(
+						getApplicationContext(), R.layout.actor_subsearch_row,
+						names));
 			}
 		}
-		
+
 		registerForContextMenu(list);
 		final Context context = this;
-		list.setOnItemClickListener(new OnItemClickListener()
-		{
+		list.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, final int arg2,
-					long arg3) {
+			public void onItemClick(AdapterView<?> arg0, View arg1,
+					final int arg2, long arg3) {
 				AlertDialog.Builder builder = new AlertDialog.Builder(context);
 				builder.setTitle("Confirm selection");
-				builder.setMessage("Add actor '"+lastRequest.first[arg2].getName()+"'?");
-				builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						// Create an intent to pass the actor's data back from the subsearch activity
-						Intent resultIntent = new Intent();
-						resultIntent.putExtra("actor_data", lastRequest.first[arg2]);
-						setResult(Activity.RESULT_OK, resultIntent);
-						
-						// and finish
-						finish();
-					}
-				});
-				builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-					
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						// Do nothing
-					}
-				});
+				builder.setMessage("Add actor '"
+						+ lastRequest.first[arg2].getName() + "'?");
+				builder.setPositiveButton("Yes",
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+								// Create an intent to pass the actor's data
+								// back from the subsearch activity
+								Intent resultIntent = new Intent();
+								resultIntent.putExtra("actor_data",
+										lastRequest.first[arg2]);
+								setResult(Activity.RESULT_OK, resultIntent);
+
+								// and finish
+								finish();
+							}
+						});
+				builder.setNegativeButton("Cancel",
+						new DialogInterface.OnClickListener() {
+
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+								// Do nothing
+							}
+						});
 				builder.create().show();
 
 			}
-			
+
 		});
 		// Show the Up button in the action bar.
 		setupActionBar();
@@ -132,33 +139,32 @@ public class ActorSubsearchActivity extends Activity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
-	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo)
-	{
-		super.onCreateContextMenu(menu,v,menuInfo);
+
+	public void onCreateContextMenu(ContextMenu menu, View v,
+			ContextMenuInfo menuInfo) {
+		super.onCreateContextMenu(menu, v, menuInfo);
 		getMenuInflater().inflate(R.menu.subsearch_context_menu, menu);
 	}
-	
+
 	@Override
 	public void onSaveInstanceState(Bundle savedInstanceState) {
 
-	    savedInstanceState.putStringArrayList("actor_names", names);
-	    // Save the lastRequest data
-	    if (lastRequest != null)
-	    {
-	    	savedInstanceState.putParcelableArray("actor_data", lastRequest.first);
-	    	savedInstanceState.putInt("total_pages", lastRequest.second);
-	    }
-	    
-	    // Always call the superclass so it can save the view hierarchy state
-	    super.onSaveInstanceState(savedInstanceState);
+		savedInstanceState.putStringArrayList("actor_names", names);
+		// Save the lastRequest data
+		if (lastRequest != null) {
+			savedInstanceState.putParcelableArray("actor_data",
+					lastRequest.first);
+			savedInstanceState.putInt("total_pages", lastRequest.second);
+		}
+
+		// Always call the superclass so it can save the view hierarchy state
+		super.onSaveInstanceState(savedInstanceState);
 	}
-	
+
 	// Sets up the searchview queryTextListener
-	public void setupQueryTextListener()
-	{
-		SearchView searchview = (SearchView)findViewById(R.id.searchView1);
-		searchview.setOnQueryTextListener(new SearchView.OnQueryTextListener(){
+	public void setupQueryTextListener() {
+		SearchView searchview = (SearchView) findViewById(R.id.searchView1);
+		searchview.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
 			@Override
 			public boolean onQueryTextChange(String newText) {
@@ -167,61 +173,60 @@ public class ActorSubsearchActivity extends Activity {
 
 			@Override
 			public boolean onQueryTextSubmit(String query) {
-				
+
 				// Perform the search
 				new AsyncTaskActorQuery().execute(query);
 				// Dismiss the keyboard
-				SearchView sv = (SearchView)findViewById(R.id.searchView1);
-				InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-				imm.hideSoftInputFromInputMethod(sv.getWindowToken(),0);
-				
+				SearchView sv = (SearchView) findViewById(R.id.searchView1);
+				InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+				imm.hideSoftInputFromInputMethod(sv.getWindowToken(), 0);
+
 				return true;
 			}
-			
-			
+
 		});
 	}
-	
-	// Web queries should always be performed asynchronously to prevent blocking the UI thread, for this purpose
-	//	an AsyncTask is needed to update the interface as data is ready
-	private class AsyncTaskActorQuery extends AsyncTask<String, Integer, Pair<ActorData[],Integer>>
-	{
+
+	// Web queries should always be performed asynchronously to prevent blocking
+	// the UI thread, for this purpose
+	// an AsyncTask is needed to update the interface as data is ready
+	private class AsyncTaskActorQuery extends
+			AsyncTask<String, Integer, Pair<ActorData[], Integer>> {
 		@Override
-		protected Pair<ActorData[],Integer> doInBackground(String... params) {
+		protected Pair<ActorData[], Integer> doInBackground(String... params) {
 			// TODO Auto-generated method stub
 			String nameSubstring = params[0];
 
-			if (params.length > 1)
-			{
+			if (params.length > 1) {
 				String page = params[1];
-				return ActorSubsearchModel.synchronousActorSearch(nameSubstring, page);
+				return ActorSubsearchModel.synchronousActorSearch(
+						nameSubstring, page);
 			}
-			
+
 			return ActorSubsearchModel.synchronousActorSearch(nameSubstring);
 		}
-		
+
 		@Override
-		protected void onPostExecute(Pair<ActorData[],Integer> result)
-		{
+		protected void onPostExecute(Pair<ActorData[], Integer> result) {
 			try {
 				// Copy it to the activity for later use
 				lastRequest = result;
 				// Get a list of the names and populate the list
 				names = new ArrayList<String>();
-				for (int i=0; i<lastRequest.first.length; i++)
-				{	
+				for (int i = 0; i < lastRequest.first.length; i++) {
 					names.add(lastRequest.first[i].getName());
 				}
-				ListView listView = (ListView)findViewById(R.id.listView);
-				ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.actor_subsearch_row, names);
+				ListView listView = (ListView) findViewById(R.id.listView);
+				ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+						getApplicationContext(), R.layout.actor_subsearch_row,
+						names);
 				listView.setAdapter(adapter);
 			} catch (NotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		
+
 	}
-	
 
 }
