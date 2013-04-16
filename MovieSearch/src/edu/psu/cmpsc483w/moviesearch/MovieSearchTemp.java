@@ -23,30 +23,31 @@ public class MovieSearchTemp extends Activity {
 		getMenuInflater().inflate(R.menu.movie_search_temp, menu);
 		return true;
 	}
-
+	
 	// Sets up the searchview queryTextListener
-	public void setupQueryTextListener() {
-		SearchView searchview = (SearchView) findViewById(R.id.movie_searchView);
-		searchview.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+		public void setupQueryTextListener()
+		{
+			SearchView searchview = (SearchView)findViewById(R.id.movie_searchView);
+			searchview.setOnQueryTextListener(new SearchView.OnQueryTextListener(){
 
-			@Override
-			public boolean onQueryTextChange(String newText) {
-				return true;
-			}
+				@Override
+				public boolean onQueryTextChange(String newText) {
+					return true;
+				}
 
-			@Override
-			public boolean onQueryTextSubmit(String query) {
-
-				Intent intent = new Intent(getBaseContext(),
-						ResultsActivity.class);
-				intent.putExtra("type", "movie");
-				intent.putExtra("query", query);
-				startActivity(intent);
-
-				return true;
-			}
-
-		});
-	}
+				@Override
+				public boolean onQueryTextSubmit(String query) {
+					
+					Intent intent = new Intent(getBaseContext(), ResultsActivity.class);
+					intent.putExtra("type", "movie");
+					intent.putExtra("query", query);
+					startActivity(intent);
+					
+					return true;
+				}
+				
+				
+			});
+		}
 
 }

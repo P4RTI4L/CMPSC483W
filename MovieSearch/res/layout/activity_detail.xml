@@ -7,215 +7,126 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".DetailActivity" >
-
+    
     <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
-
+        >
+        
         <RelativeLayout
             android:layout_width="match_parent"
-<<<<<<< HEAD
-            android:layout_height="wrap_content" >
-
-            <ImageView
-                android:id="@+id/detail_movie_poster"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:src="@drawable/general_search" />
-
-            <LinearLayout
-                android:id="@+id/detail_info_wrapper"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/detail_movie_poster"
-                android:orientation="vertical" >
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" >
-
-                    <TextView
-                        android:id="@+id/detail_movie_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:text="Title"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/detail_release_date"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:text="(Date)"
-                        android:textColor="#525657"
-                        android:textSize="11sp"
-                        android:textStyle="italic" />
-                </RelativeLayout>
-
-                <TextView
-                    android:id="@+id/detail_rating"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Rating"
-                    android:textSize="11sp" />
-
-                <TextView
-                    android:id="@+id/detail_tagline"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Tagline" />
-
-                <TextView
-                    android:id="@+id/detail_running_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Running time" />
-
-                <TextView
-                    android:id="@+id/detail_genre_list"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Genre List" />
-            </LinearLayout>
-        </RelativeLayout>
-
-=======
             android:layout_height="wrap_content"
             >
             
-	        <ImageView
-	       		android:id="@+id/detail_movie_poster"
-	       		android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:layout_alignParentTop="true"
-	            android:layout_alignParentLeft="true"
-	            android:src="@drawable/general_search"
-	       		/>
-	        <LinearLayout 
-	            android:id="@+id/detail_info_wrapper"
-	            android:orientation="vertical"
-	            android:layout_width="match_parent"
-	            android:layout_height="wrap_content"
-	            android:layout_toRightOf="@id/detail_movie_poster"
-	            >
-	        <RelativeLayout
-	            android:layout_width="match_parent"
-	            android:layout_height="wrap_content"
-	            >
-	            <TextView
-	            android:id="@+id/detail_movie_title"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:layout_alignParentLeft="true"
-	            android:text="Title"
-	        	/>
-	        <TextView
-	            android:id="@+id/detail_release_date"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:layout_alignParentRight="true"
-	            android:text="Date"
-	            />
-	        </RelativeLayout>
-	        <TextView
-	            android:id="@+id/detail_rating_header"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:text="Rating:"
-		        />
-	       <TextView
-	            android:id="@+id/detail_rating"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:text="Rating"
-		        />
-	       <TextView
-	            android:id="@+id/detail_tagline_header"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:text="Tagline:"
-		        />
-	        <TextView
-	            android:id="@+id/detail_tagline"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:text="Tagline"
-		        />
-	        <TextView
-	            android:id="@+id/detail_running_time_header"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:text="Running time (minutes):"
-	            />
-	        <TextView
-	            android:id="@+id/detail_running_time"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:text="Running time"
-	            />
-	       	<TextView
-				android:id="@+id/detail_genre_list_header"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:text="Genres:"
-				/>    
-	        <TextView
-				android:id="@+id/detail_genre_list"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:text="Genre List"
-				/>     
-			</LinearLayout>
-		</RelativeLayout>    
+          <ImageView
+             android:id="@+id/detail_movie_poster"
+             android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_alignParentTop="true"
+              android:layout_alignParentLeft="true"
+              android:src="@drawable/general_search"
+             />
+          <LinearLayout 
+              android:id="@+id/detail_info_wrapper"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_toRightOf="@id/detail_movie_poster"
+              >
+          <RelativeLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              >
+              <TextView
+              android:id="@+id/detail_movie_title"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_alignParentLeft="true"
+              android:text="Title"
+            />
+          <TextView
+              android:id="@+id/detail_release_date"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_alignParentRight="true"
+              android:text="Date"
+              />
+          </RelativeLayout>
+          <TextView
+              android:id="@+id/detail_rating_header"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="Rating:"
+            />
+         <TextView
+              android:id="@+id/detail_rating"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="Rating"
+            />
+         <TextView
+              android:id="@+id/detail_tagline_header"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="Tagline:"
+            />
+          <TextView
+              android:id="@+id/detail_tagline"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="Tagline"
+            />
+          <TextView
+              android:id="@+id/detail_running_time_header"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="Running time (minutes):"
+              />
+          <TextView
+              android:id="@+id/detail_running_time"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="Running time"
+              />
+           <TextView
+        android:id="@+id/detail_genre_list_header"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="Genres:"
+        />    
+          <TextView
+        android:id="@+id/detail_genre_list"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="Genre List"
+        />     
+      </LinearLayout>
+    </RelativeLayout>     
 		   
->>>>>>> Finished search functionality and detail display
-        <TextView
+     <TextView
             android:id="@+id/detail_overview_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Overview"
-<<<<<<< HEAD
-            android:textSize="14sp"
-            android:textStyle="bold" />
-
-        <TextView
-=======
+            android:text="Overview Header"
             />
          <TextView
->>>>>>> Finished search functionality and detail display
             android:id="@+id/detail_overview_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Overview Content"
-            android:textSize="11sp" />
-
-        <TextView
+            />
+		<TextView
             android:id="@+id/detail_cast_list_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Cast List"
-<<<<<<< HEAD
-            android:textSize="14sp"
-            android:textStyle="bold" />
-
-        <ListView
-            android:id="@+id/detail_cast_list"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
-        </ListView>
-    </LinearLayout>
-=======
             />
         <TextView
             android:id="@+id/detail_cast_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
         </TextView>
->>>>>>> Finished search functionality and detail display
 
+	</LinearLayout>
 </ScrollView>

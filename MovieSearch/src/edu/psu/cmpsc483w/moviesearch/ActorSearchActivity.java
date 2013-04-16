@@ -28,36 +28,36 @@ public class ActorSearchActivity extends Activity {
 
 	private final static int SUBSEARCH_ID_SEARCH = 0;
 	private final static int SUBSEARCH_ID_EXCLUDE = 1;
-
+	
 	// TODO: need to ensure that the lists are mutually exclusive
 	private ArrayList<ActorData> searchActors, excludeActors;
 	private ArrayList<String> searchNames, excludeNames;
-
+	
 	private ActorSearchArrayAdapter searchAdapter, excludeAdapter;
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_actor_search);
 		// Show the Up button in the action bar.
 		setupActionBar();
-
-		if (savedInstanceState != null) {
-			searchActors = savedInstanceState
-					.getParcelableArrayList("searchActors");
-			excludeActors = savedInstanceState
-					.getParcelableArrayList("excludeActors");
+		
+		if (savedInstanceState != null)
+		{
+			searchActors = savedInstanceState.getParcelableArrayList("searchActors");
+			excludeActors = savedInstanceState.getParcelableArrayList("excludeActors");
 			searchNames = savedInstanceState.getStringArrayList("searchNames");
-			excludeNames = savedInstanceState
-					.getStringArrayList("excludeNames");
-		} else {
+			excludeNames = savedInstanceState.getStringArrayList("excludeNames");
+		}
+		else
+		{
 			// Initialize the ArrayLists
 			searchActors = new ArrayList<ActorData>();
 			excludeActors = new ArrayList<ActorData>();
 			searchNames = new ArrayList<String>();
 			excludeNames = new ArrayList<String>();
 		}
-
+		
 		// Initialize the listview adapters
 		ListView searchList = (ListView) findViewById(R.id.actor_search_list);
 		ListView excludeList = (ListView) findViewById(R.id.actor_exclude_list);
@@ -106,50 +106,47 @@ public class ActorSearchActivity extends Activity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-
+	
 	@Override
 	public void onSaveInstanceState(Bundle savedInstanceState) {
 
-		savedInstanceState.putParcelableArrayList("searchActors", searchActors);
-		savedInstanceState.putParcelableArrayList("excludeActors",
-				excludeActors);
-		savedInstanceState.putStringArrayList("searchNames", searchNames);
-		savedInstanceState.putStringArrayList("excludeNames", excludeNames);
-
-		// Always call the superclass so it can save the view hierarchy state
-		super.onSaveInstanceState(savedInstanceState);
+	    savedInstanceState.putParcelableArrayList("searchActors", searchActors);
+	    savedInstanceState.putParcelableArrayList("excludeActors", excludeActors);
+	    savedInstanceState.putStringArrayList("searchNames", searchNames);
+	    savedInstanceState.putStringArrayList("excludeNames", excludeNames);
+	    
+	    // Always call the superclass so it can save the view hierarchy state
+	    super.onSaveInstanceState(savedInstanceState);
 	}
 
-	public void openSubsearch(View v) {
+	public void openSubsearch(View v)
+	{
 		Intent intent = new Intent(this, ActorSubsearchActivity.class);
-		// Depending on which button was pressed, pass an id so the activity can
-		// identify which
+		// Depending on which button was pressed, pass an id so the activity can identify which
 		// list to add the result to
-		startActivityForResult(intent,
-				v.getId() == R.id.search_add_button ? SUBSEARCH_ID_SEARCH
-						: SUBSEARCH_ID_EXCLUDE);
+		startActivityForResult(intent, 
+				v.getId() == R.id.search_add_button ? SUBSEARCH_ID_SEARCH : SUBSEARCH_ID_EXCLUDE);
 	}
-
-	public void performSearch(View v) {
+	
+	public void performSearch(View v)
+	{
 		// If no actors to search for, complain
-		if (searchActors.size() == 0) {
+		if (searchActors.size() == 0)
+		{
 			AlertDialog.Builder noQueryDialog = new AlertDialog.Builder(this);
 			noQueryDialog.setTitle("Search terms needed");
-			noQueryDialog
-					.setMessage("You have not entered any actors to search for!");
-			noQueryDialog.setPositiveButton("Ok",
-					new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							// TODO Auto-generated method stub
-							// Do nothing
-						}
-					});
+			noQueryDialog.setMessage("You have not entered any actors to search for!");
+			noQueryDialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					// TODO Auto-generated method stub
+					// Do nothing
+				}
+			});
 			noQueryDialog.create().show();
 		}
 		// Otherwise perform the search
-		else
-		{
+		else {
 			Intent intent = new Intent(getBaseContext(), ResultsActivity.class);
 			intent.putExtra("type", "actor");
 			intent.putExtra("positiveList", searchActors);
@@ -158,42 +155,43 @@ public class ActorSearchActivity extends Activity {
 			startActivity(intent);
 		}
 	}
-
+	
 	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+	public void onActivityResult(int requestCode, int resultCode, Intent data)
+	{
 		super.onActivityResult(requestCode, resultCode, data);
-
-		switch (requestCode) {
-		// Process the data from the subsearch activity (for the search list)
-		case SUBSEARCH_ID_SEARCH:
-			// Check if it succeeded or the search was canceled
-			if (resultCode == Activity.RESULT_OK) {
-				ActorData resultData = data.getParcelableExtra("actor_data");
-				searchActors.add(resultData);
-				searchNames.add(resultData.getName());
-				searchAdapter.notifyDataSetChanged();
-			}
-			break;
-		// Process the data from the subsearch activity (for the exclude list)
-		case SUBSEARCH_ID_EXCLUDE:
-			// Check if it succeeded or the search was canceled
-			if (resultCode == Activity.RESULT_OK) {
-				ActorData resultData = data.getParcelableExtra("actor_data");
-				excludeActors.add(resultData);
-				excludeNames.add(resultData.getName());
-				excludeAdapter.notifyDataSetChanged();
-			}
-			break;
+		
+		switch (requestCode)
+		{
+			// Process the data from the subsearch activity (for the search list)
+			case SUBSEARCH_ID_SEARCH:
+				// Check if it succeeded or the search was canceled
+				if (resultCode == Activity.RESULT_OK)
+				{
+					ActorData resultData = data.getParcelableExtra("actor_data");
+					searchActors.add(resultData);
+					searchNames.add(resultData.getName());
+					searchAdapter.notifyDataSetChanged();
+				}
+				break;
+				// Process the data from the subsearch activity (for the exclude list)
+				case SUBSEARCH_ID_EXCLUDE:
+					// Check if it succeeded or the search was canceled
+					if (resultCode == Activity.RESULT_OK)
+					{
+						ActorData resultData = data.getParcelableExtra("actor_data");
+						excludeActors.add(resultData);
+						excludeNames.add(resultData.getName());
+						excludeAdapter.notifyDataSetChanged();
+					}
+					break;
 		}
 	}
-
+	
 	// Custom adapter for the actor names ListView
 	private class ActorSearchArrayAdapter extends ArrayAdapter<String> {
 		private final Activity context;
 		private final ArrayList<String> names;
-
-		// ViewHolder pattern that reduces calls to findViewById for performance
-		// gains when
 		private final int type;
 		
 		// ViewHolder pattern that reduces calls to findViewById for performance gains when
@@ -202,7 +200,7 @@ public class ActorSearchActivity extends Activity {
 			public TextView text;
 			public Button remove;
 		}
-
+		
 		public ActorSearchArrayAdapter(Activity context, ArrayList<String> names, int type)
 		{
 			super(context, R.layout.actor_search_row, names);
@@ -210,57 +208,35 @@ public class ActorSearchActivity extends Activity {
 			this.names = names;
 			this.type = type;
 		}
-
+		
 		@Override
-		public View getView(final int position, View convertView,
-				ViewGroup parent) {
+		public View getView(final int position, View convertView, ViewGroup parent)
+		{
 			View rowView = convertView;
-
+			
 			// No row views available for reuse, so make a new one
-			if (rowView == null) {
-				rowView = context.getLayoutInflater().inflate(
-						R.layout.actor_search_row, null);
+			if (rowView == null)
+			{
+				rowView = context.getLayoutInflater().inflate(R.layout.actor_search_row, null);
 				ViewHolder viewHolder = new ViewHolder();
-				viewHolder.text = (TextView) rowView
-						.findViewById(R.id.search_row_name);
-				viewHolder.remove = (Button) rowView
-						.findViewById(R.id.search_row_remove);
+				viewHolder.text = (TextView) rowView.findViewById(R.id.search_row_name);
+				viewHolder.remove = (Button) rowView.findViewById(R.id.search_row_remove);
 				// Set the tag for when it gets reused
 				rowView.setTag(viewHolder);
 			}
-
+			
 			ViewHolder holder = (ViewHolder) rowView.getTag();
 			final String name = names.get(position);
-			holder.text.setText(name);
-
+			holder.text.setText(name);	
+		
 			final ActorSearchArrayAdapter self = this;
 			// Make a dialog appear when clicking the remove button
-			holder.remove.setOnClickListener(new OnClickListener() {
+			holder.remove.setOnClickListener(new OnClickListener()
+			{
 				@Override
 				public void onClick(View arg0) {
-					AlertDialog.Builder builder = new AlertDialog.Builder(
-							context);
+					AlertDialog.Builder builder = new AlertDialog.Builder(context);
 					builder.setTitle("Confirm selection");
-					builder.setMessage("Remove actor '" + name + "'?");
-					builder.setPositiveButton("Yes",
-							new DialogInterface.OnClickListener() {
-								@Override
-								public void onClick(DialogInterface dialog,
-										int which) {
-									names.remove(position);
-									self.notifyDataSetChanged();
-								}
-							});
-					builder.setNegativeButton("Cancel",
-							new DialogInterface.OnClickListener() {
-
-								@Override
-								public void onClick(DialogInterface dialog,
-										int which) {
-									// Do nothing
-								}
-							});
-
 					builder.setMessage("Remove actor '"+name+"'?");
 					builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 						@Override
@@ -274,6 +250,7 @@ public class ActorSearchActivity extends Activity {
 							{
 								excludeActors.remove(position);
 							}
+							
 							self.notifyDataSetChanged();
 						}
 					});
@@ -285,12 +262,13 @@ public class ActorSearchActivity extends Activity {
 						}
 					});
 					builder.create().show();
-
+	
 				}
 			});
-
+			
 			return rowView;
 		}
 	}
-
+	
+	
 }
