@@ -1,0 +1,28 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:showAsAction="always"
+        android:id="@+id/action_search_type"
+        android:actionLayout="@layout/actionbar_spinner"
+        android:orderInCategory="1"
+        android:title="@string/action_search_type" />
+    <item
+	    android:showAsAction="ifRoom|collapseActionView"
+	    android:id="@+id/action_perform_search"
+	    android:actionViewClass="android.widget.SearchView"
+	    android:orderInCategory="2"
+	    android:icon="@android:drawable/ic_menu_search"
+	    android:title="@string/action_perform_search" />
+	<item
+	    android:showAsAction="always"
+	    android:id="@+id/action_filter_search"
+	    android:orderInCategory="3"
+	    android:icon="@drawable/filter_icon"
+	    android:title="@string/action_filter_search" />
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/action_settings"/>
+
+</menu>

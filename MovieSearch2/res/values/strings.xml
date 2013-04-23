@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Movie Search</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_search_type">Search Type</string>
+    <string name="action_perform_search">Search</string>
+    <string name="action_filter_search">Filter</string>
+    <string name="actionbar_spinner_view_header">Search by</string>
+    <string name="hello_world">Hello world!</string>
+	<string-array name="actionbar_spinner_values">
+	    <item>Movies</item>
+	    <item>Cast</item>
+	</string-array>
+</resources>
