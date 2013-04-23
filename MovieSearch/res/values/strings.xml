@@ -15,10 +15,10 @@
     <string name="actor_subsearch_context_confirm">Use this actor</string>
     <string name="actor_subsearch_context_detail">View detailed information</string>
     <string name="cancel">Cancel</string>
-    <string name="title_activity_results">ResultsActivity</string>
+    <string name="title_activity_results">Results</string>
     <string name="execute_search">Search</string>
-    <string name="title_activity_main">MainActivity</string>
-    <string name="title_activity_detail">DetailActivity</string>
-    <string name="title_activity_movie_search_temp">MovieSearchTemp</string>
+    <string name="title_activity_main">Home</string>
+    <string name="title_activity_detail">Details</string>
+    <string name="title_activity_movie_search_temp">Movie Search</string>
 
 </resources>
