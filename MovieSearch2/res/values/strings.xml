@@ -8,8 +8,12 @@
     <string name="action_filter_search">Filter</string>
     <string name="actionbar_spinner_view_header">Search by</string>
     <string name="hello_world">Hello world!</string>
-	<string-array name="actionbar_spinner_values">
-	    <item>Movies</item>
-	    <item>Cast</item>
-	</string-array>
+
+    <string-array name="actionbar_spinner_values">
+        <item>Movies</item>
+        <item>Cast</item>
+    </string-array>
+
+    <string name="title_activity_results">Search Results</string>
+
 </resources>

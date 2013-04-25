@@ -9,23 +9,26 @@ import org.json.JSONObject;
 
 import android.util.Pair;
 
-public class MovieSearchModel implements CachedDataSource {
+public class TopicModel implements CachedDataSource {
+
+	public static final String TOPIC_NOW_PLAYING = "now_playing";
+	public static final String TOPIC_POPULAR = "popular";
+	public static final String TOPIC_TOP_RATED = "top_rated";
+	public static final String TOPIC_UPCOMING = "upcoming";
 	
 	// A list of the current movie objects to cache
 	private ArrayList<MovieListingData> movies;
-	// The query being used for the searches
-	private String query;
+	// The topic being used for the searches
+	private String topic;
 	// The total number of results according to tmdb
 	private int totalResults;
 	// The next page to be read
 	private int nextPage;
 	
-	// Constructor for MovieSearchModel
-	public MovieSearchModel(String query)
+	public TopicModel(String topic)
 	{
 		movies = new ArrayList<MovieListingData>();
-		this.query = query;
-		// Set the total results to 1 initially so it is forced to find out the actual number
+		this.topic = topic;
 		this.totalResults = 1;
 		this.nextPage = 1;
 	}
@@ -33,7 +36,7 @@ public class MovieSearchModel implements CachedDataSource {
 	// Synchronously fetches the next page of data to be read and updates the cache, returns the number of results added
 	private int fetchNewResults()
 	{
-		Pair<MovieListingData[],Integer> newData = synchronousMovieSearch(this.query, nextPage);
+		Pair<MovieListingData[],Integer> newData = synchronousTopicQuery(this.topic, nextPage);
 		
 		if (newData == null)
 			return 0;
@@ -82,76 +85,42 @@ public class MovieSearchModel implements CachedDataSource {
 		
 		return true;
 	}
-	
-	// Synchronously queries the database given a substring of a movie title to search for.
-	//	The synchronous version is provided to make unit testing easier and can be transformed
-	//	easily into the asynchronous version
-	//
-	public static Pair<MovieListingData[],Integer> synchronousMovieSearch(String movieSubstring) {
-		return synchronousMovieSearch(movieSubstring, 1);
+
+	public static Pair<MovieListingData[],Integer> synchronousTopicQuery(String topic)
+	{
+		return synchronousTopicQuery(topic, 1);
 	}
 	
-	// Overloaded version of synchronousMovieSearch that allows for specifying the page for a movie name substring
-	// Omits the page from the query if page is null
-	public static Pair<MovieListingData[],Integer> synchronousMovieSearch(String movieSubstring, int page) {
-		JSONObject json = TmdbModel.executeQuery("search/movie", new String[]{"query","page"}, 
-			new String[]{movieSubstring,Integer.toString(page)});
+	public static Pair<MovieListingData[],Integer> synchronousTopicQuery(String topic, int page)
+	{
+		JSONObject json = TmdbModel.executeQuery("movie/"+topic, new String[]{"page"}, new String[]{Integer.toString(page)});
 		
-		if (json != null) {
-			MovieListingData[] movies;
-			Integer numResults;
-
+		if (json != null)
+		{
 			try {
-			
-				JSONArray resultsArray = json.getJSONArray("results");
-				numResults = json.getInt("total_results");
-				movies = new MovieListingData[resultsArray.length()];
+				JSONArray jsonResults = json.getJSONArray("results");
+				Integer pages = json.getInt("total_pages");
 				
-				for (int i=0; i<resultsArray.length(); i++) {
-					JSONObject resultsEntry = resultsArray.getJSONObject(i);
-					movies[i] = new MovieListingData(
-							resultsEntry.getBoolean("adult"),
-							resultsEntry.getString("title"),
-							resultsEntry.getInt("id"),
-							resultsEntry.getString("release_date"),
-							resultsEntry.getString("poster_path"));	
+				MovieListingData[] data = new MovieListingData[jsonResults.length()];
+				for (int i=0; i<jsonResults.length(); i++)
+				{
+					JSONObject entry = jsonResults.getJSONObject(i);
+					
+					data[i] = new MovieListingData(
+							false,
+							entry.getString("title"),
+							entry.getInt("id"),
+							entry.getString("release_date"),
+							entry.getString("poster_path")
+							);
 				}
-				return new Pair<MovieListingData[],Integer>(movies,numResults);
+				
+				return new Pair<MovieListingData[],Integer>(data,pages);
 				
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
-				return null;
+				e.printStackTrace();
 			}
-		}
-		
-		return null;
-	}
-	
-	// Synchronously queries the database for the movies of an actor
-	public static MovieListingData[] synchronousCastSearch(int actorIdQuery) {
-		JSONObject json = TmdbModel.executeQuery("person/"+actorIdQuery+"/credits", null, null);
-		
-		try {
-			JSONArray castArray = json.getJSONArray("cast");
-			MovieListingData results[] = new MovieListingData[castArray.length()];
-			
-			for (int i=0; i<castArray.length(); i++)
-			{
-				JSONObject entry = castArray.getJSONObject(i);
-				
-				results[i] = new MovieListingData(
-						entry.getBoolean("adult"),
-						entry.getString("title"),
-						entry.getInt("id"),
-						entry.getString("release_date"),
-						entry.getString("poster_path"));
-			}
-			
-			return results;
-			
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		
 		return null;

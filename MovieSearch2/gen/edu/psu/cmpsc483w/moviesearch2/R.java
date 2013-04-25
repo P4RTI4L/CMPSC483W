@@ -48,8 +48,9 @@ public final class R {
         public static final int actionbar_spinner_dropdown_view=0x7f030001;
         public static final int actionbar_spinner_view=0x7f030002;
         public static final int activity_content=0x7f030003;
-        public static final int content_grid_item=0x7f030004;
-        public static final int fragment_content=0x7f030005;
+        public static final int activity_results=0x7f030004;
+        public static final int content_grid_item=0x7f030005;
+        public static final int fragment_content=0x7f030006;
     }
     public static final class menu {
         public static final int content=0x7f080000;
@@ -62,6 +63,7 @@ public final class R {
         public static final int actionbar_spinner_view_header=0x7f050005;
         public static final int app_name=0x7f050000;
         public static final int hello_world=0x7f050006;
+        public static final int title_activity_results=0x7f050007;
     }
     public static final class style {
         /** 

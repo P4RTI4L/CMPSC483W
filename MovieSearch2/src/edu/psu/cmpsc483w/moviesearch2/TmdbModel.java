@@ -11,6 +11,7 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -20,6 +21,137 @@ public class TmdbModel {
 	private final static String API_KEY = "1b3f7c24642e7cad05978d7a42184b6f";
 	// The base url of all requests made to the tmdb api
 	private final static String REQUEST_BASE_URL = "http://api.themoviedb.org/3/";
+	// The configuration base url for downloading images
+	private static String imageBaseUrl;
+	// A list of poster sizes available according to the configuration
+	private static String posterSizes[];
+	// A list of profile_sizes available according to the configuration
+	private static String profileSizes[];
+	// Constants for specifying image types for the getImageUrl method
+	public final static String PROFILE_IMAGE = "profile";
+	public final static String POSTER_IMAGE = "poster";
+	
+	
+	// Returns the image base url if initialized, otherwise queries tmdb for the url and returns that value
+	private static String getImageBaseUrl()
+	{
+		if (imageBaseUrl == null)
+		{
+			initializeBaseValues();
+		}
+			
+		return imageBaseUrl;
+	}
+	
+	// Returns a complete image url given a type and a relative path (with a leading slash) and a suggested width for the image
+	public static String getImageUrl(String type, String path, int width)
+	{
+		String size;
+		
+		if (imageBaseUrl == null)
+		{
+			initializeBaseValues();
+		}
+		
+		// Get a good size for the image
+		if (type.equals(PROFILE_IMAGE))
+		{
+			size = getBestProfileSize(width);
+		}
+		else if (type.equals(POSTER_IMAGE))
+		{
+			size = getBestPosterSize(width);
+		}
+		else
+		{
+			return null;
+		}
+		
+		return imageBaseUrl + size + path;
+		
+	}
+	
+	// Returns the first poster size larger than width, returns the last entry if none of the specified are large enough 
+	private static String getBestPosterSize(int width)
+	{
+		if (posterSizes == null)
+		{
+			initializeBaseValues();
+		}
+		
+		for (int i=0; i<posterSizes.length; i++)
+		{
+			// All poster sizes are in the format wx (where x is the width) so check for w first, if not return the last size
+			if (posterSizes[i].charAt(0) == 'w')
+			{
+				if (Integer.valueOf(posterSizes[i].substring(1)) >= width)
+				{
+					return posterSizes[i];
+				}
+			}
+			else
+			{
+				break;
+			}
+		}
+		
+		return posterSizes[posterSizes.length-1];
+	}
+	
+	// Returns the first profile size larger than width, returns the last entry if none of the specified are large enough 
+	private static String getBestProfileSize(int width)
+	{
+		if (profileSizes == null)
+		{
+			initializeBaseValues();
+		}
+		
+		for (int i=0; i<profileSizes.length; i++)
+		{
+			// All profile sizes are in the format wx (where x is the width) so check for w first, if not return the last size
+			// there may be a format starting with hy (for height) but just avoid due to layout control
+			if (profileSizes[i].charAt(0) == 'w')
+			{
+				if (Integer.valueOf(profileSizes[i].substring(1)) >= width)
+				{
+					return profileSizes[i];
+				}
+			}
+			else
+			{
+				break;
+			}
+		}
+		
+		return profileSizes[profileSizes.length-1];
+	}
+	
+	private static void initializeBaseValues()
+	{
+		JSONObject json = executeQuery("configuration", null, null);
+		
+		try {
+			imageBaseUrl = json.getJSONObject("images").getString("base_url");
+			
+			JSONArray posterJson = json.getJSONArray("poster_sizes");
+			posterSizes = new String[posterJson.length()];
+			for (int i=0; i<posterJson.length(); i++) {
+				posterSizes[i] = posterJson.getString(i);
+			}
+			
+			JSONArray profileJson = json.getJSONArray("profile_sizes");
+			profileSizes = new String[profileJson.length()];
+			for (int i=0; i<profileJson.length(); i++)
+			{
+				profileSizes[i] = profileJson.getString(i);
+			}
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			imageBaseUrl = null;
+			posterSizes = null;
+			profileSizes = null;
+		}
+	}
 	
 	// Calls the TMDB api with the given request and returns a JSON object with the server's response
 	//	@param request a string containing the type of request (following the "/3/" of the url without needing a leading slash)

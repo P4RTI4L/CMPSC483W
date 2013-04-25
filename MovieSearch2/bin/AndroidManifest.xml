@@ -8,6 +8,9 @@
         android:minSdkVersion="11"
         android:targetSdkVersion="17" />
 
+    <uses-permission android:name="android.permission.INTERNET" >
+    </uses-permission>
+    
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -22,6 +25,14 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name="edu.psu.cmpsc483w.moviesearch2.ResultsActivity"
+            android:label="@string/title_activity_results"
+            android:parentActivityName="edu.psu.cmpsc483w.moviesearch2.ContentActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.psu.cmpsc483w.moviesearch2.ContentActivity" />
         </activity>
     </application>
 
