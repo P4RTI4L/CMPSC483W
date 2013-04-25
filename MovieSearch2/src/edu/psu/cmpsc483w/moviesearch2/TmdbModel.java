@@ -31,7 +31,6 @@ public class TmdbModel {
 	public final static String PROFILE_IMAGE = "profile";
 	public final static String POSTER_IMAGE = "poster";
 	
-	
 	// Returns the image base url if initialized, otherwise queries tmdb for the url and returns that value
 	private static String getImageBaseUrl()
 	{

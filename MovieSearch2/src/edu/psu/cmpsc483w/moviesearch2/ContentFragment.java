@@ -37,10 +37,21 @@ public class ContentFragment extends Fragment {
 		{
 			topic = new TopicModel(TopicModel.TOPIC_POPULAR);
 		}
+		else
+		{
+			topic = savedInstanceState.getParcelable("topic");
+		}
 		
 	}
 	
-
+	@Override
+	public void onSaveInstanceState (Bundle savedInstanceState)
+	{
+		savedInstanceState.putParcelable("topic", topic);
+		
+		super.onSaveInstanceState(savedInstanceState);
+	}
+	
 	public class TopicContentAdapter extends BaseAdapter {
 		
 		private Context context;
