@@ -166,6 +166,11 @@ public class MovieSearchModel implements CachedDataSource {
 	public int getDataCount() {
 		return totalResults;
 	}
+	
+	@Override
+	public int getCachedDataCount() {
+		return movies.size();
+	}
 
 	@Override
 	public Object getData(int position) {

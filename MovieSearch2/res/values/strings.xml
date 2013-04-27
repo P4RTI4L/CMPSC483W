@@ -7,6 +7,7 @@
     <string name="action_perform_search">Search</string>
     <string name="action_filter_search">Filter</string>
     <string name="actionbar_spinner_view_header">Search by</string>
+    <string name="topic_no_data">No data related to the current topic could be loaded.</string>
     <string name="hello_world">Hello world!</string>
 
     <string-array name="actionbar_spinner_values">

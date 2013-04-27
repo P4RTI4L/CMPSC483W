@@ -8,6 +8,9 @@ public interface CachedDataSource {
 	// Returns the total number of data objects (not necessarily cached)
 	public int getDataCount();
 	
+	// Returns the total number of data objects that have been cached
+	public int getCachedDataCount();
+	
 	// Returns the object at the given position, may not necessarily be cached so may be a delay
 	public Object getData(int position);
 	
