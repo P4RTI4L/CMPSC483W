@@ -1,12 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    tools:context=".ActorSubsearchActivity" >
+
     <GridView
-        android:id="@+id/gridview_content"
+        android:id="@+id/gridview_actor_subsearch"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:numColumns="1" >
     </GridView>
-
+    
 </FrameLayout>

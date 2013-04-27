@@ -13,6 +13,11 @@ import android.widget.TextView;
 
 public class SearchActivity extends Activity {
 
+	// Indexes of the items in the search type spinner in the action bar, not the best design pattern
+	// but the alternatives are either unreliable or too complex to be worth it
+	public final static int SEARCH_SPINNER_VALUE_MOVIE = 0;
+	public final static int SEARCH_SPINNER_VALUE_CAST = 1;
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.

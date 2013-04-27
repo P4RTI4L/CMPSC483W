@@ -1,19 +1,36 @@
 package edu.psu.cmpsc483w.moviesearch2;
 
 import android.os.Bundle;
-import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 import android.support.v4.app.NavUtils;
 
 public class ResultsActivity extends SearchActivity {
 
+	private DualModel dualModel;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_results);
 		// Show the Up button in the action bar.
 		setupActionBar();
+		
+		if (savedInstanceState == null)
+		{
+			Intent intent = getIntent();
+			dualModel = intent.getParcelableExtra("dual");
+		}
+		else
+		{
+			dualModel = savedInstanceState.getParcelable("dual");
+		}
+		
 	}
 
 	/**
@@ -27,6 +44,14 @@ public class ResultsActivity extends SearchActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		return super.onCreateOptionsMenu(menu);
 	}
+	
+	@Override
+	public void onSaveInstanceState (Bundle savedInstanceState) {
+		savedInstanceState.putParcelable("dual", dualModel);
+		
+		super.onSaveInstanceState(savedInstanceState);
+	}
+	
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -43,6 +68,43 @@ public class ResultsActivity extends SearchActivity {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	
+public class ResultsAdapter extends EndlessAdapter {
+		
+		private class ViewHolder
+		{
+			TextView title;
+			TextView date;
+		}
+		
+		public ResultsAdapter(Context context, CachedDataSource data) {
+			super(context, data, null, null);
+		}
+
+		@Override
+		protected void customiseContentView(View convertView, Object contentData) {
+			ViewHolder viewHolder = (ViewHolder)convertView.getTag();
+			
+			MovieListingData movieData = (MovieListingData)contentData;
+			
+			viewHolder.title.setText(movieData.getTitle());
+			viewHolder.date.setText(movieData.getReleaseDate());
+		}
+
+		@Override
+		protected View createView(LayoutInflater inflater) {
+			View contentView = inflater.inflate(R.layout.content_grid_item, null);
+			
+			ViewHolder viewHolder = new ViewHolder();
+			
+			viewHolder.title = (TextView)contentView.findViewById(R.id.textview_content_grid_item_title);
+			viewHolder.date = (TextView)contentView.findViewById(R.id.textview_content_grid_item_release_date);
+			
+			contentView.setTag(viewHolder);
+			
+			return contentView;
+		}
 	}
 
 }

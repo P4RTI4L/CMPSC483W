@@ -5,16 +5,19 @@
     <string name="action_settings">Settings</string>
     <string name="action_search_type">Search Type</string>
     <string name="action_perform_search">Search</string>
+    <string name="action_perform_subsearch">Search</string>
     <string name="action_filter_search">Filter</string>
     <string name="actionbar_spinner_view_header">Search by</string>
+    <string name="actor_subsearch_no_data">No actors were found containing the name \'%1$s\'.</string>
     <string name="topic_no_data">No data related to the current topic could be loaded.</string>
-    <string name="hello_world">Hello world!</string>
-
+    <string name="endless_no_data">No data is available for this list.</string>
+    
     <string-array name="actionbar_spinner_values">
         <item>Movies</item>
         <item>Cast</item>
     </string-array>
 
     <string name="title_activity_results">Search Results</string>
+    <string name="title_activity_actor_subsearch">Actor Subsearch</string>
 
 </resources>
