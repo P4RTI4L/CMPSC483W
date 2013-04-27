@@ -180,6 +180,7 @@ public class TmdbModel {
 			}
 		}
 		
+		Log.i("test", url);
 		
 		// Make a request object
 		HttpGet httpGet = new HttpGet(url);

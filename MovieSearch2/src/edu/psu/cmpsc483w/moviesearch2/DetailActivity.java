@@ -1,10 +1,6 @@
-package edu.psu.cmpsc483w.moviesearch;
+package edu.psu.cmpsc483w.moviesearch2;
 
 import java.util.ArrayList;
-
-import edu.psu.cmpsc483w.moviesearch.R;
-import edu.psu.cmpsc483w.moviesearch.R.layout;
-import edu.psu.cmpsc483w.moviesearch.R.menu;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -16,7 +12,7 @@ import android.widget.TextView;
 
 public class DetailActivity extends Activity {
 
-	private DetailData detailInfo;
+	private DetailData detailData;
 	private ArrayList<String> castNames;
 
 	@Override
@@ -25,10 +21,11 @@ public class DetailActivity extends Activity {
 		setContentView(R.layout.activity_detail);
 
 		if (savedInstanceState != null) {
-			detailInfo = savedInstanceState.getParcelable("detailInfo");
-			setUpDetailInfo(detailInfo);
+			detailData = savedInstanceState.getParcelable("detailData");
 			castNames = savedInstanceState.getStringArrayList("castNames");
-			setUpCastView(castNames);
+
+			setUpDetailData(detailData);
+			setUpCastList(castNames);
 		} else {
 			Intent intent = getIntent();
 			new AsyncTaskDetailQuery().execute(
@@ -38,50 +35,48 @@ public class DetailActivity extends Activity {
 					intent.getIntExtra("movieId", 0), DetailModel.DETAIL_CAST);
 		}
 	}
-
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.detail, menu);
 		return true;
 	}
-
+	
 	@Override
 	public void onSaveInstanceState(Bundle savedInstanceState) {
-
-		savedInstanceState.putParcelable("detailInfo", detailInfo);
+		savedInstanceState.putParcelable("detailData", detailData);
 		savedInstanceState.putStringArrayList("castNames", castNames);
 
 		// Always call the superclass so it can save the view hierarchy state
 		super.onSaveInstanceState(savedInstanceState);
 	}
-
-	// Sets up the layout elements using the info stored in detailInfo
-	public void setUpDetailInfo(DetailData detailInfo) {
+	
+	// Sets up the ui
+	public void setUpDetailData(DetailData detailData) {
 		// Set the values of TextViews to their respective value
-		((TextView) findViewById(R.id.detail_movie_title)).setText(detailInfo
+		((TextView) findViewById(R.id.detail_movie_title)).setText(detailData
 				.getTitle());
-		((TextView) findViewById(R.id.detail_release_date)).setText(detailInfo
+		((TextView) findViewById(R.id.detail_release_date)).setText(detailData
 				.getReleaseDate());
 		((TextView) findViewById(R.id.detail_rating)).setText(""
-				+ detailInfo.getVoteAverage());
-		((TextView) findViewById(R.id.detail_tagline)).setText(detailInfo
+				+ detailData.getVoteAverage());
+		((TextView) findViewById(R.id.detail_tagline)).setText(detailData
 				.getTagline());
 		((TextView) findViewById(R.id.detail_running_time)).setText(""
-				+ detailInfo.getRunTime());
+				+ detailData.getRunTime());
 
 		// Need to convert the genres list to a comma separated string
-		String genresList = detailInfo.getGenres().toString();
+		String genresList = detailData.getGenres().toString();
 		genresList = genresList.substring(1, genresList.length() - 1).replace(
 				",", ", ");
 
 		((TextView) findViewById(R.id.detail_genre_list)).setText(genresList);
 		((TextView) findViewById(R.id.detail_overview_content))
-				.setText(detailInfo.getOverview());
+				.setText(detailData.getOverview());
 	}
 
-	// Sets up the listView of cast names using the names stored in castNames
-	public void setUpCastView(ArrayList<String> castNames) {
+	public void setUpCastList(ArrayList<String> castNames) {
 		TextView castList = (TextView) findViewById(R.id.detail_cast_list);
 		String castString = castNames.toString();
 		castString = castString.substring(1, castString.length() - 1).replace(
@@ -115,15 +110,14 @@ public class DetailActivity extends Activity {
 		protected void onPostExecute(Pair<Integer, Object> result) {
 			if (result != null) {
 				if (result.first == DetailModel.DETAIL_PRIMARY) {
-					detailInfo = (DetailData) result.second;
-					setUpDetailInfo(detailInfo);
+					detailData = (DetailData) result.second;
+					setUpDetailData(detailData);
 				} else {
 					castNames = new ArrayList<String>(
 							(ArrayList<String>) result.second);
-					setUpCastView(castNames);
+					setUpCastList(castNames);
 				}
 			}
 		}
-
 	}
 }

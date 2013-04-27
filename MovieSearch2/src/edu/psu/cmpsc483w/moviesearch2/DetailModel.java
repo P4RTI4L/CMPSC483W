@@ -7,6 +7,9 @@ import org.json.JSONObject;
 
 public class DetailModel {
 	  
+	public static final Integer DETAIL_PRIMARY = 1;
+	public static final Integer DETAIL_CAST = 2;
+
 	// Synchronously queries the database given an id of a movie for the basic information of a movie
 	public static DetailData synchronousDetailPrimaryRetrieve(int movieId) {
 		

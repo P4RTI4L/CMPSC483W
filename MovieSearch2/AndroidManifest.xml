@@ -43,6 +43,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.psu.cmpsc483w.moviesearch2.ContentActivity" />
         </activity>
+        <activity
+            android:name="edu.psu.cmpsc483w.moviesearch2.DetailActivity"
+            android:label="@string/title_activity_detail" >
+        </activity>
     </application>
 
 </manifest>

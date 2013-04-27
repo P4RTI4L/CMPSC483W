@@ -2,11 +2,12 @@ package edu.psu.cmpsc483w.moviesearch2;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 public class DualModel implements CachedDataSource, Parcelable {
 	
-	private final static int MOVIES_ACTIVE = 0;
-	private final static int CAST_ACTIVE = 0;
+	private final static int MOVIES_ACTIVE = 1;
+	private final static int CAST_ACTIVE = 2;
 	
 	private int activeType;
 	
@@ -44,8 +45,8 @@ public class DualModel implements CachedDataSource, Parcelable {
 	public DualModel(Parcel in)
 	{
 		this.activeType = in.readInt();
-		this.actorModel = in.readParcelable(null);
-		this.movieModel = in.readParcelable(null);
+		this.actorModel = in.readParcelable(ActorSearchModel.class.getClassLoader());
+		this.movieModel = in.readParcelable(MovieSearchModel.class.getClassLoader());
 	}
 
 	public void setMovieQuery(String movieQuery)
@@ -110,6 +111,8 @@ public class DualModel implements CachedDataSource, Parcelable {
 	@Override
 	public Object getData(int position) {
 		// TODO Auto-generated method stub
+		Log.i ("getData", Integer.toString (this.activeType));
+		
 		return this.activeType == MOVIES_ACTIVE ?
 				this.movieModel.getData(position) : this.actorModel.getData(position);
 	}

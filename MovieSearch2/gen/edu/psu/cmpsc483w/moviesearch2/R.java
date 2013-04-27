@@ -29,25 +29,41 @@ public final class R {
         public static final int ic_launcher=0x7f020002;
     }
     public static final class id {
-        public static final int action_filter_search=0x7f090012;
-        public static final int action_perform_search=0x7f090011;
-        public static final int action_perform_subsearch=0x7f09000e;
-        public static final int action_search_type=0x7f090010;
-        public static final int action_settings=0x7f09000f;
+        public static final int action_filter_search=0x7f090022;
+        public static final int action_perform_search=0x7f090021;
+        public static final int action_perform_subsearch=0x7f09001e;
+        public static final int action_search_type=0x7f090020;
+        public static final int action_settings=0x7f09001f;
         public static final int actionbar_spinner_dropdown_content=0x7f090001;
         public static final int actionbar_spinner_view_content=0x7f090003;
         public static final int actionbar_spinner_view_header=0x7f090002;
+        public static final int detail_cast_list=0x7f090015;
+        public static final int detail_cast_list_header=0x7f090014;
+        public static final int detail_genre_list=0x7f090011;
+        public static final int detail_genre_list_header=0x7f090010;
+        public static final int detail_info_wrapper=0x7f090007;
+        public static final int detail_movie_poster=0x7f090006;
+        public static final int detail_movie_title=0x7f090008;
+        public static final int detail_overview_content=0x7f090013;
+        public static final int detail_overview_header=0x7f090012;
+        public static final int detail_rating=0x7f09000b;
+        public static final int detail_rating_header=0x7f09000a;
+        public static final int detail_release_date=0x7f090009;
+        public static final int detail_running_time=0x7f09000f;
+        public static final int detail_running_time_header=0x7f09000e;
+        public static final int detail_tagline=0x7f09000d;
+        public static final int detail_tagline_header=0x7f09000c;
         public static final int gridview_actor_subsearch=0x7f090004;
-        public static final int gridview_content=0x7f09000c;
-        public static final int gridview_results=0x7f090006;
-        public static final int imageview_actor_subsearch_grid_item=0x7f090007;
-        public static final int imageview_content_grid_item=0x7f090009;
+        public static final int gridview_content=0x7f09001c;
+        public static final int gridview_results=0x7f090016;
+        public static final int imageview_actor_subsearch_grid_item=0x7f090017;
+        public static final int imageview_content_grid_item=0x7f090019;
         public static final int main_content_fragment=0x7f090005;
         public static final int spinner_actionbar_search_type=0x7f090000;
-        public static final int textview_actor_subsearch_grid_item_name=0x7f090008;
-        public static final int textview_content_grid_item_release_date=0x7f09000b;
-        public static final int textview_content_grid_item_title=0x7f09000a;
-        public static final int textview_topic_no_data=0x7f09000d;
+        public static final int textview_actor_subsearch_grid_item_name=0x7f090018;
+        public static final int textview_content_grid_item_release_date=0x7f09001b;
+        public static final int textview_content_grid_item_title=0x7f09001a;
+        public static final int textview_topic_no_data=0x7f09001d;
     }
     public static final class layout {
         public static final int actionbar_spinner=0x7f030000;
@@ -55,16 +71,18 @@ public final class R {
         public static final int actionbar_spinner_view=0x7f030002;
         public static final int activity_actor_subsearch=0x7f030003;
         public static final int activity_content=0x7f030004;
-        public static final int activity_results=0x7f030005;
-        public static final int actor_subsearch_grid_item=0x7f030006;
-        public static final int actor_subsearch_no_data=0x7f030007;
-        public static final int content_grid_item=0x7f030008;
-        public static final int fragment_content=0x7f030009;
-        public static final int topic_no_data=0x7f03000a;
+        public static final int activity_detail=0x7f030005;
+        public static final int activity_results=0x7f030006;
+        public static final int actor_subsearch_grid_item=0x7f030007;
+        public static final int actor_subsearch_no_data=0x7f030008;
+        public static final int content_grid_item=0x7f030009;
+        public static final int fragment_content=0x7f03000a;
+        public static final int topic_no_data=0x7f03000b;
     }
     public static final class menu {
         public static final int actor_subsearch=0x7f080000;
         public static final int content=0x7f080001;
+        public static final int detail=0x7f080002;
     }
     public static final class string {
         public static final int action_filter_search=0x7f050005;
@@ -76,7 +94,9 @@ public final class R {
         public static final int actor_subsearch_no_data=0x7f050007;
         public static final int app_name=0x7f050000;
         public static final int endless_no_data=0x7f050009;
+        public static final int hello_world=0x7f05000d;
         public static final int title_activity_actor_subsearch=0x7f05000b;
+        public static final int title_activity_detail=0x7f05000c;
         public static final int title_activity_results=0x7f05000a;
         public static final int topic_no_data=0x7f050008;
     }
