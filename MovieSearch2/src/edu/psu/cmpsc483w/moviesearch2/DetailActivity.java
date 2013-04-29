@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.util.Pair;
 import android.view.Menu;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class DetailActivity extends Activity {

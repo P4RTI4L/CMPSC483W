@@ -134,15 +134,17 @@ public class TmdbModel {
 		JSONObject json = executeQuery("configuration", null, null);
 		
 		try {
-			imageBaseUrl = json.getJSONObject("images").getString("base_url");
+			JSONObject images = json.getJSONObject("images");
 			
-			JSONArray posterJson = json.getJSONArray("poster_sizes");
+			imageBaseUrl = images.getString("base_url");
+			
+			JSONArray posterJson = images.getJSONArray("poster_sizes");
 			posterSizes = new String[posterJson.length()];
 			for (int i=0; i<posterJson.length(); i++) {
 				posterSizes[i] = posterJson.getString(i);
 			}
 			
-			JSONArray profileJson = json.getJSONArray("profile_sizes");
+			JSONArray profileJson = images.getJSONArray("profile_sizes");
 			profileSizes = new String[profileJson.length()];
 			for (int i=0; i<profileJson.length(); i++)
 			{
@@ -179,8 +181,6 @@ public class TmdbModel {
 				}
 			}
 		}
-		
-		Log.i("test", url);
 		
 		// Make a request object
 		HttpGet httpGet = new HttpGet(url);
