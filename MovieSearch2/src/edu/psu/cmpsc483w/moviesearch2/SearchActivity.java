@@ -1,9 +1,13 @@
 package edu.psu.cmpsc483w.moviesearch2;
 
 import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -31,6 +35,18 @@ public class SearchActivity extends Activity {
 		searchType.setAdapter(adapter);
 		
 		return true;
+	}
+	
+	public void addFilterFragment(int containerViewId)
+	{
+		FragmentTransaction ft = getFragmentManager().beginTransaction();
+		
+		FilterFragment filter = new FilterFragment();
+		
+		ft.replace(containerViewId, filter);
+		ft.addToBackStack(null);
+		
+		ft.commit();
 	}
 	
 	public class ActionbarSpinnerAdapter extends ArrayAdapter<String> implements SpinnerAdapter {

@@ -11,8 +11,31 @@
     <string name="actor_subsearch_no_data">No actors were found containing the name \'%1$s\'.</string>
     <string name="topic_no_data">No data related to the current topic could be loaded.</string>
     <string name="endless_no_data">No data is available for this list.</string>
-
-    <string-array name="actionbar_spinner_values">
+    
+	<string name="filter_close_button">Close</string>
+    <string name="filter_exclude_cast_header">Filter by Cast</string>
+	<string name="filter_exclude_cast_hint">Add new actor</string>
+  	<string name="filter_vote_header">Filter by Votes</string>
+	<string name="filter_vote_range_prefix">Ratings from: </string>
+	<string name="filter_vote_range_infix"> to </string>
+	<string name="filter_vote_rating_default_lower">0</string>
+	<string name="filter_vote_rating_upper_dialog_title">Maximum vote rating</string>
+	<string name="filter_vote_rating_lower_dialog_title">Minimum vote rating</string>
+	<string name="filter_vote_rating_upper_dialog_prompt">Select the maximum average vote rating</string>
+	<string name="filter_vote_rating_lower_dialog_prompt">Select the minimum average vote rating</string>
+	<string name="filter_vote_rating_default_upper">10</string>
+	<string name="filter_vote_number_prefix">At least </string>
+	<string name="filter_vote_number_suffix"> votes</string>
+	<string name="filter_vote_number_default">0</string>
+	<string name="filter_date_header">Filter by Date</string>
+	<string name="filter_date_past_month">Past month</string>
+	<string name="filter_date_past_three_month">Past 3 months</string>
+	<string name="filter_date_past_year">Past year</string>
+	<string name="filter_date_custom_prefix">From </string>
+	<string name="filter_date_custom_infix"> to </string>
+	<string name="filter_date_custom_lower_hint">Past</string>
+	<string name="filter_date_custom_upper_hint">Now</string>
+	<string-array name="actionbar_spinner_values">
         <item>Movies</item>
         <item>Cast</item>
     </string-array>

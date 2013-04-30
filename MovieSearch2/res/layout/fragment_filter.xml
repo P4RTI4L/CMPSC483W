@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#FFFFFF" >
+
+    <Button
+        android:id="@+id/filter_close_button"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/filter_close_button"
+        android:layout_gravity="right" />
+    <!--  Horizontal divider -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+		    <LinearLayout
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:id="@+id/filter_exclude_cast"
+		        android:orientation="vertical">
+		        <TextView
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:text="@string/filter_exclude_cast_header" />
+		        <SearchView
+		            android:id="@+id/search_filter_add_exclude_cast"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:iconifiedByDefault="false"
+		            android:queryHint="@string/filter_exclude_cast_hint" >
+		        </SearchView>
+		    </LinearLayout> <!-- End filter cast -->
+		    <LinearLayout 
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:id="@+id/filter_votes"
+		        android:orientation="vertical">
+		        <TextView 
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:text="@string/filter_vote_header" />
+				<LinearLayout
+				    android:id="@+id/filter_vote_range"
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:orientation="horizontal" >
+				    <CheckBox 
+				        android:id="@+id/checkbox_filter_vote_range"
+				        android:layout_width="wrap_content"
+				        android:layout_height="wrap_content" />
+				    <TextView
+				        android:layout_width="wrap_content"
+				        android:layout_height="wrap_content"
+				        android:text="@string/filter_vote_range_prefix" />
+				    <EditText
+				        android:id="@+id/edit_filter_vote_rating_lower"
+				        android:layout_width="wrap_content"
+				        android:layout_height="wrap_content"
+				        android:inputType="number"
+				        android:text="@string/filter_vote_rating_default_lower" >
+				    </EditText>
+				    <TextView
+				        android:layout_width="wrap_content"
+				        android:layout_height="wrap_content"
+				        android:text="@string/filter_vote_range_infix" />
+				    <EditText
+				        android:id="@+id/edit_filter_vote_rating_upper"
+				        android:layout_width="wrap_content"
+				        android:layout_height="wrap_content"
+				        android:inputType="number"
+				        android:text="@string/filter_vote_rating_default_upper" >
+				    </EditText>
+				</LinearLayout>
+				<LinearLayout 
+				    android:id="@+id/filter_vote_number"
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:orientation="horizontal">
+				    <CheckBox
+				        android:id="@+id/checkbox_filter_vote_number"
+				        android:layout_width="wrap_content"
+				        android:layout_height="wrap_content" />
+				    <TextView 
+				        android:layout_width="wrap_content"
+				        android:layout_height="wrap_content"
+				        android:text="@string/filter_vote_number_prefix"/>
+				    <EditText
+				        android:id="@+id/edit_filter_vote_number"
+				        android:layout_width="wrap_content"
+				        android:layout_height="wrap_content"
+				        android:inputType="number"
+				        android:text="@string/filter_vote_number_default" >
+				    </EditText>
+				    <TextView
+				        android:layout_width="wrap_content"
+				        android:layout_height="wrap_content"
+				        android:text="@string/filter_vote_number_suffix" />
+				</LinearLayout>
+		    </LinearLayout> <!-- End filter votes -->
+		    <LinearLayout
+		        android:id="@+id/filter_date"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:orientation="vertical">
+				<TextView
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:text="@string/filter_date_header" />
+	            <RadioButton
+	                android:id="@+id/radio_filter_date_past_month"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:text="@string/filter_date_past_month" />
+	            <RadioButton
+	                android:id="@+id/radio_filter_date_past_three_month"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:text="@string/filter_date_past_three_month" />
+		        <RadioButton
+	                android:id="@+id/radio_filter_date_past_year"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:text="@string/filter_date_past_year" />
+		        <LinearLayout
+		            android:id="@+id/filter_date_custom"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:orientation="horizontal">
+		            <RadioButton
+		                android:id="@+id/radio_filter_date_custom"
+		                android:layout_width="wrap_content"
+		                android:layout_height="wrap_content" />
+		            <TextView
+		                android:layout_width="wrap_content"
+		                android:layout_height="wrap_content"
+		                android:text="@string/filter_date_custom_prefix" />
+		            <EditText
+		                android:id="@+id/edit_filter_date_custom_lower"
+		                android:layout_width="wrap_content"
+		                android:layout_height="wrap_content"
+		                android:inputType="date"
+		                android:hint="@string/filter_date_custom_lower_hint">
+		            </EditText>
+		            <TextView 
+		                android:layout_width="wrap_content"
+		                android:layout_height="wrap_content"
+		                android:text="@string/filter_date_custom_infix" />
+		            <EditText
+		                android:id="@+id/edit_filter_date_custom_upper"
+		                android:layout_width="wrap_content"
+		                android:layout_height="wrap_content"
+		                android:inputType="date"
+		                android:hint="@string/filter_date_custom_upper_hint">
+		            </EditText>
+		        </LinearLayout>
+		    </LinearLayout>
+	    </LinearLayout> 
+	</ScrollView>
+</LinearLayout>

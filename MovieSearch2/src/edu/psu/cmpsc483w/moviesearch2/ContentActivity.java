@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -40,6 +41,17 @@ public class ContentActivity extends SearchActivity {
 			dualModel = savedInstanceState.getParcelable("dual");
 			query = savedInstanceState.getString("query");
 		}
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    switch (item.getItemId()) {
+	        case R.id.action_filter_search:
+	        	super.addFilterFragment(R.id.content_wrapper);
+	        	return true;
+	        default:
+	            return super.onOptionsItemSelected(item);
+	    }
 	}
 	
 	@Override
