@@ -2,7 +2,9 @@ package edu.psu.cmpsc483w.moviesearch2;
 
 import android.os.Bundle;
 import android.app.ActionBar;
+import android.app.ActionBar.OnNavigationListener;
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -30,6 +32,7 @@ public class ContentActivity extends SearchActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_content);
 		
+		setUpNavigationDropDown();
 		
 		if (savedInstanceState == null)
 		{
@@ -41,6 +44,33 @@ public class ContentActivity extends SearchActivity {
 			dualModel = savedInstanceState.getParcelable("dual");
 			query = savedInstanceState.getString("query");
 		}
+	}
+	
+	public void setUpNavigationDropDown()
+	{
+		final String[] topics = new String[]{TopicModel.TOPIC_NOW_PLAYING, TopicModel.TOPIC_TOP_RATED, 
+				TopicModel.TOPIC_POPULAR, TopicModel.TOPIC_UPCOMING};
+		
+		ArrayAdapter<String> navigationAdapter = new ArrayAdapter<String>(this, R.layout.actionbar_spinner_dropdown_view,
+				getResources().getStringArray(R.array.actionbar_navigation_values));
+		
+		getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+		
+		FragmentManager manager = getFragmentManager();
+		
+		final ContentFragment fragment = (ContentFragment) manager.findFragmentById(R.id.main_content_fragment);
+		
+		OnNavigationListener navigationListener = new OnNavigationListener() {
+			@Override
+			public boolean onNavigationItemSelected(int itemPosition,
+					long itemId) {
+				fragment.setTopic(topics[itemPosition]);
+				
+				return false;
+			}
+		};
+		
+		getActionBar().setListNavigationCallbacks(navigationAdapter, navigationListener);
 	}
 	
 	@Override
@@ -138,6 +168,7 @@ public class ContentActivity extends SearchActivity {
 			}
 		}
 	}
+	
 	
 	
 }

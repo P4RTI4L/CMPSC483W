@@ -21,6 +21,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -60,10 +61,12 @@ public class ContentFragment extends Fragment {
 		super.onCreate(savedInstanceState);
 		
 		if (savedInstanceState == null) {
-			topic = new TopicModel(TopicModel.TOPIC_POPULAR);
+			topic = new TopicModel(TopicModel.TOPIC_NOW_PLAYING);
 			image = new ImageModel(getActivity().getApplicationContext(), R.drawable.film_reel);
 		} else {
 			topic = savedInstanceState.getParcelable("topic");
+			image = new ImageModel(getActivity().getApplicationContext(), R.drawable.film_reel);
+
 		}
 
 	}
@@ -75,6 +78,15 @@ public class ContentFragment extends Fragment {
 		super.onSaveInstanceState(savedInstanceState);
 	}
 
+	public void setTopic(String newTopic)
+	{
+		topic.setNewTopic(newTopic);
+		
+		GridView contentView = (GridView)getActivity().findViewById(R.id.gridview_content);
+		TopicContentAdapter adapter = (TopicContentAdapter) contentView.getAdapter();
+		adapter.notifyDataSetChanged();
+	}
+	
 	public class TopicContentAdapter extends EndlessAdapter {
 
 		private class ViewHolder {

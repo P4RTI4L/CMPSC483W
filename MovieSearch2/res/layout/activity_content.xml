@@ -12,6 +12,7 @@
     <fragment android:name="edu.psu.cmpsc483w.moviesearch2.ContentFragment"
         android:id="@+id/main_content_fragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:tag="ContentFragment" />
 
 </RelativeLayout>
