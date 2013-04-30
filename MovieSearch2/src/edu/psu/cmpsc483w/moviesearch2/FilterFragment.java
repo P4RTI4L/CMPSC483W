@@ -52,7 +52,7 @@ public class FilterFragment extends Fragment {
 		
 		setUpVoteNumberPickers(view);
 		setUpCustomRadio(view);
-		//setUpDatePickers(view);
+		setUpDatePickers(view);
 		
 		return view;
 	}
@@ -66,37 +66,27 @@ public class FilterFragment extends Fragment {
 	private void setUpDatePickers(View root)
 	{
 		final EditText fromDateEdit = (EditText) root.findViewById(R.id.edit_filter_date_custom_lower);
-		EditText toDateEdit = (EditText) root.findViewById(R.id.edit_filter_date_custom_upper);
+		final EditText toDateEdit = (EditText) root.findViewById(R.id.edit_filter_date_custom_upper);
 		
 		fromDateEdit.setOnTouchListener(new OnTouchListener() {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				if (event.getAction() == MotionEvent.ACTION_DOWN)
 				{
-					String text = fromDateEdit.getText().toString();
+					
+					Calendar cal = Calendar.getInstance();
 					
 					int year;
 					int month;
 					int day;
 					
-					Calendar cal = Calendar.getInstance();
-					
-					if (!text.equals(""))
-					{
-						java.text.DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(getActivity().getApplicationContext());
-						try {
-							cal.setTime(dateFormat.parse(text));
-						} catch (ParseException e) {
-							// Use today's date instead
-						}
-					}
+					setCalendar(fromDateEdit, cal);
 					
 					year = cal.get(Calendar.YEAR);
 					month = cal.get(Calendar.MONTH);
 					day = cal.get(Calendar.DAY_OF_MONTH);
 					
-		
-					DatePickerDialog datePickDialog = new DatePickerDialog(getActivity().getApplicationContext(), 
+					DatePickerDialog datePickDialog = new DatePickerDialog(getActivity(), 
 							new FilterDatePickerListener(fromDateEdit), year, month, day);
 					datePickDialog.show();
 				}
@@ -104,6 +94,49 @@ public class FilterFragment extends Fragment {
 			}
 			
 		});
+		
+		toDateEdit.setOnTouchListener(new OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				if (event.getAction() == MotionEvent.ACTION_DOWN)
+				{
+					
+					Calendar cal = Calendar.getInstance();
+					
+					int year;
+					int month;
+					int day;
+					
+					setCalendar(toDateEdit, cal);
+					
+					year = cal.get(Calendar.YEAR);
+					month = cal.get(Calendar.MONTH);
+					day = cal.get(Calendar.DAY_OF_MONTH);
+					
+					DatePickerDialog datePickDialog = new DatePickerDialog(getActivity(), 
+							new FilterDatePickerListener(toDateEdit), year, month, day);
+					datePickDialog.show();
+				}
+				return false;
+			}
+			
+		});
+		
+	}
+	
+	private void setCalendar(EditText date, Calendar target)
+	{
+		String text = date.getText().toString();
+		
+		if (!text.equals(""))
+		{
+			java.text.DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(getActivity().getApplicationContext());
+			try {
+				target.setTime(dateFormat.parse(text));
+			} catch (ParseException e) {
+				// Use today's date instead
+			}
+		}
 	}
 	
 	private class FilterDatePickerListener implements OnDateSetListener
@@ -120,7 +153,8 @@ public class FilterFragment extends Fragment {
 				int dayOfMonth) {
 			Calendar cal = Calendar.getInstance();
 			cal.set(year, monthOfYear, dayOfMonth);
-			source.setText(cal.toString());
+			java.text.DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(getActivity().getApplicationContext());
+			source.setText(dateFormat.format(cal.getTime()));
 		}
 		
 	}
