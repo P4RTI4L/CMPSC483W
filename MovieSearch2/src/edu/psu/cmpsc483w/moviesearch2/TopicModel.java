@@ -60,7 +60,6 @@ public class TopicModel extends PagedModel {
 				return new Pair<Object[], Integer>(data,pages);
 				
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -81,7 +80,6 @@ public class TopicModel extends PagedModel {
 
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
-		// TODO Auto-generated method stub
 		super.writeToParcel(dest, flags);
 		
 		dest.writeString(this.topic);

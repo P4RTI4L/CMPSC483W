@@ -86,13 +86,11 @@ public abstract class EndlessAdapter extends BaseAdapter{
 
 	@Override
 	public Object getItem(int position) {
-		// TODO Auto-generated method stub
 		return data.isDataCached(position) ? data.getData(position) : null;
 	}
 
 	@Override
 	public long getItemId(int position) {
-		// TODO Auto-generated method stub
 		return data.isDataCached(position) ? data.getDataId(position) : 0;
 	}
 		
@@ -162,7 +160,6 @@ public abstract class EndlessAdapter extends BaseAdapter{
 		
 		@Override
 		protected Object doInBackground(Integer... params) {
-			// TODO Auto-generated method stub
 			int position = params[0];
 			
 			return source.getData(position);

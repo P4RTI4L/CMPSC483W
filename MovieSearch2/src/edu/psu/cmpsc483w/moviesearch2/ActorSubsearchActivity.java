@@ -101,7 +101,6 @@ public class ActorSubsearchActivity extends Activity {
 			
 			@Override
 			public boolean onQueryTextChange(String newText) {
-				// TODO Auto-generated method stub
 				return false;
 			}
 		});

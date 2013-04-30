@@ -151,7 +151,6 @@ public class TmdbModel {
 				profileSizes[i] = profileJson.getString(i);
 			}
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			imageBaseUrl = null;
 			posterSizes = null;
 			profileSizes = null;
@@ -175,7 +174,6 @@ public class TmdbModel {
 					try {
 						url+="&"+parameters[i]+"="+URLEncoder.encode(parameterValues[i],"UTF-8");
 					} catch (UnsupportedEncodingException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
@@ -213,13 +211,10 @@ public class TmdbModel {
 				return json;
 			}	
 		} catch (ClientProtocolException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -240,13 +235,11 @@ public class TmdbModel {
 				sb.append(line + "\n");
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			try {
 				is.close();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

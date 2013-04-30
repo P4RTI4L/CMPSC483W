@@ -79,7 +79,6 @@ public class MovieSearchModel extends PagedModel {
 				return new Pair<Object[], Integer>(movies, numResults);
 
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
 				return null;
 			}
 		}

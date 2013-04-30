@@ -81,8 +81,6 @@ public class ContentActivity extends SearchActivity {
 			
 			@Override
 			public boolean onQueryTextSubmit(String query) {
-				// TODO Auto-generated method stub
-
 				if (searchType.getSelectedItemPosition() == SearchActivity.SEARCH_SPINNER_VALUE_CAST)
 				{
 					Intent intent = new Intent(ContentActivity.this, ActorSubsearchActivity.class);
@@ -103,7 +101,6 @@ public class ContentActivity extends SearchActivity {
 			
 			@Override
 			public boolean onQueryTextChange(String newText) {
-				// TODO Auto-generated method stub
 				
 				return false;
 			}

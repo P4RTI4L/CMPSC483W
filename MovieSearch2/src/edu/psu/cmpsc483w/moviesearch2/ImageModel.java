@@ -88,10 +88,8 @@ public class ImageModel {
 	        bitmap = BitmapFactory.decodeStream(in);
 	        in.close();
 	    } catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -107,7 +105,7 @@ public class ImageModel {
 	private class BitmapTask extends AsyncTask<Void, Void, Bitmap> {
 
 		private ImageView image;
-		private String url;
+		private String url = "";
 		private String type;
 		
 		public BitmapTask(ImageView image, String url, String type)

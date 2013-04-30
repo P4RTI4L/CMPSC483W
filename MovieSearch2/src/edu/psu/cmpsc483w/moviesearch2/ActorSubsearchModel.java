@@ -60,7 +60,6 @@ public class ActorSubsearchModel extends PagedModel {
 			return new Pair<Object[],Integer>(actors, numPages);
 			
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -85,7 +84,6 @@ public class ActorSubsearchModel extends PagedModel {
 	
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
-		// TODO Auto-generated method stub
 		super.writeToParcel(dest, flags);
 		
 		dest.writeString(this.name);

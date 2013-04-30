@@ -205,7 +205,6 @@ public class ActorSearchModel implements CachedDataSource, Parcelable {
 			return results;
 
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -224,7 +223,6 @@ public class ActorSearchModel implements CachedDataSource, Parcelable {
 	// return 1, otherwise return the size
 	@Override
 	public int getDataCount() {
-		// TODO Auto-generated method stub
 		if (allQueriesCached) {
 			return results.size();
 		} else {
@@ -234,14 +232,12 @@ public class ActorSearchModel implements CachedDataSource, Parcelable {
 
 	@Override
 	public int getCachedDataCount() {
-		// TODO Auto-generated method stub
 		return results.size();
 	}
 
 	// Return the result if ready, otherwise perform the queries and then return
 	@Override
 	public Object getData(int position) {
-		// TODO Auto-generated method stub
 		if (!allQueriesCached) {
 			performQueries();
 		}
@@ -252,7 +248,6 @@ public class ActorSearchModel implements CachedDataSource, Parcelable {
 
 	@Override
 	public long getDataId(int position) {
-		// TODO Auto-generated method stub
 		MovieListingData movie = (MovieListingData) getData(position);
 
 		return movie.getId();
@@ -260,7 +255,6 @@ public class ActorSearchModel implements CachedDataSource, Parcelable {
 
 	@Override
 	public int describeContents() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 

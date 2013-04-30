@@ -10,11 +10,13 @@ import android.util.Pair;
 import android.view.Menu;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.RelativeLayout;
 
 public class DetailActivity extends Activity {
 
 	private DetailData detailData;
 	private ArrayList<String> castNames;
+	private ImageModel poster;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +27,9 @@ public class DetailActivity extends Activity {
 			detailData = savedInstanceState.getParcelable("detailData");
 			castNames = savedInstanceState.getStringArrayList("castNames");
 
+			poster = new ImageModel(this.getApplicationContext(),
+					R.drawable.film_reel);
+
 			setUpDetailData(detailData);
 			setUpCastList(castNames);
 		} else {
@@ -34,16 +39,19 @@ public class DetailActivity extends Activity {
 					DetailModel.DETAIL_PRIMARY);
 			new AsyncTaskDetailQuery().execute(
 					intent.getIntExtra("movieId", 0), DetailModel.DETAIL_CAST);
+
+			poster = new ImageModel(this.getApplicationContext(),
+					R.drawable.film_reel);
 		}
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.detail, menu);
 		return true;
 	}
-	
+
 	@Override
 	public void onSaveInstanceState(Bundle savedInstanceState) {
 		savedInstanceState.putParcelable("detailData", detailData);
@@ -52,27 +60,32 @@ public class DetailActivity extends Activity {
 		// Always call the superclass so it can save the view hierarchy state
 		super.onSaveInstanceState(savedInstanceState);
 	}
-	
+
 	// Sets up the ui
 	public void setUpDetailData(DetailData detailData) {
+		poster.setImageViewWithUrl(
+				(ImageView) findViewById(R.id.detail_movie_poster),
+				detailData.getPosterPath(), TmdbModel.POSTER_IMAGE);
+
 		// Set the values of TextViews to their respective value
 		((TextView) findViewById(R.id.detail_movie_title)).setText(detailData
 				.getTitle());
 		((TextView) findViewById(R.id.detail_release_date)).setText(detailData
 				.getReleaseDate());
-		((TextView) findViewById(R.id.detail_rating)).setText(""
+		((TextView) findViewById(R.id.detail_rating)).setText("Rating: "
 				+ detailData.getVoteAverage());
 		((TextView) findViewById(R.id.detail_tagline)).setText(detailData
 				.getTagline());
-		((TextView) findViewById(R.id.detail_running_time)).setText(""
-				+ detailData.getRunTime());
+		((TextView) findViewById(R.id.detail_running_time))
+				.setText("Running Time (minutes): " + detailData.getRunTime());
 
 		// Need to convert the genres list to a comma separated string
 		String genresList = detailData.getGenres().toString();
 		genresList = genresList.substring(1, genresList.length() - 1).replace(
 				",", ", ");
 
-		((TextView) findViewById(R.id.detail_genre_list)).setText(genresList);
+		((TextView) findViewById(R.id.detail_genre_list)).setText("Genres: "
+				+ genresList);
 		((TextView) findViewById(R.id.detail_overview_content))
 				.setText(detailData.getOverview());
 	}
@@ -97,8 +110,11 @@ public class DetailActivity extends Activity {
 			Integer type = params[1];
 
 			if (type == DetailModel.DETAIL_PRIMARY) {
-				return new Pair<Integer, Object>(type,
+				Pair<Integer, Object> returnPair = new Pair<Integer, Object>(
+						type,
 						DetailModel.synchronousDetailPrimaryRetrieve(movieId));
+
+				return returnPair;
 			} else if (type == DetailModel.DETAIL_CAST) {
 				return new Pair<Integer, Object>(type,
 						DetailModel.synchronousDetailCastRetrieve(movieId));

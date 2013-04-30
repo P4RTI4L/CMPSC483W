@@ -7,14 +7,16 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.TextView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.support.v4.app.NavUtils;
 
 public class ResultsActivity extends SearchActivity {
 
 	private DualModel dualModel;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -28,9 +30,35 @@ public class ResultsActivity extends SearchActivity {
 		} else {
 			dualModel = savedInstanceState.getParcelable("dual");
 		}
-		
+
 		GridView gridView = (GridView) findViewById(R.id.gridview_results);
-		gridView.setAdapter(new ResultsAdapter (this, dualModel));
+		gridView.setAdapter(new ResultsAdapter(this, dualModel));
+
+		gridView.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				if (dualModel.moviesActive())
+				{
+					MovieListingData movieListingData = (MovieListingData) dualModel
+							.getData(position);
+	
+					Intent intent = new Intent(getApplicationContext(), DetailActivity.class);
+					intent.putExtra("movieId", movieListingData.getId());
+					startActivity(intent);
+				}
+				else
+				{
+					ActorData actorData = (ActorData) dualModel.getData (position);
+					
+					// TODO: Actor details
+					// Intent intent = new Intent (getApplicationContext (), ???.class);
+					// Intent.putExtra (???, actorData.getId ());
+					// startActivity(intent);
+				}
+				
+			}
+		});
 	}
 
 	/**

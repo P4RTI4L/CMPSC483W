@@ -22,6 +22,12 @@ public class ImageDiskCache {
 		if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState()) || !Environment.isExternalStorageRemovable())
 		{
 			cacheDir = context.getExternalCacheDir();
+			
+			// On emulator, context.getExternalCacheDir() was returning null
+			if (cacheDir == null)
+			{
+				cacheDir = context.getCacheDir();
+			}
 		}
 		// Otherwise, use the cache which is more prone to the OS's garbage collection
 		else
@@ -59,10 +65,8 @@ public class ImageDiskCache {
 			out.flush();
 			out.close();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

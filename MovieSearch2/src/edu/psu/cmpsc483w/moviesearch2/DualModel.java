@@ -49,6 +49,11 @@ public class DualModel implements CachedDataSource, Parcelable {
 		this.movieModel = in.readParcelable(MovieSearchModel.class.getClassLoader());
 	}
 
+	public Boolean moviesActive ()
+	{
+		return activeType == MOVIES_ACTIVE;
+	}
+	
 	public void setMovieQuery(String movieQuery)
 	{
 		if (this.activeType == MOVIES_ACTIVE)
@@ -89,50 +94,41 @@ public class DualModel implements CachedDataSource, Parcelable {
 	
 	@Override
 	public boolean isDataCached(int position) {
-		// TODO Auto-generated method stub
 		return this.activeType == MOVIES_ACTIVE ? 
 				this.movieModel.isDataCached(position) : this.actorModel.isDataCached(position);
 	}
 
 	@Override
 	public int getDataCount() {
-		// TODO Auto-generated method stub
 		return this.activeType == MOVIES_ACTIVE ?
 				this.movieModel.getDataCount() : this.actorModel.getDataCount();
 	}
 
 	@Override
 	public int getCachedDataCount() {
-		// TODO Auto-generated method stub
 		return this.activeType == MOVIES_ACTIVE ?
 				this.movieModel.getCachedDataCount() : this.actorModel.getCachedDataCount();
 	}
 
 	@Override
 	public Object getData(int position) {
-		// TODO Auto-generated method stub
-		Log.i ("getData", Integer.toString (this.activeType));
-		
 		return this.activeType == MOVIES_ACTIVE ?
 				this.movieModel.getData(position) : this.actorModel.getData(position);
 	}
 
 	@Override
 	public long getDataId(int position) {
-		// TODO Auto-generated method stub
 		return this.activeType == MOVIES_ACTIVE ?
 				this.movieModel.getDataId(position) : this.actorModel.getDataId(position);
 	}
 
 	@Override
 	public int describeContents() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public void writeToParcel(Parcel out, int flags) {
-		// TODO Auto-generated method stub
 		out.writeInt(this.activeType);
 		out.writeParcelable(this.actorModel, flags);
 		out.writeParcelable(this.movieModel, flags);

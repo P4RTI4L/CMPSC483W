@@ -125,13 +125,11 @@ public abstract class PagedModel implements CachedDataSource, Parcelable {
 
 	@Override
 	public int describeContents() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
-		// TODO Auto-generated method stub
 		dest.writeList(this.data);
 		dest.writeInt(this.totalResults);
 		dest.writeInt(this.nextPage);

@@ -71,7 +71,6 @@ public class FilterFragment extends Fragment {
 		fromDateEdit.setOnTouchListener(new OnTouchListener() {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-				// TODO Auto-generated method stub
 				if (event.getAction() == MotionEvent.ACTION_DOWN)
 				{
 					String text = fromDateEdit.getText().toString();
