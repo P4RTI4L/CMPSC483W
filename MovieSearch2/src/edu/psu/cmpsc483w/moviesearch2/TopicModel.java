@@ -31,6 +31,12 @@ public class TopicModel extends PagedModel {
 		this.topic = in.readString();
 	}
 	
+	public void setNewTopic(String topic)
+	{
+		this.topic = topic;
+		super.resetData();
+	}
+	
 	// Fetch new results with whatever method the pagedmodel uses, returns a pair object consisting the of the new
 	// results to add to the data and the total number of results
 	protected Pair<Object[],Integer> fetchNewResults()

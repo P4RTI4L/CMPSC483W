@@ -75,6 +75,7 @@ public class Filter {
 
 		Calendar releaseDate = Calendar.getInstance();
 
+		// TMDb always sends dates as YYYY-MM-DD
 		releaseDate.set(Integer.valueOf(data.getReleaseDate().substring(0, 3)),
 				Integer.valueOf(data.getReleaseDate().substring(5, 6)),
 				Integer.valueOf(data.getReleaseDate().substring(8, 9)));
