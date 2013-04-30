@@ -49,11 +49,6 @@ public class DualModel implements CachedDataSource, Parcelable {
 		this.movieModel = in.readParcelable(MovieSearchModel.class.getClassLoader());
 	}
 
-	public Boolean moviesActive ()
-	{
-		return activeType == MOVIES_ACTIVE;
-	}
-	
 	public void setMovieQuery(String movieQuery)
 	{
 		if (this.activeType == MOVIES_ACTIVE)
