@@ -9,6 +9,7 @@ package edu.psu.cmpsc483w.moviesearch2;
 
 public final class R {
     public static final class array {
+        public static final int actionbar_navigation_values=0x7f060001;
         public static final int actionbar_spinner_values=0x7f060000;
     }
     public static final class attr {

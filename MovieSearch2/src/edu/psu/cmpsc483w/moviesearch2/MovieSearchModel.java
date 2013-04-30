@@ -74,7 +74,9 @@ public class MovieSearchModel extends PagedModel {
 							resultsEntry.getString("title"),
 							resultsEntry.getInt("id"),
 							resultsEntry.getString("release_date"),
-							resultsEntry.getString("poster_path"));
+							resultsEntry.getString("poster_path"),
+							resultsEntry.getDouble("vote_average"),
+							resultsEntry.getInt("vote_count"));
 				}
 				return new Pair<Object[], Integer>(movies, numResults);
 
