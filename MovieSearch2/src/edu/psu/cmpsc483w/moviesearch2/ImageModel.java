@@ -102,6 +102,11 @@ public class ImageModel {
 		return synchronousImageDownload(TmdbModel.getImageUrl(type, relativeUrl, width));
 	}
 	
+	public void clearCache ()
+	{
+		diskCache.clear ();
+	}
+	
 	private class BitmapTask extends AsyncTask<Void, Void, Bitmap> {
 
 		private ImageView image;

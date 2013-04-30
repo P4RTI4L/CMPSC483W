@@ -97,6 +97,13 @@ public class DetailActivity extends Activity {
 				",", "\n");
 		castList.setText(castString);
 	}
+	
+	public void onDestroy ()
+	{
+		super.onDestroy();
+		
+		poster.clearCache();
+	}
 
 	// Web queries should always be performed asynchronously to prevent blocking
 	// the UI thread, for this purpose

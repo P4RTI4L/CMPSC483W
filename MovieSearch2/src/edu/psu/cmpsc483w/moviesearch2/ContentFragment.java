@@ -87,6 +87,13 @@ public class ContentFragment extends Fragment {
 		adapter.notifyDataSetChanged();
 	}
 	
+	public void onDestroy ()
+	{
+		super.onDestroy();
+		
+		image.clearCache();
+	}
+	
 	public class TopicContentAdapter extends EndlessAdapter {
 
 		private class ViewHolder {

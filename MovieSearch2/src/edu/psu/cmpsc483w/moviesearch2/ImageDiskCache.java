@@ -61,7 +61,7 @@ public class ImageDiskCache {
 		FileOutputStream out;
 		try {
 			out = new FileOutputStream(file);
-			bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
+			bitmap.compress(Bitmap.CompressFormat.PNG, 90, out);
 			out.flush();
 			out.close();
 		} catch (FileNotFoundException e) {
