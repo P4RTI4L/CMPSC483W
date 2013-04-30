@@ -119,9 +119,12 @@ public class Filter {
 				return true;
 			}
 			break;
+			
+		default:
+			break;
 		}
 
-		return true;
+		return false;
 	}
 
 	// Returns false if filter was not changed (filter out of range)

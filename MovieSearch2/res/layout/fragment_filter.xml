@@ -59,10 +59,13 @@
 				        android:id="@+id/checkbox_filter_vote_range"
 				        android:layout_width="wrap_content"
 				        android:layout_height="wrap_content" />
+
 				    <TextView
 				        android:layout_width="wrap_content"
 				        android:layout_height="wrap_content"
-				        android:text="@string/filter_vote_range_prefix" />
+				        android:text="@string/filter_vote_range_prefix"
+				        android:textAppearance="?android:attr/textAppearance" />
+
 				    <EditText
 				        android:id="@+id/edit_filter_vote_rating_lower"
 				        android:layout_width="wrap_content"
@@ -70,10 +73,13 @@
 				        android:inputType="number"
 				        android:text="@string/filter_vote_rating_default_lower" >
 				    </EditText>
+
 				    <TextView
 				        android:layout_width="wrap_content"
 				        android:layout_height="wrap_content"
-				        android:text="@string/filter_vote_range_infix" />
+				        android:text="@string/filter_vote_range_infix"
+				        android:textAppearance="?android:attr/textAppearance" />
+
 				    <EditText
 				        android:id="@+id/edit_filter_vote_rating_upper"
 				        android:layout_width="wrap_content"
@@ -91,10 +97,13 @@
 				        android:id="@+id/checkbox_filter_vote_number"
 				        android:layout_width="wrap_content"
 				        android:layout_height="wrap_content" />
-				    <TextView 
+
+				    <TextView
 				        android:layout_width="wrap_content"
 				        android:layout_height="wrap_content"
-				        android:text="@string/filter_vote_number_prefix"/>
+				        android:text="@string/filter_vote_number_prefix"
+				        android:textAppearance="?android:attr/textAppearance" />
+
 				    <EditText
 				        android:id="@+id/edit_filter_vote_number"
 				        android:layout_width="wrap_content"
@@ -102,10 +111,13 @@
 				        android:inputType="number"
 				        android:text="@string/filter_vote_number_default" >
 				    </EditText>
+
 				    <TextView
 				        android:layout_width="wrap_content"
 				        android:layout_height="wrap_content"
-				        android:text="@string/filter_vote_number_suffix" />
+				        android:text="@string/filter_vote_number_suffix"
+				        android:textAppearance="?android:attr/textAppearance" />
+
 				</LinearLayout>
 		    </LinearLayout> <!-- End filter votes -->
 		    <LinearLayout
@@ -141,10 +153,13 @@
 		                android:id="@+id/radio_filter_date_custom"
 		                android:layout_width="wrap_content"
 		                android:layout_height="wrap_content" />
+
 		            <TextView
 		                android:layout_width="wrap_content"
 		                android:layout_height="wrap_content"
-		                android:text="@string/filter_date_custom_prefix" />
+		                android:text="@string/filter_date_custom_prefix"
+		                android:textAppearance="?android:attr/textAppearance" />
+
 		            <EditText
 		                android:id="@+id/edit_filter_date_custom_lower"
 		                android:layout_width="wrap_content"
@@ -152,10 +167,13 @@
 		                android:inputType="date"
 		                android:hint="@string/filter_date_custom_lower_hint">
 		            </EditText>
-		            <TextView 
+
+		            <TextView
 		                android:layout_width="wrap_content"
 		                android:layout_height="wrap_content"
-		                android:text="@string/filter_date_custom_infix" />
+		                android:text="@string/filter_date_custom_infix"
+		                android:textAppearance="?android:attr/textAppearance" />
+
 		            <EditText
 		                android:id="@+id/edit_filter_date_custom_upper"
 		                android:layout_width="wrap_content"
