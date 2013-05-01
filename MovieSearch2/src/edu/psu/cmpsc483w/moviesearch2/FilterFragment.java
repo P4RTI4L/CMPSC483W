@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
@@ -14,6 +15,8 @@ import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,6 +27,8 @@ import android.view.View.OnFocusChangeListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.DatePicker;
@@ -44,7 +49,16 @@ public class FilterFragment extends Fragment {
 	// Allows a radio button to be unchecked if clicked after already being checked (no selection is a valid selection)
 	private boolean alreadyChecked = false;
 	
-	Filter filter;
+	private Filter filter;
+	
+	private ActorSearchModel exclude;
+	
+	private FilterFragmentReceiver callback;
+	
+	public interface FilterFragmentReceiver {
+		public void handleFilterData(Filter filter, ActorSearchModel exclude);
+		public void removeFragment(Filter filter, ActorSearchModel exclude);
+	};
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -55,6 +69,19 @@ public class FilterFragment extends Fragment {
 		setUpVoteNumberPickers(view);
 		setUpCustomRadio(view);
 		setUpDatePickers(view);
+		setUpMiscListeners(view);
+		
+		setUpInterface(view, filter, exclude);
+		
+		Button close = (Button) view.findViewById(R.id.button_filter_close);
+		
+		close.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				callback.removeFragment(filter, exclude);
+			}
+		});
 		
 		return view;
 	}
@@ -63,7 +90,101 @@ public class FilterFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		filter = new Filter();
+		if (savedInstanceState == null) {
+			filter = getArguments().getParcelable("filter");
+			exclude = new ActorSearchModel();
+		}
+		else {
+			filter = savedInstanceState.getParcelable("filter");
+			exclude = savedInstanceState.getParcelable("exclude");
+		}
+	}
+	
+	@Override
+	public void onSaveInstanceState(Bundle savedInstanceState)
+	{
+		savedInstanceState.putParcelable("filter", filter);
+		savedInstanceState.putParcelable("exclude", exclude);
+		
+		super.onSaveInstanceState(savedInstanceState);
+	}
+	
+	@Override
+	public void onAttach(Activity activity)
+	{
+		super.onAttach(activity);
+		
+		callback = (FilterFragmentReceiver)activity;
+	}
+	
+	public static final FilterFragment newInstance(Filter defaultSettings)
+	{
+		FilterFragment filterFragment = new FilterFragment();
+		Bundle bundle = new Bundle(1);
+		bundle.putParcelable("filter", defaultSettings);
+		filterFragment.setArguments(bundle);
+		
+		return filterFragment;
+	}
+	
+	public Filter requestFilter()
+	{
+		return filter;
+	}
+	
+	private void setUpInterface(View view, Filter filter, ActorSearchModel exclude)
+	{
+		// Set the vote fields
+		EditText ratingLower = (EditText) view.findViewById(R.id.edit_filter_vote_rating_lower);
+		EditText ratingUpper = (EditText) view.findViewById(R.id.edit_filter_vote_rating_upper);
+		EditText voteNumber = (EditText) view.findViewById(R.id.edit_filter_vote_number);
+		
+		ratingLower.setText(Integer.toString(filter.getMinRating()));
+		ratingUpper.setText(Integer.toString(filter.getMaxRating()));
+		voteNumber.setText(Integer.toString(filter.getVoteThreshold()));
+		
+		CheckBox checkVoteRange = (CheckBox) view.findViewById(R.id.checkbox_filter_vote_range);
+		CheckBox checkVoteNumber = (CheckBox) view.findViewById(R.id.checkbox_filter_vote_number);
+		
+		checkVoteRange.setChecked(filter.getRatingFilter() == Filter.FILTER_ENABLED);
+		checkVoteNumber.setChecked(filter.getVoteFilter() == Filter.FILTER_ENABLED);
+		
+		// Set the date fields
+		
+		java.text.DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(
+				getActivity().getApplicationContext());
+		
+		EditText customDateLower = (EditText) view.findViewById(R.id.edit_filter_date_custom_lower);
+		EditText customDateUpper = (EditText) view.findViewById(R.id.edit_filter_date_custom_upper);
+		
+		Calendar calCustomLower = filter.getCustomTimeLower();
+		Calendar calCustomUpper = filter.getCustomTimeUpper();
+		
+		if (calCustomLower != null) 
+			customDateLower.setText(dateFormat.format(filter.getCustomTimeLower().getTime()));
+		if (calCustomUpper != null)
+			customDateUpper.setText(dateFormat.format(filter.getCustomTimeUpper().getTime()));
+		
+		int timeFilter = filter.getTimeFilter();
+		
+		switch (timeFilter) {
+			case Filter.ONE_MONTH:
+				RadioButton pastMonth = (RadioButton)view.findViewById(R.id.radio_filter_date_past_month);
+				pastMonth.setChecked(true);
+				break;
+			case Filter.THREE_MONTHS:
+				RadioButton pastThreeMonth = (RadioButton)view.findViewById(R.id.radio_filter_date_past_three_month);
+				pastThreeMonth.setChecked(true);
+				break;
+			case Filter.ONE_YEAR:
+				RadioButton pastYear = (RadioButton)view.findViewById(R.id.radio_filter_date_past_year);
+				pastYear.setChecked(true);
+				break;
+			case Filter.CUSTOM_TIME:
+				RadioButton pastCustom = (RadioButton)view.findViewById(R.id.radio_filter_date_custom);
+				pastCustom.setChecked(true);
+				break;
+		}
 	}
 	
 	// Sets up the date picker dialogs for the two custom date pickers
@@ -167,6 +288,71 @@ public class FilterFragment extends Fragment {
 			source.setText(dateFormat.format(cal.getTime()));
 		}
 		
+	}
+	
+	// Sets up listeners for vote number and checkbox which don't have complex dialogs
+	private void setUpMiscListeners(View root)
+	{
+		CheckBox ratingFilter = (CheckBox)root.findViewById(R.id.checkbox_filter_vote_range);
+		final CheckBox numberFilter = (CheckBox)root.findViewById(R.id.checkbox_filter_vote_number);
+		
+		final EditText ratingLower = (EditText)root.findViewById(R.id.edit_filter_vote_rating_lower);
+		final EditText ratingUpper = (EditText)root.findViewById(R.id.edit_filter_vote_rating_upper);
+		final EditText voteNumber = (EditText)root.findViewById(R.id.edit_filter_vote_number);
+		
+		ratingFilter.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView,
+					boolean isChecked) {
+				// TODO Auto-generated method stub
+				if (isChecked) {
+					filter.enableRatingFilter(Integer.valueOf(ratingLower.getText().toString()),
+							Integer.valueOf(ratingUpper.getText().toString()));
+				} 
+				else {
+					filter.disableRatingFilter();
+				}
+			}
+		});
+		
+		numberFilter.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView,
+					boolean isChecked) {
+				// TODO Auto-generated method stub
+				if (isChecked) {
+					filter.enableVoteFilter(Integer.valueOf(voteNumber.getText().toString()));
+				} 
+				else {
+					filter.disableVoteFilter();
+				}
+			}
+		});
+		
+		voteNumber.addTextChangedListener(new TextWatcher() {
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before,
+					int count) {
+				boolean isChecked = numberFilter.isChecked();
+				if (isChecked) {
+					filter.enableVoteFilter(Integer.valueOf(voteNumber.getText().toString()));
+				}
+				
+			} });
 	}
 	
 	// Sets up the number pickers for the two editText views for vote filtering

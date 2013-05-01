@@ -16,7 +16,8 @@ import android.support.v4.app.NavUtils;
 public class ResultsActivity extends SearchActivity {
 
 	private DualModel dualModel;
-
+	private Filter appliedFilter;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -123,5 +124,18 @@ public class ResultsActivity extends SearchActivity {
 			return contentView;
 		}
 	}
+
+	@Override
+	public void addFilterFragment() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void removeFilterFragment() {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 }

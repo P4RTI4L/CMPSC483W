@@ -102,7 +102,7 @@ public class DetailActivity extends Activity {
 	{
 		super.onDestroy();
 		
-		poster.clearCache();
+		poster.trimCache();
 	}
 
 	// Web queries should always be performed asynchronously to prevent blocking

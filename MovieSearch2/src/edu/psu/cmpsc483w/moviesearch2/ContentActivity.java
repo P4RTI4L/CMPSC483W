@@ -5,6 +5,7 @@ import android.app.ActionBar;
 import android.app.ActionBar.OnNavigationListener;
 import android.app.Activity;
 import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -77,7 +78,7 @@ public class ContentActivity extends SearchActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 	    switch (item.getItemId()) {
 	        case R.id.action_filter_search:
-	        	super.addFilterFragment(R.id.content_wrapper);
+	        	super.toggleFilterFragment();
 	        	return true;
 	        default:
 	            return super.onOptionsItemSelected(item);
@@ -85,7 +86,7 @@ public class ContentActivity extends SearchActivity {
 	}
 	
 	@Override
-	protected void onSaveInstanceState(Bundle savedInstanceState) {
+	public void onSaveInstanceState(Bundle savedInstanceState) {
 		
 		savedInstanceState.putParcelable("dual", dualModel);
 		savedInstanceState.putString("query", query);
@@ -98,6 +99,44 @@ public class ContentActivity extends SearchActivity {
 
 		super.onCreateOptionsMenu(menu);
 		
+		setUpSearchAction(menu);
+		
+		return true;
+	}
+	
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu)
+	{
+		SearchView searchView = (SearchView)menu.findItem(R.id.action_perform_search).getActionView();
+		
+		searchView.setQuery(query, false);
+		
+		return true;
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data)
+	{
+		// Look for the request code
+		if (requestCode == ACTOR_SUBSEARCH_REQUEST) {
+			// Check that it was successful
+			if (resultCode == RESULT_OK) {
+				ActorData result = data.getParcelableExtra("result");
+				dualModel.setActorQuery(result);
+				
+				query = result.getName();
+				invalidateOptionsMenu();
+				
+				Intent intent = new Intent(this, ResultsActivity.class);
+				intent.putExtra("dual", dualModel); 
+				intent.putExtra("filter", appliedFilter);
+				startActivity(intent);
+			}
+		}
+	}
+	
+	public void setUpSearchAction(Menu menu)
+	{
 		final Spinner searchType = (Spinner)menu.findItem(R.id.action_search_type).getActionView();
 
 		SearchView searchView = (SearchView)menu.findItem(R.id.action_perform_search).getActionView();
@@ -122,6 +161,7 @@ public class ContentActivity extends SearchActivity {
 					Intent intent = new Intent(ContentActivity.this, ResultsActivity.class);
 					dualModel.setMovieQuery(query);
 					intent.putExtra("dual", dualModel);
+					intent.putExtra("filter", appliedFilter);
 					
 					startActivity(intent);
 				}
@@ -135,40 +175,29 @@ public class ContentActivity extends SearchActivity {
 				return false;
 			}
 		});
-		
-		return true;
-	}
-	
-	@Override
-	public boolean onPrepareOptionsMenu(Menu menu)
-	{
-		SearchView searchView = (SearchView)menu.findItem(R.id.action_perform_search).getActionView();
-		
-		searchView.setQuery(query, false);
-		
-		return true;
 	}
 
 	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data)
-	{
-		// Look for the request code
-		if (requestCode == ACTOR_SUBSEARCH_REQUEST) {
-			// Check that it was successful
-			if (resultCode == RESULT_OK) {
-				ActorData result = data.getParcelableExtra("result");
-				dualModel.setActorQuery(result.getId());
-				
-				query = result.getName();
-				invalidateOptionsMenu();
-				
-				Intent intent = new Intent(this, ResultsActivity.class);
-				intent.putExtra("dual", dualModel);
-				startActivity(intent);
-			}
-		}
+	public void addFilterFragment() {
+		
+		super.addFilterFragment();
+		
+		FilterFragment filterFragment = FilterFragment.newInstance(appliedFilter);
+		
+		FragmentTransaction transaction = getFragmentManager().beginTransaction();
+		
+		transaction.replace(R.id.content_wrapper, filterFragment);
+		transaction.addToBackStack(null);
+		
+		transaction.commit();
 	}
-	
-	
+
+	@Override
+	public void removeFilterFragment() {
+		
+		super.removeFilterFragment();
+		
+		getFragmentManager().popBackStack();
+	}
 	
 }

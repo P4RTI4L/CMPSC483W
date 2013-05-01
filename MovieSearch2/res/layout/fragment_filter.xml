@@ -6,7 +6,7 @@
     android:background="#FFFFFF" >
 
     <Button
-        android:id="@+id/filter_close_button"
+        android:id="@+id/button_filter_close"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

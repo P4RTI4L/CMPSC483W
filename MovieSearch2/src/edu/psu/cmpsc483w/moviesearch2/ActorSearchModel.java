@@ -20,10 +20,10 @@ public class ActorSearchModel implements CachedDataSource, Parcelable {
 	// The actor id being queried, the status of the query, and the result of
 	// the query
 	// The whole point is to store intermediate values to avoid making queries
-	private int actorQuery;
+	private ActorData actorQuery;
 	private int queryStatus;
 	private ArrayList<MovieListingData> queryResults;
-	private ArrayList<Integer> excludeActors;
+	private ArrayList<ActorData> excludeActors;
 	private ArrayList<Integer> excludeStatus;
 	private ArrayList<MovieListingData[]> excludeResults;
 
@@ -41,14 +41,14 @@ public class ActorSearchModel implements CachedDataSource, Parcelable {
 
 		queryStatus = STATUS_UNINITIALIZED;
 		queryResults = new ArrayList<MovieListingData>();
-		excludeActors = new ArrayList<Integer>();
+		excludeActors = new ArrayList<ActorData>();
 		excludeStatus = new ArrayList<Integer>();
 		excludeResults = new ArrayList<MovieListingData[]>();
 
 		results = new ArrayList<MovieListingData>();
 	}
 
-	public ActorSearchModel(int actorQuery) {
+	public ActorSearchModel(ActorData actorQuery) {
 		this();
 		this.actorQuery = actorQuery;
 		this.queryStatus = STATUS_NOT_CACHED;
@@ -57,13 +57,13 @@ public class ActorSearchModel implements CachedDataSource, Parcelable {
 	}
 
 	public ActorSearchModel(Parcel in) {
-		this.actorQuery = in.readInt();
+		this.actorQuery = in.readParcelable(ActorData.class.getClassLoader());
 		this.queryStatus = in.readInt();
 
 		this.queryResults = new ArrayList<MovieListingData>();
 		in.readList(this.queryResults, null);
 
-		this.excludeActors = new ArrayList<Integer>();
+		this.excludeActors = new ArrayList<ActorData>();
 		this.excludeStatus = new ArrayList<Integer>();
 		this.excludeResults = new ArrayList<MovieListingData[]>();
 
@@ -79,7 +79,7 @@ public class ActorSearchModel implements CachedDataSource, Parcelable {
 
 	// Clears all data from the model
 	public void clearModel() {
-		this.actorQuery = 0;
+		this.actorQuery = null;
 		this.queryStatus = STATUS_UNINITIALIZED;
 		this.queryResults.clear();
 
@@ -94,10 +94,10 @@ public class ActorSearchModel implements CachedDataSource, Parcelable {
 	// that actor is
 	// already in the exclude list (or the same actor), returns true if
 	// successful, false otherwise
-	public boolean setQueryActor(int actorQueryId) {
-		if (actorQueryId != this.actorQuery && !isActorExcluded(actorQueryId)) {
+	public boolean setQueryActor(ActorData actorQuery) {
+		if (actorQuery != this.actorQuery && !isActorExcluded(actorQuery)) {
 			queryStatus = STATUS_NOT_CACHED;
-			this.actorQuery = actorQueryId;
+			this.actorQuery = actorQuery;
 			this.queryResults.clear();
 
 			allQueriesCached = false;
@@ -107,11 +107,21 @@ public class ActorSearchModel implements CachedDataSource, Parcelable {
 
 		return false;
 	}
+	
+	public ActorData getActorQuery()
+	{
+		return actorQuery;
+	}
+	
+	public ArrayList<ActorData> getExcludeActors()
+	{
+		return excludeActors;
+	}
 
 	// Adds an actor to exclude, returns true if successful, false otherwise
-	public boolean addExcludeActor(int actorExcludeId) {
-		if (isActorExcluded(actorExcludeId) && actorExcludeId != actorQuery) {
-			excludeActors.add(actorExcludeId);
+	public boolean addExcludeActor(ActorData actorExclude) {
+		if (isActorExcluded(actorExclude) && actorExclude != actorQuery) {
+			excludeActors.add(actorExclude);
 			excludeResults.add(new MovieListingData[] {});
 			excludeStatus.add(STATUS_NOT_CACHED);
 
@@ -123,18 +133,18 @@ public class ActorSearchModel implements CachedDataSource, Parcelable {
 		return false;
 	}
 
-	public boolean isActorExcluded(int actorExcludeId) {
+	public boolean isActorExcluded(ActorData actorExclude) {
 		for (int i = 0; i < excludeActors.size(); i++) {
-			if (excludeActors.get(i) == actorExcludeId)
+			if (excludeActors.get(i) == actorExclude)
 				return true;
 		}
 
 		return false;
 	}
 
-	public void removeExcludeActor(int actorExcludeId) {
+	public void removeExcludeActor(ActorData actorExclude) {
 		for (int i = 0; i < excludeActors.size(); i++) {
-			if (excludeActors.get(i) == actorExcludeId) {
+			if (excludeActors.get(i) == actorExclude) {
 				excludeActors.remove(i);
 				excludeResults.remove(i);
 				excludeStatus.remove(i);
@@ -184,8 +194,8 @@ public class ActorSearchModel implements CachedDataSource, Parcelable {
 	}
 
 	// Synchronously queries the database for the movies of an actor
-	public static MovieListingData[] synchronousCastSearch(int actorIdQuery) {
-		JSONObject json = TmdbModel.executeQuery("person/" + actorIdQuery
+	public static MovieListingData[] synchronousCastSearch(ActorData actorQuery) {
+		JSONObject json = TmdbModel.executeQuery("person/" + actorQuery.getId()
 				+ "/credits", null, null);
 
 		try {
@@ -260,7 +270,7 @@ public class ActorSearchModel implements CachedDataSource, Parcelable {
 
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeInt(actorQuery);
+		dest.writeParcelable(actorQuery, flags);
 		dest.writeInt(queryStatus);
 		dest.writeList(queryResults);
 

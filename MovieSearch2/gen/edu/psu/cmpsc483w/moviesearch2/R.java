@@ -39,6 +39,7 @@ public final class R {
         public static final int actionbar_spinner_dropdown_content=0x7f090001;
         public static final int actionbar_spinner_view_content=0x7f090003;
         public static final int actionbar_spinner_view_header=0x7f090002;
+        public static final int button_filter_close=0x7f09001e;
         public static final int checkbox_filter_vote_number=0x7f090027;
         public static final int checkbox_filter_vote_range=0x7f090023;
         public static final int content_wrapper=0x7f090005;
@@ -61,7 +62,6 @@ public final class R {
         public static final int edit_filter_vote_number=0x7f090028;
         public static final int edit_filter_vote_rating_lower=0x7f090024;
         public static final int edit_filter_vote_rating_upper=0x7f090025;
-        public static final int filter_close_button=0x7f09001e;
         public static final int filter_date=0x7f090029;
         public static final int filter_date_custom=0x7f09002d;
         public static final int filter_exclude_cast=0x7f09001f;

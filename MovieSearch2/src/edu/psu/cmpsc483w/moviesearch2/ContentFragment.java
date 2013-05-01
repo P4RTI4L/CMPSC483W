@@ -91,7 +91,7 @@ public class ContentFragment extends Fragment {
 	{
 		super.onDestroy();
 		
-		image.clearCache();
+		image.trimCache();
 	}
 	
 	public class TopicContentAdapter extends EndlessAdapter {

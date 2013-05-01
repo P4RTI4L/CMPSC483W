@@ -3,7 +3,10 @@ package edu.psu.cmpsc483w.moviesearch2;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class Filter {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Filter implements Parcelable {
 
 	public static final int NO_FILTER = 0;
 	public static final int FILTER_ENABLED = 1;
@@ -36,6 +39,17 @@ public class Filter {
 		maxRating = 10;
 
 		voteThreshold = 0;
+	}
+	
+	public Filter(Parcel in) {
+		timeFilter = in.readInt();
+		customTimeLower = (Calendar) in.readSerializable();
+		customTimeUpper = (Calendar) in.readSerializable();
+		ratingFilter = in.readInt();
+		minRating = in.readInt();
+		maxRating = in.readInt();
+		voteFilter = in.readInt();
+		voteThreshold = in.readInt();
 	}
 
 	public void applyFilters(ArrayList<MovieListingData> source,
@@ -127,6 +141,50 @@ public class Filter {
 		return false;
 	}
 
+	
+	// Accessors
+	
+	public int getTimeFilter()
+	{
+		return timeFilter;
+	}
+	
+	public Calendar getCustomTimeLower()
+	{
+		return customTimeLower;
+	}
+	
+	public Calendar getCustomTimeUpper()
+	{
+		return customTimeUpper;
+	}
+	
+	public int getRatingFilter()
+	{
+		return ratingFilter;
+	}
+	
+	public int getMinRating()
+	{
+		return minRating;
+	}
+	
+	public int getMaxRating()
+	{
+		return maxRating;
+	}
+	
+	public int getVoteFilter()
+	{
+		return voteFilter;
+	}
+	
+	public int getVoteThreshold()
+	{
+		return voteThreshold;
+	}
+	
+	
 	// Returns false if filter was not changed (filter out of range)
 	public boolean setTimeFilter(int filter) {
 		if (filter < NO_FILTER || filter > CUSTOM_TIME) {
@@ -191,5 +249,38 @@ public class Filter {
 	public void disableVoteFilter() {
 		voteFilter = NO_FILTER;
 	}
+
+	@Override
+	public int describeContents() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeInt(timeFilter);
+		dest.writeSerializable(customTimeLower);
+		dest.writeSerializable(customTimeUpper);
+		dest.writeInt(ratingFilter);
+		dest.writeInt(minRating);
+		dest.writeInt(maxRating);
+		dest.writeInt(voteFilter);
+		dest.writeInt(voteThreshold);
+	}
+	
+	// All Parcelables MUST have a CREATOR
+	public static final Parcelable.Creator<Filter> CREATOR = new Parcelable.Creator<Filter>() {
+		// Create a DetailData object from a Parcel
+		@Override
+		public Filter createFromParcel(Parcel source) {
+			return new Filter(source);
+		}
+
+		@Override
+		public Filter[] newArray(int size) {
+			return new Filter[size];
+		}
+
+	};
 
 }

@@ -33,8 +33,11 @@ public class TopicModel extends PagedModel {
 	
 	public void setNewTopic(String topic)
 	{
-		this.topic = topic;
-		super.resetData();
+		if (!this.topic.equals(topic))
+		{
+			this.topic = topic;
+			super.resetData();
+		}
 	}
 	
 	// Fetch new results with whatever method the pagedmodel uses, returns a pair object consisting the of the new

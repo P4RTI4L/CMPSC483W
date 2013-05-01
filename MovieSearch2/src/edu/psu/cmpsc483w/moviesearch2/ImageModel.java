@@ -104,7 +104,11 @@ public class ImageModel {
 	
 	public void clearCache ()
 	{
-		diskCache.clear ();
+		diskCache.clear();
+	}
+	
+	public void trimCache() {
+		diskCache.trimCache();
 	}
 	
 	private class BitmapTask extends AsyncTask<Void, Void, Bitmap> {

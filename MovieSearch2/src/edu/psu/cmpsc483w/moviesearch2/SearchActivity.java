@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -15,12 +16,42 @@ import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
-public class SearchActivity extends Activity {
+public class SearchActivity extends Activity implements FilterFragment.FilterFragmentReceiver {
 
 	// Indexes of the items in the search type spinner in the action bar, not the best design pattern
 	// but the alternatives are either unreliable or too complex to be worth it
 	public final static int SEARCH_SPINNER_VALUE_MOVIE = 0;
 	public final static int SEARCH_SPINNER_VALUE_CAST = 1;
+	
+	// The filter received from pressing the filter action
+	protected Filter appliedFilter;
+	// Whether the filter fragment is visible or not
+	protected boolean isFilterVisible;
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+				
+		if (savedInstanceState == null)
+		{
+			appliedFilter = new Filter();
+			isFilterVisible = false;
+		}
+		else
+		{
+			appliedFilter = savedInstanceState.getParcelable("filter");
+			isFilterVisible = savedInstanceState.getBoolean("filterVisible");
+		}
+	}
+	
+	@Override
+	public void onSaveInstanceState(Bundle savedInstanceState) {
+		savedInstanceState.putParcelable("filter", appliedFilter);
+		savedInstanceState.putBoolean("filterVisible", isFilterVisible);
+		
+		super.onSaveInstanceState(savedInstanceState);
+	}
+
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -37,16 +68,26 @@ public class SearchActivity extends Activity {
 		return true;
 	}
 	
-	public void addFilterFragment(int containerViewId)
+	public void toggleFilterFragment()
 	{
-		FragmentTransaction ft = getFragmentManager().beginTransaction();
-		
-		FilterFragment filter = new FilterFragment();
-		
-		ft.replace(containerViewId, filter);
-		ft.addToBackStack(null);
-		
-		ft.commit();
+		if (!isFilterVisible)
+		{
+			addFilterFragment();
+		}
+		else
+		{
+			removeFilterFragment();
+		}
+	}
+	
+	public void addFilterFragment()
+	{
+		isFilterVisible = true;
+	}
+	
+	public void removeFilterFragment()
+	{
+		isFilterVisible = false;
 	}
 	
 	public class ActionbarSpinnerAdapter extends ArrayAdapter<String> implements SpinnerAdapter {
@@ -110,5 +151,17 @@ public class SearchActivity extends Activity {
 			
 			return convertView;
 		}
+	}
+
+	@Override
+	public void handleFilterData(Filter filter, ActorSearchModel exclude) {
+		// TODO Auto-generated method stub
+		appliedFilter = filter;
+	}
+
+	@Override
+	public void removeFragment(Filter filter, ActorSearchModel exclude) { 
+		this.handleFilterData(filter, exclude);
+		this.removeFilterFragment();
 	}
 }

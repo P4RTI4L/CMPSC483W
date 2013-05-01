@@ -6,6 +6,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.util.Arrays;
+import java.util.Comparator;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -15,25 +17,34 @@ import android.os.Environment;
 public class ImageDiskCache {
 
 	private File cacheDir;
+	private int maxSize;
 	
-	public ImageDiskCache(Context context)
-	{
+	// The default max size in bytes is 5MB
+	private final static int DEFAULT_MAX_SIZE = 5242880;
+	
+	public ImageDiskCache(Context context) {
+		this(context, DEFAULT_MAX_SIZE);
+	}
+	
+	
+	public ImageDiskCache(Context context, int maxSize) {
 		// If external storage available (that isn't removable or mounted), use that
-		if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState()) || !Environment.isExternalStorageRemovable())
-		{
-			cacheDir = context.getExternalCacheDir();
+		if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())
+				|| !Environment.isExternalStorageRemovable()) {
 			
+			cacheDir = context.getExternalCacheDir();
+
 			// On emulator, context.getExternalCacheDir() was returning null
-			if (cacheDir == null)
-			{
+			if (cacheDir == null) {
 				cacheDir = context.getCacheDir();
 			}
 		}
 		// Otherwise, use the cache which is more prone to the OS's garbage collection
-		else
-		{
+		else {
 			cacheDir = context.getCacheDir();
 		}
+		
+		this.maxSize = maxSize;
 	}
 
 	
@@ -76,6 +87,37 @@ public class ImageDiskCache {
 	private String getFilePath(String url)
 	{
 		return cacheDir.getAbsolutePath() + File.separator + url.hashCode();
+	}
+	
+	public void trimCache()
+	{
+		File[] files = cacheDir.listFiles();
+		
+		// Size of the current cache
+		long size = getCurrentSize();
+		// The number of bytes to trim
+		long bytes = size - maxSize;
+		
+		for (File file : files) {
+			if (bytes <= 0)
+				return;
+			
+			bytes-=file.length();
+			file.delete();
+		}
+	}
+	
+	private long getCurrentSize()
+	{
+		File[] files = cacheDir.listFiles();
+		
+		long size = 0;
+		
+		for (File file: files) {
+			size+=file.length();
+		}
+		
+		return size;
 	}
 	
 	public void clear()

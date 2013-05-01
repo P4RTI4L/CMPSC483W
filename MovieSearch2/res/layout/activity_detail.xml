@@ -19,8 +19,8 @@
 
             <ImageView
                 android:id="@+id/detail_movie_poster"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="200dp"
+                android:layout_height="300dp"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true" />
 

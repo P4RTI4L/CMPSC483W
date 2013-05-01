@@ -14,7 +14,7 @@ public class DualModel implements CachedDataSource, Parcelable {
 	private ActorSearchModel actorModel;
 	private MovieSearchModel movieModel;
 	
-	public DualModel(int actorQuery)
+	public DualModel(ActorData actorQuery)
 	{
 		this.activeType = CAST_ACTIVE;
 		this.actorModel = new ActorSearchModel(actorQuery);
@@ -63,28 +63,28 @@ public class DualModel implements CachedDataSource, Parcelable {
 		}
 	}
 	
-	public void setActorQuery(int actorQueryId)
+	public void setActorQuery(ActorData actorQuery)
 	{
 		if (this.activeType == MOVIES_ACTIVE)
 		{
 			this.activeType = CAST_ACTIVE;
 			this.movieModel.clearData();
-			this.actorModel.setQueryActor(actorQueryId);
+			this.actorModel.setQueryActor(actorQuery);
 		}
 		else if (this.activeType == CAST_ACTIVE)
 		{
-			this.actorModel.setQueryActor(actorQueryId);
+			this.actorModel.setQueryActor(actorQuery);
 		}
 	}
 	
-	public void addExcludeActor(int actorExcludeId)
+	public void addExcludeActor(ActorData actorExclude)
 	{
-		this.actorModel.addExcludeActor(actorExcludeId);
+		this.actorModel.addExcludeActor(actorExclude);
 	}
 	
-	public void removeExcludeActor(int actorExcludeId)
+	public void removeExcludeActor(ActorData actorExclude)
 	{
-		this.actorModel.removeExcludeActor(actorExcludeId);
+		this.actorModel.removeExcludeActor(actorExclude);
 	}
 	
 	@Override
@@ -120,6 +120,11 @@ public class DualModel implements CachedDataSource, Parcelable {
 	@Override
 	public int describeContents() {
 		return 0;
+	}
+	
+	public ActorSearchModel getActorSearchModel()
+	{
+		return this.actorModel;
 	}
 
 	@Override
