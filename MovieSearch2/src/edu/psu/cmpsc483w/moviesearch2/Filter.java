@@ -149,12 +149,32 @@ public class Filter {
 
 		return true;
 	}
+	
+	public void setUpperTimeLimit (Calendar upper)
+	{
+		this.customTimeUpper = upper;
+	}
+	
+	public void setLowerTimeLimit (Calendar lower)
+	{
+		this.customTimeLower = lower;
+	}
 
 	public void enableRatingFilter(int min, int max) {
 		ratingFilter = FILTER_ENABLED;
 
 		minRating = min;
 
+		maxRating = max;
+	}
+	
+	public void setMinRating (int min)
+	{
+		minRating = min;
+	}
+	
+	public void setMaxRating (int max)
+	{
 		maxRating = max;
 	}
 

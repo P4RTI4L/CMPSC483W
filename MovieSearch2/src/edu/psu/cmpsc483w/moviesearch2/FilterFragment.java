@@ -44,6 +44,8 @@ public class FilterFragment extends Fragment {
 	// Allows a radio button to be unchecked if clicked after already being checked (no selection is a valid selection)
 	private boolean alreadyChecked = false;
 	
+	Filter filter;
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -60,6 +62,8 @@ public class FilterFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		filter = new Filter();
 	}
 	
 	// Sets up the date picker dialogs for the two custom date pickers
@@ -89,6 +93,9 @@ public class FilterFragment extends Fragment {
 					DatePickerDialog datePickDialog = new DatePickerDialog(getActivity(), 
 							new FilterDatePickerListener(fromDateEdit), year, month, day);
 					datePickDialog.show();
+					
+					setCalendar (toDateEdit, cal);
+					filter.setLowerTimeLimit(cal);
 				}
 				return false;
 			}
@@ -116,6 +123,9 @@ public class FilterFragment extends Fragment {
 					DatePickerDialog datePickDialog = new DatePickerDialog(getActivity(), 
 							new FilterDatePickerListener(toDateEdit), year, month, day);
 					datePickDialog.show();
+					
+					setCalendar (toDateEdit, cal);
+					filter.setUpperTimeLimit(cal);
 				}
 				return false;
 			}
@@ -204,6 +214,8 @@ public class FilterFragment extends Fragment {
 						public void onClick(DialogInterface dialog, int which) {
 							
 							ratingLower.setText(Integer.toString(replacement.getValue()));
+							
+							filter.setMinRating(replacement.getValue ());
 						}
 						
 					});
@@ -256,6 +268,8 @@ public class FilterFragment extends Fragment {
 						public void onClick(DialogInterface dialog, int which) {
 							
 							ratingUpper.setText(Integer.toString(replacement.getValue()));
+							
+							filter.setMaxRating(replacement.getValue ());
 						}
 						
 					});
@@ -286,22 +300,6 @@ public class FilterFragment extends Fragment {
 		RadioButton custom = (RadioButton) root.findViewById(R.id.radio_filter_date_custom);
 		
 		// Create two listeners so that radio buttons can be unchecked when clicked twice and to allow indirect descendancy
-		OnClickListener radioClickListener = new OnClickListener()
-		{
-			@Override
-			public void onClick(View v) {
-				if (v == checkedRadio && alreadyChecked)
-				{
-					checkedRadio.setChecked(false);
-				}
-				else
-				{
-					alreadyChecked = true;
-				}
-			}
-			
-		};
-		
 		OnCheckedChangeListener radioCheckChangeListener = new OnCheckedChangeListener()
 	    {
 	        @Override
@@ -314,16 +312,85 @@ public class FilterFragment extends Fragment {
 	        }
 	    };
 	    
-	    past_month.setOnClickListener(radioClickListener);
+	    past_month.setOnClickListener(new OnClickListener ()
+	    {
+	    	@Override
+	    	public void onClick (View v) {
+	    		if (v == checkedRadio && alreadyChecked)
+	    		{
+	    			checkedRadio.setChecked(false);
+	    			
+	    			filter.setTimeFilter(Filter.NO_FILTER);
+	    		}
+	    		else
+	    		{
+	    			alreadyChecked = true;
+	    			
+	    			filter.setTimeFilter(Filter.ONE_MONTH);
+	    		}
+	    	}
+	    });
 	    past_month.setOnCheckedChangeListener(radioCheckChangeListener);
 	    
-	    past_three_month.setOnClickListener(radioClickListener);
+	    past_three_month.setOnClickListener(new OnClickListener ()
+	    {
+	    	@Override
+	    	public void onClick (View v) {
+	    		if (v == checkedRadio && alreadyChecked)
+	    		{
+	    			checkedRadio.setChecked(false);
+	    			
+	    			filter.setTimeFilter(Filter.NO_FILTER);
+	    		}
+	    		else
+	    		{
+	    			alreadyChecked = true;
+	    			
+	    			filter.setTimeFilter(Filter.THREE_MONTHS);
+	    		}
+	    	}
+	    });
 	    past_three_month.setOnCheckedChangeListener(radioCheckChangeListener);
 	    
-	    past_year.setOnClickListener(radioClickListener);
+	    past_year.setOnClickListener(new OnClickListener ()
+	    {
+	    	@Override
+	    	public void onClick (View v) {
+	    		if (v == checkedRadio && alreadyChecked)
+	    		{
+	    			checkedRadio.setChecked(false);
+	    			
+	    			filter.setTimeFilter(Filter.NO_FILTER);
+	    		}
+	    		else
+	    		{
+	    			alreadyChecked = true;
+	    			
+	    			filter.setTimeFilter(Filter.ONE_YEAR);
+	    		}
+	    	}
+	    });
 	    past_year.setOnCheckedChangeListener(radioCheckChangeListener);
 	    
-	    custom.setOnClickListener(radioClickListener);
+	    custom.setOnClickListener(new OnClickListener ()
+	    {
+	    	@Override
+	    	public void onClick (View v) {
+	    		if (v == checkedRadio && alreadyChecked)
+	    		{
+	    			checkedRadio.setChecked(false);
+	    			
+	    			filter.setTimeFilter(Filter.NO_FILTER);
+	    		}
+	    		else
+	    		{
+	    			alreadyChecked = true;
+	    			
+	    			// TODO: Add calendars to filter
+	    			filter.setTimeFilter(Filter.CUSTOM_TIME, null, null);
+	    		}
+	    	}
+	    });
 	    custom.setOnCheckedChangeListener(radioCheckChangeListener);
 		
 	}
