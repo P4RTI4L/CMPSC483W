@@ -92,8 +92,8 @@ public class DetailActivity extends Activity {
 	public void setUpCastList(ArrayList<String> castNames) {
 		TextView castList = (TextView) this.findViewById(R.id.detail_cast_list);
 		String castString = castNames.toString();
-		castString = castString.substring(1, castString.length() - 1).replace(
-				",", "\n");
+		castString = castString.substring(0, castString.length() ).replace(
+				",", "\n").replace("[", " ").replace("]", "");
 		castList.setText(castString);
 	}
 
