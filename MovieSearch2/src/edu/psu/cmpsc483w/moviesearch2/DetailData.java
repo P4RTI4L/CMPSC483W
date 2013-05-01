@@ -67,47 +67,47 @@ public class DetailData implements Parcelable {
 	// Accesssors
 
 	public boolean getAdult() {
-		return adult;
+		return this.adult;
 	}
 
 	public ArrayList<String> getGenres() {
-		return genres;
+		return this.genres;
 	}
 
 	public int getId() {
-		return id;
+		return this.id;
 	}
 
 	public String getOverview() {
-		return overview;
+		return this.overview;
 	}
 
 	public double getPopularity() {
-		return popularity;
+		return this.popularity;
 	}
 
 	public String getPosterPath() {
-		return posterPath;
+		return this.posterPath;
 	}
 
 	public String getReleaseDate() {
-		return releaseDate;
+		return this.releaseDate;
 	}
 
 	public int getRunTime() {
-		return runTime;
+		return this.runTime;
 	}
 
 	public String getTitle() {
-		return title;
+		return this.title;
 	}
 
 	public String getTagline() {
-		return tagline;
+		return this.tagline;
 	}
 
 	public double getVoteAverage() {
-		return voteAverage;
+		return this.voteAverage;
 	}
 
 	@Override
@@ -120,18 +120,18 @@ public class DetailData implements Parcelable {
 	public void writeToParcel(Parcel out, int flags) {
 		// Parcel doesn't have a writeBoolean method so write a byte with a 1 or
 		// 0 instead
-		out.writeByte((byte) (adult ? 1 : 0));
+		out.writeByte((byte) (this.adult ? 1 : 0));
 		// Write the rest of the values as normal
-		out.writeList(genres);
-		out.writeInt(id);
-		out.writeString(overview);
-		out.writeDouble(popularity);
-		out.writeString(posterPath);
-		out.writeString(releaseDate);
-		out.writeInt(runTime);
-		out.writeString(title);
-		out.writeString(tagline);
-		out.writeDouble(voteAverage);
+		out.writeList(this.genres);
+		out.writeInt(this.id);
+		out.writeString(this.overview);
+		out.writeDouble(this.popularity);
+		out.writeString(this.posterPath);
+		out.writeString(this.releaseDate);
+		out.writeInt(this.runTime);
+		out.writeString(this.title);
+		out.writeString(this.tagline);
+		out.writeDouble(this.voteAverage);
 	}
 
 	// All Parcelables MUST have a CREATOR

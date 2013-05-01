@@ -1,51 +1,53 @@
 package edu.psu.cmpsc483w.moviesearch2;
 
-import android.os.Bundle;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.support.v4.app.NavUtils;
 
 public class ResultsActivity extends SearchActivity {
 
 	private DualModel dualModel;
+	@SuppressWarnings("unused")
 	private Filter appliedFilter;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_results);
+		this.setContentView(R.layout.activity_results);
 		// Show the Up button in the action bar.
-		setupActionBar();
+		this.setupActionBar();
 
 		if (savedInstanceState == null) {
-			Intent intent = getIntent();
-			dualModel = intent.getParcelableExtra("dual");
+			Intent intent = this.getIntent();
+			this.dualModel = intent.getParcelableExtra("dual");
 		} else {
-			dualModel = savedInstanceState.getParcelable("dual");
+			this.dualModel = savedInstanceState.getParcelable("dual");
 		}
 
-		GridView gridView = (GridView) findViewById(R.id.gridview_results);
-		gridView.setAdapter(new ResultsAdapter(this, dualModel));
+		GridView gridView = (GridView) this.findViewById(R.id.gridview_results);
+		gridView.setAdapter(new ResultsAdapter(this, this.dualModel));
 
 		gridView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 
-					MovieListingData movieListingData = (MovieListingData) dualModel
-							.getData(position);
-	
-					Intent intent = new Intent(getApplicationContext(), DetailActivity.class);
-					intent.putExtra("movieId", movieListingData.getId());
-					startActivity(intent);			
+				MovieListingData movieListingData = (MovieListingData) ResultsActivity.this.dualModel
+						.getData(position);
+
+				Intent intent = new Intent(ResultsActivity.this
+						.getApplicationContext(), DetailActivity.class);
+				intent.putExtra("movieId", movieListingData.getId());
+				ResultsActivity.this.startActivity(intent);
 			}
 		});
 	}
@@ -54,7 +56,7 @@ public class ResultsActivity extends SearchActivity {
 	 * Set up the {@link android.app.ActionBar}.
 	 */
 	private void setupActionBar() {
-		getActionBar().setDisplayHomeAsUpEnabled(true);
+		this.getActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 
 	@Override
@@ -64,7 +66,7 @@ public class ResultsActivity extends SearchActivity {
 
 	@Override
 	public void onSaveInstanceState(Bundle savedInstanceState) {
-		savedInstanceState.putParcelable("dual", dualModel);
+		savedInstanceState.putParcelable("dual", this.dualModel);
 
 		super.onSaveInstanceState(savedInstanceState);
 	}
@@ -128,14 +130,13 @@ public class ResultsActivity extends SearchActivity {
 	@Override
 	public void addFilterFragment() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void removeFilterFragment() {
 		// TODO Auto-generated method stub
-		
-	}
 
+	}
 
 }

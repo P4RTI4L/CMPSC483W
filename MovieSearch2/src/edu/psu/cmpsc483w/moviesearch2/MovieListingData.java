@@ -34,7 +34,7 @@ public class MovieListingData implements Parcelable {
 		this.title = title;
 		this.id = id;
 
-		if (releaseDate == null || releaseDate.equals("null")) {
+		if ((releaseDate == null) || releaseDate.equals("null")) {
 			this.releaseDate = "Release Date Unavailable";
 		} else {
 			this.releaseDate = releaseDate;
@@ -57,37 +57,37 @@ public class MovieListingData implements Parcelable {
 		this.releaseDate = in.readString();
 		this.poster = in.readString();
 		this.rating = in.readDouble();
-		this.voteCount = in.readInt ();
+		this.voteCount = in.readInt();
 	}
 
 	// Getter methods
 
 	public boolean isAdult() {
-		return adult;
+		return this.adult;
 	}
 
 	public String getTitle() {
-		return title;
+		return this.title;
 	}
 
 	public int getId() {
-		return id;
+		return this.id;
 	}
 
 	public String getReleaseDate() {
-		return releaseDate;
+		return this.releaseDate;
 	}
 
 	public String getPosterPath() {
-		return poster;
+		return this.poster;
 	}
 
 	public double getRating() {
-		return rating;
+		return this.rating;
 	}
 
 	public int getVoteCount() {
-		return voteCount;
+		return this.voteCount;
 	}
 
 	/* Functions needed for serializing/parceling the object */
@@ -102,14 +102,14 @@ public class MovieListingData implements Parcelable {
 	public void writeToParcel(Parcel out, int flags) {
 		// Parcel doesn't have write boolean so write a 1 if true and a 0 if
 		// false
-		out.writeByte((byte) (adult ? 1 : 0));
+		out.writeByte((byte) (this.adult ? 1 : 0));
 		// Write the rest of the variables as usual
-		out.writeString(title);
-		out.writeInt(id);
-		out.writeString(releaseDate);
-		out.writeString(poster);
-		out.writeDouble(rating);
-		out.writeInt(voteCount);
+		out.writeString(this.title);
+		out.writeInt(this.id);
+		out.writeString(this.releaseDate);
+		out.writeString(this.poster);
+		out.writeDouble(this.rating);
+		out.writeInt(this.voteCount);
 	}
 
 	@Override
@@ -122,7 +122,7 @@ public class MovieListingData implements Parcelable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + Integer.valueOf(id);
+		result = (prime * result) + Integer.valueOf(this.id);
 		return result;
 	}
 

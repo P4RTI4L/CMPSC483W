@@ -21,9 +21,9 @@ public class MovieSearchModel extends PagedModel {
 	}
 
 	public MovieSearchModel(Parcel source) {
-		super (source);
-		
-		this.query = source.readString ();
+		super(source);
+
+		this.query = source.readString();
 	}
 
 	// Clears all the data in the model
@@ -44,8 +44,9 @@ public class MovieSearchModel extends PagedModel {
 	// Fetch new results with whatever method the pagedmodel uses, returns a
 	// pair object consisting the of the new
 	// results to add to the data and the total number of results
+	@Override
 	protected Pair<Object[], Integer> fetchNewResults() {
-		return synchronousMovieSearch(this.query, nextPage);
+		return synchronousMovieSearch(this.query, this.nextPage);
 	}
 
 	// Overloaded version of synchronousMovieSearch that allows for specifying
@@ -90,7 +91,7 @@ public class MovieSearchModel extends PagedModel {
 
 	@Override
 	public long getDataId(int position) {
-		MovieListingData data = (MovieListingData) getData(position);
+		MovieListingData data = (MovieListingData) this.getData(position);
 
 		if (data != null) {
 			return data.getId();
@@ -99,13 +100,13 @@ public class MovieSearchModel extends PagedModel {
 		return 0;
 	}
 
-	public void writeToParcel (Parcel dest, int flags)
-	{
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
 		super.writeToParcel(dest, flags);
-		
-		dest.writeString(query);
+
+		dest.writeString(this.query);
 	}
-	
+
 	// All Parcelables MUST have a CREATOR
 	public static final Parcelable.Creator<MovieSearchModel> CREATOR = new Parcelable.Creator<MovieSearchModel>() {
 		// Create a DetailData object from a Parcel

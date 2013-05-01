@@ -2,15 +2,14 @@ package edu.psu.cmpsc483w.moviesearch2;
 
 import java.util.ArrayList;
 
-import android.os.AsyncTask;
-import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
+import android.os.Bundle;
 import android.util.Pair;
 import android.view.Menu;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.RelativeLayout;
 
 public class DetailActivity extends Activity {
 
@@ -21,26 +20,26 @@ public class DetailActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_detail);
+		this.setContentView(R.layout.activity_detail);
 
 		if (savedInstanceState != null) {
-			detailData = savedInstanceState.getParcelable("detailData");
-			castNames = savedInstanceState.getStringArrayList("castNames");
+			this.detailData = savedInstanceState.getParcelable("detailData");
+			this.castNames = savedInstanceState.getStringArrayList("castNames");
 
-			poster = new ImageModel(this.getApplicationContext(),
+			this.poster = new ImageModel(this.getApplicationContext(),
 					R.drawable.film_reel);
 
-			setUpDetailData(detailData);
-			setUpCastList(castNames);
+			this.setUpDetailData(this.detailData);
+			this.setUpCastList(this.castNames);
 		} else {
-			Intent intent = getIntent();
+			Intent intent = this.getIntent();
 			new AsyncTaskDetailQuery().execute(
 					intent.getIntExtra("movieId", 0),
 					DetailModel.DETAIL_PRIMARY);
 			new AsyncTaskDetailQuery().execute(
 					intent.getIntExtra("movieId", 0), DetailModel.DETAIL_CAST);
 
-			poster = new ImageModel(this.getApplicationContext(),
+			this.poster = new ImageModel(this.getApplicationContext(),
 					R.drawable.film_reel);
 		}
 	}
@@ -48,14 +47,14 @@ public class DetailActivity extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.detail, menu);
+		this.getMenuInflater().inflate(R.menu.detail, menu);
 		return true;
 	}
 
 	@Override
 	public void onSaveInstanceState(Bundle savedInstanceState) {
-		savedInstanceState.putParcelable("detailData", detailData);
-		savedInstanceState.putStringArrayList("castNames", castNames);
+		savedInstanceState.putParcelable("detailData", this.detailData);
+		savedInstanceState.putStringArrayList("castNames", this.castNames);
 
 		// Always call the superclass so it can save the view hierarchy state
 		super.onSaveInstanceState(savedInstanceState);
@@ -63,20 +62,20 @@ public class DetailActivity extends Activity {
 
 	// Sets up the ui
 	public void setUpDetailData(DetailData detailData) {
-		poster.setImageViewWithUrl(
-				(ImageView) findViewById(R.id.detail_movie_poster),
+		this.poster.setImageViewWithUrl(
+				(ImageView) this.findViewById(R.id.detail_movie_poster),
 				detailData.getPosterPath(), TmdbModel.POSTER_IMAGE);
 
 		// Set the values of TextViews to their respective value
-		((TextView) findViewById(R.id.detail_movie_title)).setText(detailData
-				.getTitle());
-		((TextView) findViewById(R.id.detail_release_date)).setText(detailData
-				.getReleaseDate());
-		((TextView) findViewById(R.id.detail_rating)).setText("Rating: "
+		((TextView) this.findViewById(R.id.detail_movie_title))
+				.setText(detailData.getTitle());
+		((TextView) this.findViewById(R.id.detail_release_date))
+				.setText(detailData.getReleaseDate());
+		((TextView) this.findViewById(R.id.detail_rating)).setText("Rating: "
 				+ detailData.getVoteAverage());
-		((TextView) findViewById(R.id.detail_tagline)).setText(detailData
+		((TextView) this.findViewById(R.id.detail_tagline)).setText(detailData
 				.getTagline());
-		((TextView) findViewById(R.id.detail_running_time))
+		((TextView) this.findViewById(R.id.detail_running_time))
 				.setText("Running Time (minutes): " + detailData.getRunTime());
 
 		// Need to convert the genres list to a comma separated string
@@ -84,25 +83,25 @@ public class DetailActivity extends Activity {
 		genresList = genresList.substring(1, genresList.length() - 1).replace(
 				",", ", ");
 
-		((TextView) findViewById(R.id.detail_genre_list)).setText("Genres: "
-				+ genresList);
-		((TextView) findViewById(R.id.detail_overview_content))
+		((TextView) this.findViewById(R.id.detail_genre_list))
+				.setText("Genres: " + genresList);
+		((TextView) this.findViewById(R.id.detail_overview_content))
 				.setText(detailData.getOverview());
 	}
 
 	public void setUpCastList(ArrayList<String> castNames) {
-		TextView castList = (TextView) findViewById(R.id.detail_cast_list);
+		TextView castList = (TextView) this.findViewById(R.id.detail_cast_list);
 		String castString = castNames.toString();
 		castString = castString.substring(1, castString.length() - 1).replace(
 				",", "\n");
 		castList.setText(castString);
 	}
-	
-	public void onDestroy ()
-	{
+
+	@Override
+	public void onDestroy() {
 		super.onDestroy();
-		
-		poster.trimCache();
+
+		this.poster.trimCache();
 	}
 
 	// Web queries should always be performed asynchronously to prevent blocking
@@ -130,16 +129,19 @@ public class DetailActivity extends Activity {
 			return null;
 		}
 
+		@Override
 		@SuppressWarnings("unchecked")
 		protected void onPostExecute(Pair<Integer, Object> result) {
 			if (result != null) {
 				if (result.first == DetailModel.DETAIL_PRIMARY) {
-					detailData = (DetailData) result.second;
-					setUpDetailData(detailData);
+					DetailActivity.this.detailData = (DetailData) result.second;
+					DetailActivity.this
+							.setUpDetailData(DetailActivity.this.detailData);
 				} else {
-					castNames = new ArrayList<String>(
+					DetailActivity.this.castNames = new ArrayList<String>(
 							(ArrayList<String>) result.second);
-					setUpCastList(castNames);
+					DetailActivity.this
+							.setUpCastList(DetailActivity.this.castNames);
 				}
 			}
 		}

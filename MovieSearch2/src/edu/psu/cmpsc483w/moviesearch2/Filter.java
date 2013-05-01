@@ -28,53 +28,54 @@ public class Filter implements Parcelable {
 	private int voteThreshold;
 
 	public Filter() {
-		timeFilter = NO_FILTER;
-		ratingFilter = NO_FILTER;
-		voteFilter = NO_FILTER;
+		this.timeFilter = NO_FILTER;
+		this.ratingFilter = NO_FILTER;
+		this.voteFilter = NO_FILTER;
 
-		customTimeLower = null;
-		customTimeUpper = null;
+		this.customTimeLower = null;
+		this.customTimeUpper = null;
 
-		minRating = 0;
-		maxRating = 10;
+		this.minRating = 0;
+		this.maxRating = 10;
 
-		voteThreshold = 0;
+		this.voteThreshold = 0;
 	}
-	
+
 	public Filter(Parcel in) {
-		timeFilter = in.readInt();
-		customTimeLower = (Calendar) in.readSerializable();
-		customTimeUpper = (Calendar) in.readSerializable();
-		ratingFilter = in.readInt();
-		minRating = in.readInt();
-		maxRating = in.readInt();
-		voteFilter = in.readInt();
-		voteThreshold = in.readInt();
+		this.timeFilter = in.readInt();
+		this.customTimeLower = (Calendar) in.readSerializable();
+		this.customTimeUpper = (Calendar) in.readSerializable();
+		this.ratingFilter = in.readInt();
+		this.minRating = in.readInt();
+		this.maxRating = in.readInt();
+		this.voteFilter = in.readInt();
+		this.voteThreshold = in.readInt();
 	}
 
 	public void applyFilters(ArrayList<MovieListingData> source,
 			ArrayList<MovieListingData> dest) {
 		for (MovieListingData data : source) {
-			if (!caughtInFilter(data)) {
+			if (!this.caughtInFilter(data)) {
 				dest.add(data);
 			}
 		}
 	}
 
 	private boolean caughtInFilter(MovieListingData data) {
-		if (ratingFilter == FILTER_ENABLED) {
-			if (data.getRating() < minRating || data.getRating() > maxRating) {
+		if (this.ratingFilter == FILTER_ENABLED) {
+			if ((data.getRating() < this.minRating)
+					|| (data.getRating() > this.maxRating)) {
 				return true;
 			}
 		}
 
-		if (voteFilter == FILTER_ENABLED) {
-			if (data.getVoteCount() < voteThreshold) {
+		if (this.voteFilter == FILTER_ENABLED) {
+			if (data.getVoteCount() < this.voteThreshold) {
 				return true;
 			}
 		}
 
-		if (checkTimeFilter(data)) {
+		if (this.checkTimeFilter(data)) {
 			return true;
 		}
 
@@ -83,7 +84,7 @@ public class Filter implements Parcelable {
 
 	// Returns true if data's release date is outside of filter
 	private boolean checkTimeFilter(MovieListingData data) {
-		if (timeFilter == NO_FILTER) {
+		if (this.timeFilter == NO_FILTER) {
 			return false;
 		}
 
@@ -96,7 +97,7 @@ public class Filter implements Parcelable {
 
 		Calendar compare = Calendar.getInstance();
 
-		switch (timeFilter) {
+		switch (this.timeFilter) {
 		case ONE_MONTH:
 			compare.add(Calendar.MONTH, -1);
 
@@ -123,17 +124,18 @@ public class Filter implements Parcelable {
 
 		case CUSTOM_TIME:
 			// Sanity check
-			if (customTimeLower == null || customTimeUpper == null) {
+			if ((this.customTimeLower == null)
+					|| (this.customTimeUpper == null)) {
 				return false;
 			}
 
-			if (customTimeLower.compareTo(releaseDate) > 0) {
+			if (this.customTimeLower.compareTo(releaseDate) > 0) {
 				return true;
-			} else if (customTimeUpper.compareTo(releaseDate) < 0) {
+			} else if (this.customTimeUpper.compareTo(releaseDate) < 0) {
 				return true;
 			}
 			break;
-			
+
 		default:
 			break;
 		}
@@ -141,113 +143,99 @@ public class Filter implements Parcelable {
 		return false;
 	}
 
-	
 	// Accessors
-	
-	public int getTimeFilter()
-	{
-		return timeFilter;
+
+	public int getTimeFilter() {
+		return this.timeFilter;
 	}
-	
-	public Calendar getCustomTimeLower()
-	{
-		return customTimeLower;
+
+	public Calendar getCustomTimeLower() {
+		return this.customTimeLower;
 	}
-	
-	public Calendar getCustomTimeUpper()
-	{
-		return customTimeUpper;
+
+	public Calendar getCustomTimeUpper() {
+		return this.customTimeUpper;
 	}
-	
-	public int getRatingFilter()
-	{
-		return ratingFilter;
+
+	public int getRatingFilter() {
+		return this.ratingFilter;
 	}
-	
-	public int getMinRating()
-	{
-		return minRating;
+
+	public int getMinRating() {
+		return this.minRating;
 	}
-	
-	public int getMaxRating()
-	{
-		return maxRating;
+
+	public int getMaxRating() {
+		return this.maxRating;
 	}
-	
-	public int getVoteFilter()
-	{
-		return voteFilter;
+
+	public int getVoteFilter() {
+		return this.voteFilter;
 	}
-	
-	public int getVoteThreshold()
-	{
-		return voteThreshold;
+
+	public int getVoteThreshold() {
+		return this.voteThreshold;
 	}
-	
-	
+
 	// Returns false if filter was not changed (filter out of range)
 	public boolean setTimeFilter(int filter) {
-		if (filter < NO_FILTER || filter > CUSTOM_TIME) {
+		if ((filter < NO_FILTER) || (filter > CUSTOM_TIME)) {
 			return false;
 		}
 
-		timeFilter = filter;
+		this.timeFilter = filter;
 
 		return true;
 	}
 
 	// Returns false if filter was not changed (filter out of range)
 	public boolean setTimeFilter(int filter, Calendar lower, Calendar upper) {
-		if (!setTimeFilter(filter)) {
+		if (!this.setTimeFilter(filter)) {
 			return false;
 		}
 
-		customTimeLower = lower;
-		customTimeUpper = upper;
+		this.customTimeLower = lower;
+		this.customTimeUpper = upper;
 
 		return true;
 	}
-	
-	public void setUpperTimeLimit (Calendar upper)
-	{
+
+	public void setUpperTimeLimit(Calendar upper) {
 		this.customTimeUpper = upper;
 	}
-	
-	public void setLowerTimeLimit (Calendar lower)
-	{
+
+	public void setLowerTimeLimit(Calendar lower) {
 		this.customTimeLower = lower;
 	}
 
 	public void enableRatingFilter(int min, int max) {
-		ratingFilter = FILTER_ENABLED;
+		this.ratingFilter = FILTER_ENABLED;
 
-		minRating = min;
+		this.minRating = min;
 
-		maxRating = max;
+		this.maxRating = max;
 	}
-	
-	public void setMinRating (int min)
-	{
-		minRating = min;
+
+	public void setMinRating(int min) {
+		this.minRating = min;
 	}
-	
-	public void setMaxRating (int max)
-	{
-		maxRating = max;
+
+	public void setMaxRating(int max) {
+		this.maxRating = max;
 	}
 
 	public void disableRatingFilter() {
-		ratingFilter = NO_FILTER;
+		this.ratingFilter = NO_FILTER;
 	}
 
 	public void enableVoteFilter(int threshold) {
-		voteFilter = FILTER_ENABLED;
+		this.voteFilter = FILTER_ENABLED;
 
-		voteThreshold = threshold;
+		this.voteThreshold = threshold;
 	}
 
 	public void disableVoteFilter() {
-		voteFilter = NO_FILTER;
+		this.voteFilter = NO_FILTER;
 	}
 
 	@Override
@@ -258,16 +246,16 @@ public class Filter implements Parcelable {
 
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeInt(timeFilter);
-		dest.writeSerializable(customTimeLower);
-		dest.writeSerializable(customTimeUpper);
-		dest.writeInt(ratingFilter);
-		dest.writeInt(minRating);
-		dest.writeInt(maxRating);
-		dest.writeInt(voteFilter);
-		dest.writeInt(voteThreshold);
+		dest.writeInt(this.timeFilter);
+		dest.writeSerializable(this.customTimeLower);
+		dest.writeSerializable(this.customTimeUpper);
+		dest.writeInt(this.ratingFilter);
+		dest.writeInt(this.minRating);
+		dest.writeInt(this.maxRating);
+		dest.writeInt(this.voteFilter);
+		dest.writeInt(this.voteThreshold);
 	}
-	
+
 	// All Parcelables MUST have a CREATOR
 	public static final Parcelable.Creator<Filter> CREATOR = new Parcelable.Creator<Filter>() {
 		// Create a DetailData object from a Parcel

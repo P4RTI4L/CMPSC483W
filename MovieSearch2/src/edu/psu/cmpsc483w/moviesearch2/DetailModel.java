@@ -1,6 +1,7 @@
 package edu.psu.cmpsc483w.moviesearch2;
 
 import java.util.ArrayList;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
