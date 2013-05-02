@@ -70,6 +70,8 @@ public class DetailActivity extends Activity {
 				(ImageView) this.findViewById(R.id.detail_movie_poster),
 				detailData.getPosterPath(), TmdbModel.POSTER_IMAGE);
 
+		this.setTitle(detailData.getTitle());
+		
 		// Set the values of TextViews to their respective value
 		((TextView) this.findViewById(R.id.detail_movie_title))
 				.setText(detailData.getTitle());
@@ -96,6 +98,7 @@ public class DetailActivity extends Activity {
 		
 		((LinearLayout)this.findViewById(R.id.detail_content_wrapper)).setVisibility(View.VISIBLE);
 		((ProgressBar)this.findViewById(R.id.progressBar_detail_waiting)).setVisibility(View.GONE);
+		
 	}
 
 	public void setUpCastList(ArrayList<String> castNames) {
