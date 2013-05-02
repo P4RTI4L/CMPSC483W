@@ -53,7 +53,7 @@ public class FilterFragment extends Fragment {
 	public interface FilterFragmentReceiver {
 		public void handleFilterData(Filter filter, ActorSearchModel exclude);
 
-		public void removeFragment(Filter filter, ActorSearchModel exclude);
+		public void fragmentFinished(Filter filter, ActorSearchModel exclude);
 	};
 
 	@Override
@@ -74,9 +74,8 @@ public class FilterFragment extends Fragment {
 		close.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				FilterFragment.this.callback
-						.removeFragment(FilterFragment.this.filter,
+						.fragmentFinished(FilterFragment.this.filter,
 								FilterFragment.this.exclude);
 			}
 		});

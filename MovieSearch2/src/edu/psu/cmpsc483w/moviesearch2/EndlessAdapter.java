@@ -18,9 +18,9 @@ public abstract class EndlessAdapter extends BaseAdapter {
 
 	private View waitingView;
 
-	private final static int LOADING_VIEW = 0;
-	private final static int CONTENT_VIEW = 1;
-	private final static int NO_RESULTS_VIEW = 2;
+	protected final static int LOADING_VIEW = 0;
+	protected final static int CONTENT_VIEW = 1;
+	protected final static int NO_RESULTS_VIEW = 2;
 
 	public EndlessAdapter(Context context, CachedDataSource data,
 			View loadingView, View noResultsView) {
@@ -141,11 +141,21 @@ public abstract class EndlessAdapter extends BaseAdapter {
 				convertView = this.createView(inflater);
 			}
 
+		
 			Object contentData = this.data.getData(position);
-
-			this.customiseContentView(convertView, contentData);
-
-			return convertView;
+			
+			if (contentData != null)
+			{
+				this.customiseContentView(convertView, contentData);
+				
+				return convertView;
+			}
+			else {
+				return this.waitingView;
+			}
+				
+			
+			
 		} else {
 			return this.noResultsView;
 		}

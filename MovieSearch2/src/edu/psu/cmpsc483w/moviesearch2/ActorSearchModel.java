@@ -257,6 +257,15 @@ public class ActorSearchModel implements CachedDataSource, Parcelable {
 		return this.results.get(position);
 
 	}
+	
+	public ArrayList<MovieListingData> getFilteredData(Filter filter) {
+		ArrayList<MovieListingData> destination = new ArrayList<MovieListingData>();
+		
+		filter.applyFilters(results, destination);
+		
+		return destination;
+	}
+	
 
 	@Override
 	public long getDataId(int position) {

@@ -16,9 +16,7 @@ import android.widget.TextView;
 public class ResultsActivity extends SearchActivity {
 
 	private DualModel dualModel;
-	@SuppressWarnings("unused")
-	private Filter appliedFilter;
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -29,8 +27,10 @@ public class ResultsActivity extends SearchActivity {
 		if (savedInstanceState == null) {
 			Intent intent = this.getIntent();
 			this.dualModel = intent.getParcelableExtra("dual");
+			this.appliedFilter = intent.getParcelableExtra("filter");
 		} else {
 			this.dualModel = savedInstanceState.getParcelable("dual");
+			this.appliedFilter = savedInstanceState.getParcelable("filter");
 		}
 
 		GridView gridView = (GridView) this.findViewById(R.id.gridview_results);
@@ -67,7 +67,8 @@ public class ResultsActivity extends SearchActivity {
 	@Override
 	public void onSaveInstanceState(Bundle savedInstanceState) {
 		savedInstanceState.putParcelable("dual", this.dualModel);
-
+		savedInstanceState.putParcelable("filter", this.appliedFilter);
+		
 		super.onSaveInstanceState(savedInstanceState);
 	}
 
@@ -98,6 +99,38 @@ public class ResultsActivity extends SearchActivity {
 		public ResultsAdapter(Context context, CachedDataSource data) {
 			super(context, data, null, null);
 		}
+		
+		@Override
+		public int getCount() {
+			int dataCount = dualModel.getDataCount();
+			int cachedCount = dualModel.getCachedDataCount();
+			int filteredCount = dualModel.getFilteredDataCount();
+
+			// More items to load
+			if (cachedCount < dataCount) {
+				return filteredCount + 1;
+			}
+			// No items to load
+			else if (filteredCount == 0) {
+				return 1;
+			}
+			// All items loaded
+			else {
+				return filteredCount;
+			}
+		}
+
+		@Override
+		public int getItemViewType(int position) {
+			if ((dualModel.getCachedDataCount() == dualModel.getDataCount())
+					&& dualModel.getFilteredDataCount() == 0) {
+				return NO_RESULTS_VIEW;
+			} else if (position == dualModel.getFilteredDataCount()) {
+				return LOADING_VIEW;
+			} else {
+				return CONTENT_VIEW;
+			}
+		}
 
 		@Override
 		protected void customiseContentView(View convertView, Object contentData) {
@@ -125,6 +158,13 @@ public class ResultsActivity extends SearchActivity {
 
 			return contentView;
 		}
+		
+		@Override
+		public void notifyDataCached() {
+			dualModel.reapplyFilter();
+			super.notifyDataCached();
+		}
+
 	}
 
 	@Override

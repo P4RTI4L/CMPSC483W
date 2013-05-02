@@ -184,13 +184,19 @@ public class ContentActivity extends SearchActivity {
 
 		transaction.commit();
 	}
-
+	
 	@Override
-	public void removeFilterFragment() {
-
-		super.removeFilterFragment();
-
-		this.getFragmentManager().popBackStack();
+	public void handleFilterData(Filter filter, ActorSearchModel exclude) {
+		super.handleFilterData(filter, exclude);
+		
+		dualModel.setNewFilter(filter);
+		dualModel.setActorSearchModel(exclude);
 	}
+	
+	@Override
+	public void fragmentFinished(Filter filter, ActorSearchModel exclude) {
+		super.fragmentFinished(filter, exclude);
+	}
+
 
 }

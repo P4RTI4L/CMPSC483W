@@ -1,5 +1,8 @@
 package edu.psu.cmpsc483w.moviesearch2;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -105,6 +108,19 @@ public class MovieSearchModel extends PagedModel {
 		super.writeToParcel(dest, flags);
 
 		dest.writeString(this.query);
+	}
+	
+	public ArrayList<MovieListingData> getFilteredData(Filter filter) {
+		ArrayList<MovieListingData> destination = new ArrayList<MovieListingData>();
+		ArrayList<MovieListingData> source = new ArrayList<MovieListingData>();
+		
+		for (Object object : this.data) {
+			source.add((MovieListingData)object);
+		}
+		
+		filter.applyFilters(source, destination);
+		
+		return destination;
 	}
 
 	// All Parcelables MUST have a CREATOR

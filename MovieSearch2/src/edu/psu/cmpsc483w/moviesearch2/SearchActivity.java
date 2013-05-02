@@ -213,7 +213,7 @@ public class SearchActivity extends Activity implements
 	 * edu.psu.cmpsc483w.moviesearch2.ActorSearchModel)
 	 */
 	@Override
-	public void removeFragment(Filter filter, ActorSearchModel exclude) {
+	public void fragmentFinished(Filter filter, ActorSearchModel exclude) {
 		this.handleFilterData(filter, exclude);
 		this.removeFilterFragment();
 	}
