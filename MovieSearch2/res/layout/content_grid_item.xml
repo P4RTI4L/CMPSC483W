@@ -8,17 +8,30 @@
         android:id="@+id/imageview_content_grid_item"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:scaleType="fitCenter" />
+        android:scaleType="fitCenter"
+        android:layout_marginRight="10dp" />
     <TextView 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textview_content_grid_item_title"
         android:layout_toRightOf="@id/imageview_content_grid_item"
-        android:layout_alignParentTop="true" />
+        android:layout_alignParentTop="true"
+        style="@style/ListItemNormal" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textview_content_grid_item_release_date"
         android:layout_toRightOf="@id/imageview_content_grid_item"
-        android:layout_below="@id/textview_content_grid_item_title" />
+        android:layout_below="@id/textview_content_grid_item_title"
+        style="@style/ListItemNormal" />
+    <RatingBar
+        android:id="@+id/ratingBar_movie_rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/imageview_content_grid_item"
+        android:layout_below="@id/textview_content_grid_item_release_date"
+        android:numStars="5"
+        android:stepSize="0.5"
+        style="?android:attr/ratingBarStyleSmall" />
+
 </RelativeLayout>

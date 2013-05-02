@@ -8,7 +8,11 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Pair;
 import android.view.Menu;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 public class DetailActivity extends Activity {
@@ -71,8 +75,10 @@ public class DetailActivity extends Activity {
 				.setText(detailData.getTitle());
 		((TextView) this.findViewById(R.id.detail_release_date))
 				.setText(detailData.getReleaseDate());
-		((TextView) this.findViewById(R.id.detail_rating)).setText("Rating: "
-				+ detailData.getVoteAverage());
+		((TextView) this.findViewById(R.id.textview_detail_rating)).setText(" ("
+				+ detailData.getVoteAverage()+")");
+		((RatingBar) this.findViewById(R.id.ratingBar_detail_rating)).setRating(
+				(float) (detailData.getVoteAverage()/2));
 		((TextView) this.findViewById(R.id.detail_tagline)).setText(detailData
 				.getTagline());
 		((TextView) this.findViewById(R.id.detail_running_time))
@@ -87,6 +93,9 @@ public class DetailActivity extends Activity {
 				.setText("Genres: " + genresList);
 		((TextView) this.findViewById(R.id.detail_overview_content))
 				.setText(detailData.getOverview());
+		
+		((LinearLayout)this.findViewById(R.id.detail_content_wrapper)).setVisibility(View.VISIBLE);
+		((ProgressBar)this.findViewById(R.id.progressBar_detail_waiting)).setVisibility(View.GONE);
 	}
 
 	public void setUpCastList(ArrayList<String> castNames) {

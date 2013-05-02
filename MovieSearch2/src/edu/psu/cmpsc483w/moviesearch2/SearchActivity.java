@@ -94,6 +94,13 @@ public class SearchActivity extends Activity implements
 					int position, long id) {
 				// TODO Auto-generated method stub
 				SearchActivity.this.searchTypeSelected = position;
+				FilterFragment filterFragment = (FilterFragment) getFragmentManager().
+						findFragmentByTag(FilterFragment.TAG);
+				
+				if (filterFragment != null) {
+					filterFragment.showExcludeActors(filterFragment.getView(), 
+							position == SEARCH_SPINNER_VALUE_CAST);
+				}
 			}
 
 			@Override

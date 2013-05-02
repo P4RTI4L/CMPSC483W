@@ -186,7 +186,8 @@ public class ContentActivity extends SearchActivity {
 		super.addFilterFragment();
 
 		FilterFragment filterFragment = FilterFragment
-				.newInstance(this.appliedFilter, this.dualModel.getActorSearchModel());
+				.newInstance(this.appliedFilter, this.dualModel.getActorSearchModel(),
+						this.searchTypeSelected == SearchActivity.SEARCH_SPINNER_VALUE_CAST);
 
 		FragmentTransaction transaction = this.getFragmentManager()
 				.beginTransaction();
@@ -219,9 +220,6 @@ public class ContentActivity extends SearchActivity {
 		
 		dualModel.setNewFilter(filter);
 		dualModel.setActorSearchModel(exclude);
-		for (ActorData data : dualModel.getActorSearchModel().getExcludeActors()) {
-			Log.i("TEST",data.getName());
-		}
 	}
 	
 	@Override

@@ -3,8 +3,8 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content" >
     <ImageView
-        android:layout_width="50dp"
-        android:layout_height="75dp"
+        android:layout_width="60dp"
+        android:layout_height="90dp"
         android:id="@+id/imageview_actor_subsearch_grid_item"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
@@ -13,6 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textview_actor_subsearch_grid_item_name"
+        android:layout_marginLeft="10dp"
         android:layout_toRightOf="@id/imageview_actor_subsearch_grid_item"
         android:layout_centerVertical="true" />
 </RelativeLayout>

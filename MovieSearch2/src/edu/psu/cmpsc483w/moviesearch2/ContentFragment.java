@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 public class ContentFragment extends Fragment {
@@ -91,6 +92,7 @@ public class ContentFragment extends Fragment {
 			TextView title;
 			TextView date;
 			ImageView icon;
+			RatingBar rating;
 		}
 
 		public TopicContentAdapter(Context context, CachedDataSource data) {
@@ -105,31 +107,18 @@ public class ContentFragment extends Fragment {
 
 			viewHolder.title.setText(movieData.getTitle());
 			viewHolder.date.setText(movieData.getReleaseDate());
-
+			
+			if (movieData.getVoteCount() > 0) {
+				viewHolder.rating.setVisibility(View.VISIBLE);
+				viewHolder.rating.setRating((float) (movieData.getRating()/2));
+			} else {
+				viewHolder.rating.setVisibility(View.GONE);
+			}
 			// Replace it with the no image resource temporarily (or permanently
 			// if there is none)
 
 			ContentFragment.this.image.setImageViewWithUrl(viewHolder.icon,
 					movieData.getPosterPath(), TmdbModel.POSTER_IMAGE);
-
-			/*
-			 * viewHolder.icon.setImageResource(R.drawable.film_reel);
-			 * 
-			 * // If the view previously had an asynctask and that id isn't the
-			 * same, cancel it if (viewHolder.async != null &&
-			 * viewHolder.async.id != movieData.getId()) {
-			 * viewHolder.async.cancel(true); }
-			 * 
-			 * AsyncTaskImageQuery task = new
-			 * AsyncTaskImageQuery(viewHolder.icon, movieData.getId());
-			 * viewHolder.async = task;
-			 * 
-			 * if (!movieData.getPosterPath().equals("")) {
-			 * task.execute(movieData.getPosterPath(),"200"); }
-			 */
-
-			// new AsyncTaskImageQuery(viewHolder.icon,
-			// movieData.getId()).execute(movieData.getPosterPath(),"200");
 		}
 
 		@Override
@@ -145,36 +134,12 @@ public class ContentFragment extends Fragment {
 					.findViewById(R.id.textview_content_grid_item_release_date);
 			viewHolder.icon = (ImageView) contentView
 					.findViewById(R.id.imageview_content_grid_item);
-
+			viewHolder.rating = (RatingBar) contentView
+					.findViewById(R.id.ratingBar_movie_rating);
 			contentView.setTag(viewHolder);
 
 			return contentView;
 		}
 	}
-
-	// Web queries should always be performed asynchronously to prevent blocking
-	// the UI thread, for this purpose
-	// an AsyncTask is needed to update the interface as data is ready
-	/*
-	 * private class AsyncTaskImageQuery extends AsyncTask<String, Void, Bitmap>
-	 * {
-	 * 
-	 * private ImageView imageView; public int id;
-	 * 
-	 * public AsyncTaskImageQuery(ImageView image, int id) { imageView = image;
-	 * this.id = id; }
-	 * 
-	 * @Override protected Bitmap doInBackground(String... params) {
-	 * 
-	 * String url = params[0]; String width = params[1];
-	 * 
-	 * return ImageModel.synchronousTmdbRelativeImageDownload(url,
-	 * TmdbModel.POSTER_IMAGE, Integer.valueOf(width));
-	 * 
-	 * }
-	 * 
-	 * protected void onPostExecute(Bitmap result) { if (result != null) {
-	 * imageView.setImageBitmap(result); } } }
-	 */
 
 }

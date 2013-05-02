@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 public class ResultsActivity extends SearchActivity {
@@ -107,6 +108,7 @@ public class ResultsActivity extends SearchActivity {
 			TextView title;
 			TextView date;
 			ImageView poster;
+			RatingBar rating;
 		}
 
 		public ResultsAdapter(Context context, CachedDataSource data) {
@@ -154,6 +156,13 @@ public class ResultsActivity extends SearchActivity {
 			viewHolder.title.setText(movieData.getTitle());
 			viewHolder.date.setText(movieData.getReleaseDate());
 			
+			if (movieData.getVoteCount() > 0) {
+				viewHolder.rating.setVisibility(View.VISIBLE);
+				viewHolder.rating.setRating((float) (movieData.getRating()/2));
+			} else {
+				viewHolder.rating.setVisibility(View.GONE);
+			}
+			
 			ResultsActivity.this.image.setImageViewWithUrl(viewHolder.poster,
 					movieData.getPosterPath(), TmdbModel.POSTER_IMAGE);
 		}
@@ -170,6 +179,7 @@ public class ResultsActivity extends SearchActivity {
 			viewHolder.date = (TextView) contentView
 					.findViewById(R.id.textview_content_grid_item_release_date);
 			viewHolder.poster = (ImageView) contentView.findViewById(R.id.imageview_content_grid_item);
+			viewHolder.rating = (RatingBar) contentView.findViewById(R.id.ratingBar_movie_rating);
 			
 			contentView.setTag(viewHolder);
 

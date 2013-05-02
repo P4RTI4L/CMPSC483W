@@ -8,96 +8,125 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".DetailActivity" >
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" >
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-
-            <ImageView
-                android:id="@+id/detail_movie_poster"
-                android:layout_width="200dp"
-                android:layout_height="300dp"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true" />
-
-            <LinearLayout
-                android:id="@+id/detail_info_wrapper"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/detail_movie_poster"
-                android:orientation="vertical" >
-
-                <TextView
-                    android:id="@+id/detail_movie_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Title" />
-
-                <TextView
-                    android:id="@+id/detail_release_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Date" />
-            
-                <TextView
-                    android:id="@+id/detail_rating"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Rating" />
-
-                <TextView
-                    android:id="@+id/detail_tagline_header"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Tagline:" />
-
-                <TextView
-                    android:id="@+id/detail_tagline"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Tagline" />
-
-                <TextView
-                    android:id="@+id/detail_running_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Running time" />
-
-                <TextView
-                    android:id="@+id/detail_genre_list"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Genre List" />
-            </LinearLayout>
-        </RelativeLayout>
-
-        <TextView
-            android:id="@+id/detail_overview_header"
+        android:layout_height="wrap_content" >
+        <ProgressBar 
+            android:id="@+id/progressBar_detail_waiting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Overview" />
-
-        <TextView
-            android:id="@+id/detail_overview_content"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Overview Content" />
-
-        <TextView
-            android:id="@+id/detail_cast_list_header"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Cast" />
-
-        <TextView
-            android:id="@+id/detail_cast_list"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
-        </TextView>
-    </LinearLayout>
-
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_gravity="center_vertical|center_horizontal" />
+	    <LinearLayout
+	        android:id="@+id/detail_content_wrapper"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="vertical"
+	        android:visibility="gone" >
+	
+	        <RelativeLayout
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content" >
+	
+	            <ImageView
+	                android:id="@+id/detail_movie_poster"
+	                android:layout_width="160dp"
+	                android:layout_height="240dp"
+	                android:layout_alignParentLeft="true"
+	                android:layout_alignParentTop="true"
+	                android:paddingRight="10dp" />
+	
+	            <LinearLayout
+	                android:id="@+id/detail_info_wrapper"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                android:layout_alignTop="@id/detail_movie_poster"
+	                android:layout_toRightOf="@id/detail_movie_poster"
+	                android:orientation="vertical" >
+	
+	                <TextView
+	                    android:id="@+id/detail_movie_title"
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="wrap_content"
+	                    android:text="Title"
+	                    style="@style/LayoutHeader" />
+	
+	                <TextView
+	                    android:id="@+id/detail_release_date"
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="wrap_content"
+	                    android:text="Date"
+	                    style="@style/LayoutHeader" />
+	            
+	                <LinearLayout
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="wrap_content"
+	                    android:orientation="horizontal">
+	                    <RatingBar
+	                        android:id="@+id/ratingBar_detail_rating"
+	                        android:layout_width="wrap_content"
+	                        android:layout_height="wrap_content"
+	                        android:numStars="5"
+	        				android:stepSize="0.5"
+	        				style="?android:attr/ratingBarStyleSmall"
+	        				android:layout_gravity="center_vertical" />
+		                <TextView
+		                    android:id="@+id/textview_detail_rating"
+		                    android:layout_width="wrap_content"
+		                    android:layout_height="wrap_content"
+		                    android:text="Rating"
+		                    style="@style/LayoutHeader" />
+					</LinearLayout>
+	            </LinearLayout>
+	        </RelativeLayout>
+	 		<TextView
+	           android:id="@+id/detail_tagline_header"
+	           android:layout_width="wrap_content"
+	           android:layout_height="wrap_content"
+	           android:text="Tagline:"
+	           style="@style/LayoutHeader" />"
+	       <TextView
+	           android:id="@+id/detail_tagline"
+	           android:layout_width="wrap_content"
+	           android:layout_height="wrap_content" />
+	       <TextView
+	           android:id="@+id/detail_running_time"
+	           android:layout_width="wrap_content"
+	           android:layout_height="wrap_content"
+	           android:text="Running time"
+	           style="@style/LayoutHeader" />
+	
+	       <TextView
+	           android:id="@+id/detail_genre_list"
+	           android:layout_width="wrap_content"
+	           android:layout_height="wrap_content"
+	           android:text="Genre List"
+	           style="@style/LayoutHeader" />
+	        <TextView
+	            android:id="@+id/detail_overview_header"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="Overview"
+	            style="@style/LayoutHeader" />
+	
+	        <TextView
+	            android:id="@+id/detail_overview_content"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="Overview Content" />
+	
+	        <TextView
+	            android:id="@+id/detail_cast_list_header"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="Cast"
+	            style="@style/LayoutHeader" />
+	
+	        <TextView
+	            android:id="@+id/detail_cast_list"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content" >
+	        </TextView>
+	    </LinearLayout>
+	</FrameLayout>
 </ScrollView>

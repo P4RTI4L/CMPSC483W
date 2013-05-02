@@ -27,12 +27,13 @@
 		    <LinearLayout
 		        android:layout_width="match_parent"
 		        android:layout_height="wrap_content"
-		        android:id="@+id/filter_exclude_cast"
+		        android:id="@+id/filter_exclude_cast_wrapper"
 		        android:orientation="vertical">
 		        <TextView
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
-		            android:text="@string/filter_exclude_cast_header" />
+		            android:text="@string/filter_exclude_cast_header"
+		            style="@style/LayoutHeader" />
 		        <LinearLayout
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
@@ -56,7 +57,8 @@
 		        <TextView 
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
-		            android:text="@string/filter_vote_header" />
+		            android:text="@string/filter_vote_header"
+		            style="@style/LayoutHeader" />"
 				<LinearLayout
 				    android:id="@+id/filter_vote_range"
 				    android:layout_width="wrap_content"
@@ -135,7 +137,8 @@
 				<TextView
 				    android:layout_width="wrap_content"
 				    android:layout_height="wrap_content"
-				    android:text="@string/filter_date_header" />
+				    android:text="@string/filter_date_header"
+				    style="@style/LayoutHeader" />
 	            <RadioButton
 	                android:id="@+id/radio_filter_date_past_month"
 	                android:layout_width="wrap_content"

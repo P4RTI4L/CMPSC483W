@@ -59,6 +59,9 @@ public class FilterFragment extends Fragment {
 	private ActorSearchModel exclude;
 
 	private FilterFragmentReceiver callback;
+	
+	// Whether to show the exclude actors section
+	private boolean showExclude;
 
 	public interface FilterFragmentReceiver {
 		public void handleFilterData(Filter filter, ActorSearchModel exclude);
@@ -74,6 +77,8 @@ public class FilterFragment extends Fragment {
 		View view = inflater
 				.inflate(R.layout.fragment_filter, container, false);
 
+		this.showExcludeActors(view, showExclude);
+		
 		this.setUpVoteNumberPickers(view);
 		this.setUpCustomRadio(view);
 		this.setUpDatePickers(view);
@@ -104,9 +109,11 @@ public class FilterFragment extends Fragment {
 		if (savedInstanceState == null) {
 			this.filter = this.getArguments().getParcelable("filter");
 			this.exclude = this.getArguments().getParcelable("exclude");
+			this.showExclude = this.getArguments().getBoolean("showExclude");
 		} else {
 			this.filter = savedInstanceState.getParcelable("filter");
 			this.exclude = savedInstanceState.getParcelable("exclude");
+			this.showExclude = savedInstanceState.getBoolean("showExclude");
 		}
 	}
 
@@ -114,7 +121,8 @@ public class FilterFragment extends Fragment {
 	public void onSaveInstanceState(Bundle savedInstanceState) {
 		savedInstanceState.putParcelable("filter", this.filter);
 		savedInstanceState.putParcelable("exclude", this.exclude);
-
+		savedInstanceState.putBoolean("showExclude", showExclude);
+		
 		super.onSaveInstanceState(savedInstanceState);
 	}
 
@@ -159,12 +167,13 @@ public class FilterFragment extends Fragment {
 		return newItem;
 	}
 	
-	public static final FilterFragment newInstance(Filter defaultSettings, ActorSearchModel exclude) {
+	public static final FilterFragment newInstance(Filter defaultSettings, ActorSearchModel exclude, boolean showExclude) {
 		FilterFragment filterFragment = new FilterFragment();
 
 		Bundle bundle = new Bundle(1);
 		bundle.putParcelable("filter", defaultSettings);
 		bundle.putParcelable("exclude", exclude);
+		bundle.putBoolean("showExclude", showExclude);
 		filterFragment.setArguments(bundle);
 
 		return filterFragment;
@@ -176,6 +185,13 @@ public class FilterFragment extends Fragment {
 	
 	public ActorSearchModel requestActorSearchModel() {
 		return this.exclude;
+	}
+	
+	public void showExcludeActors(View view, boolean showExclude) {
+		LinearLayout wrapper = (LinearLayout)view
+				.findViewById(R.id.filter_exclude_cast_wrapper);
+		
+		wrapper.setVisibility(showExclude ? View.VISIBLE : View.GONE);
 	}
 	
 	private void setUpSearchView(View view) {
