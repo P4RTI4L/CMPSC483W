@@ -13,10 +13,12 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnKeyListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
@@ -113,6 +115,7 @@ public class FilterFragment extends Fragment {
 
 	public static final FilterFragment newInstance(Filter defaultSettings) {
 		FilterFragment filterFragment = new FilterFragment();
+
 		Bundle bundle = new Bundle(1);
 		bundle.putParcelable("filter", defaultSettings);
 		filterFragment.setArguments(bundle);
@@ -122,6 +125,10 @@ public class FilterFragment extends Fragment {
 
 	public Filter requestFilter() {
 		return this.filter;
+	}
+	
+	public ActorSearchModel requestActorSearchModel() {
+		return this.exclude;
 	}
 
 	private void setUpInterface(View view, Filter filter,

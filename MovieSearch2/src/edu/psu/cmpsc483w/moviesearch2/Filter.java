@@ -1,10 +1,16 @@
 package edu.psu.cmpsc483w.moviesearch2;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.format.DateFormat;
+import android.util.Log;
 
 public class Filter implements Parcelable {
 
@@ -89,12 +95,15 @@ public class Filter implements Parcelable {
 		}
 
 		Calendar releaseDate = Calendar.getInstance();
-
+		Log.i("PREMPT", data.getReleaseDate());
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+		try {
+			releaseDate.setTime(df.parse(data.getReleaseDate()));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			
+		}
 		// TMDb always sends dates as YYYY-MM-DD
-		releaseDate.set(Integer.valueOf(data.getReleaseDate().substring(0, 3)),
-				Integer.valueOf(data.getReleaseDate().substring(5, 6)),
-				Integer.valueOf(data.getReleaseDate().substring(8, 9)));
-
 		Calendar compare = Calendar.getInstance();
 
 		switch (this.timeFilter) {

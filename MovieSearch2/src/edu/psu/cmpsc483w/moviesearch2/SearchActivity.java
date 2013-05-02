@@ -3,6 +3,7 @@ package edu.psu.cmpsc483w.moviesearch2;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -216,5 +217,16 @@ public class SearchActivity extends Activity implements
 	public void fragmentFinished(Filter filter, ActorSearchModel exclude) {
 		this.handleFilterData(filter, exclude);
 		this.removeFilterFragment();
+	}
+	
+	@Override
+	public void onBackPressed() {
+
+		if (this.isFilterVisible) {
+			this.removeFilterFragment();
+		}
+		else {
+			super.onBackPressed();
+		}
 	}
 }

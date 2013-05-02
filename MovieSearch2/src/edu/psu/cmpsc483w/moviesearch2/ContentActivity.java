@@ -6,8 +6,12 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnKeyListener;
 import android.widget.ArrayAdapter;
 import android.widget.SearchView;
 import android.widget.Spinner;
@@ -179,10 +183,27 @@ public class ContentActivity extends SearchActivity {
 		FragmentTransaction transaction = this.getFragmentManager()
 				.beginTransaction();
 
-		transaction.replace(R.id.content_wrapper, filterFragment);
+		transaction.replace(R.id.content_wrapper, filterFragment, "filter");
+		
 		transaction.addToBackStack(null);
 
 		transaction.commit();
+	}
+	
+	@Override
+	public void removeFilterFragment() {
+		FilterFragment filterFragment = (FilterFragment) getFragmentManager().findFragmentByTag("filter");
+		
+		if (filterFragment != null) {
+			Filter filter = filterFragment.requestFilter();
+			ActorSearchModel exclude = filterFragment.requestActorSearchModel();
+			
+			this.handleFilterData(filter, exclude);
+			Log.i("Hi","Bye");
+		}
+		
+		super.removeFilterFragment();
+		getFragmentManager().popBackStack();
 	}
 	
 	@Override
@@ -196,6 +217,7 @@ public class ContentActivity extends SearchActivity {
 	@Override
 	public void fragmentFinished(Filter filter, ActorSearchModel exclude) {
 		super.fragmentFinished(filter, exclude);
+		
 	}
 
 
