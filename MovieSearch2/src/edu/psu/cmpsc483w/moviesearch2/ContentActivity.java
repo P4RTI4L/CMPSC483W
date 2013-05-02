@@ -118,6 +118,7 @@ public class ContentActivity extends SearchActivity {
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
 		// Look for the request code
 		if (requestCode == ACTOR_SUBSEARCH_REQUEST) {
 			// Check that it was successful
@@ -185,12 +186,12 @@ public class ContentActivity extends SearchActivity {
 		super.addFilterFragment();
 
 		FilterFragment filterFragment = FilterFragment
-				.newInstance(this.appliedFilter);
+				.newInstance(this.appliedFilter, this.dualModel.getActorSearchModel());
 
 		FragmentTransaction transaction = this.getFragmentManager()
 				.beginTransaction();
 
-		transaction.replace(R.id.content_wrapper, filterFragment, "filter");
+		transaction.replace(R.id.content_wrapper, filterFragment, FilterFragment.TAG);
 		
 		transaction.addToBackStack(null);
 
@@ -199,7 +200,7 @@ public class ContentActivity extends SearchActivity {
 	
 	@Override
 	public void removeFilterFragment() {
-		FilterFragment filterFragment = (FilterFragment) getFragmentManager().findFragmentByTag("filter");
+		FilterFragment filterFragment = (FilterFragment) getFragmentManager().findFragmentByTag(FilterFragment.TAG);
 		
 		if (filterFragment != null) {
 			Filter filter = filterFragment.requestFilter();
@@ -218,6 +219,9 @@ public class ContentActivity extends SearchActivity {
 		
 		dualModel.setNewFilter(filter);
 		dualModel.setActorSearchModel(exclude);
+		for (ActorData data : dualModel.getActorSearchModel().getExcludeActors()) {
+			Log.i("TEST",data.getName());
+		}
 	}
 	
 	@Override

@@ -67,7 +67,7 @@ public class ActorSearchModel implements CachedDataSource, Parcelable {
 		this.excludeStatus = new ArrayList<Integer>();
 		this.excludeResults = new ArrayList<MovieListingData[]>();
 
-		in.readList(this.excludeActors, null);
+		in.readList(this.excludeActors, ActorData.class.getClassLoader());
 		in.readList(this.excludeStatus, null);
 		in.readList(this.excludeResults, null);
 
@@ -119,7 +119,7 @@ public class ActorSearchModel implements CachedDataSource, Parcelable {
 
 	// Adds an actor to exclude, returns true if successful, false otherwise
 	public boolean addExcludeActor(ActorData actorExclude) {
-		if (this.isActorExcluded(actorExclude)
+		if (!this.isActorExcluded(actorExclude)
 				&& (actorExclude != this.actorQuery)) {
 			this.excludeActors.add(actorExclude);
 			this.excludeResults.add(new MovieListingData[] {});

@@ -13,6 +13,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -28,8 +29,11 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.RadioButton;
+import android.widget.SearchView;
+import android.widget.SearchView.OnQueryTextListener;
 import android.widget.TextView;
 
 public class FilterFragment extends Fragment {
@@ -37,6 +41,10 @@ public class FilterFragment extends Fragment {
 	private final static int MIN_RATING = 0;
 	private final static int MAX_RATING = 10;
 
+	public final static int FILTER_FRAGMENT_SUBSEARCH_REQUEST = 1;
+	
+	public final static String TAG = "filter";
+	
 	// Android requires radio buttons to be direct descendants of the
 	// radiogroup, as the last item has a custom layout
 	// it is necessary to implement a custom listener
@@ -56,6 +64,8 @@ public class FilterFragment extends Fragment {
 		public void handleFilterData(Filter filter, ActorSearchModel exclude);
 
 		public void fragmentFinished(Filter filter, ActorSearchModel exclude);
+		
+		public void startSubsearchActivity(String query);
 	};
 
 	@Override
@@ -68,7 +78,9 @@ public class FilterFragment extends Fragment {
 		this.setUpCustomRadio(view);
 		this.setUpDatePickers(view);
 		this.setUpMiscListeners(view);
-
+		this.setUpSearchView(view);
+		this.setUpExcludeList(view, exclude, inflater);
+		
 		this.setUpInterface(view, this.filter, this.exclude);
 
 		Button close = (Button) view.findViewById(R.id.button_filter_close);
@@ -91,7 +103,7 @@ public class FilterFragment extends Fragment {
 
 		if (savedInstanceState == null) {
 			this.filter = this.getArguments().getParcelable("filter");
-			this.exclude = new ActorSearchModel();
+			this.exclude = this.getArguments().getParcelable("exclude");
 		} else {
 			this.filter = savedInstanceState.getParcelable("filter");
 			this.exclude = savedInstanceState.getParcelable("exclude");
@@ -112,12 +124,47 @@ public class FilterFragment extends Fragment {
 
 		this.callback = (FilterFragmentReceiver) activity;
 	}
+	
+	public void addActorExcludeData(final ActorData newExclude) {
+		
+		exclude.addExcludeActor(newExclude);
+		
+		final LinearLayout list = (LinearLayout) FilterFragment.this.getView().findViewById(R.id.filter_exclude_cast_list);
+		LayoutInflater inflater = (LayoutInflater) getActivity().getApplicationContext().
+				getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		
+		View newItem = generateActorExcludeRow(newExclude, inflater);
+		
+		list.addView(newItem);
+		
+	}
 
-	public static final FilterFragment newInstance(Filter defaultSettings) {
+	private View generateActorExcludeRow(final ActorData newExclude, LayoutInflater inflater) {
+		
+		final View newItem = inflater.inflate(R.layout.filter_actor_exclude_row, null);
+		TextView name = (TextView)newItem.findViewById(R.id.filter_actor_exclude_row_name);
+		name.setText(newExclude.getName());
+		
+		TextView close = (TextView)newItem.findViewById(R.id.filter_actor_exclude_row_remove);
+		close.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				((ViewGroup)newItem.getParent()).removeView(newItem);
+				exclude.removeExcludeActor(newExclude);
+			}
+			
+		});
+		
+		return newItem;
+	}
+	
+	public static final FilterFragment newInstance(Filter defaultSettings, ActorSearchModel exclude) {
 		FilterFragment filterFragment = new FilterFragment();
 
 		Bundle bundle = new Bundle(1);
 		bundle.putParcelable("filter", defaultSettings);
+		bundle.putParcelable("exclude", exclude);
 		filterFragment.setArguments(bundle);
 
 		return filterFragment;
@@ -129,6 +176,27 @@ public class FilterFragment extends Fragment {
 	
 	public ActorSearchModel requestActorSearchModel() {
 		return this.exclude;
+	}
+	
+	private void setUpSearchView(View view) {
+		SearchView search = (SearchView)view.findViewById(R.id.search_filter_add_exclude_cast);
+		
+		search.setOnQueryTextListener(new OnQueryTextListener() {
+
+			@Override
+			public boolean onQueryTextChange(String query) {
+				// TODO Auto-generated method stub
+				return false;
+			}
+
+			@Override
+			public boolean onQueryTextSubmit(String query) {
+				
+				callback.startSubsearchActivity(query);
+				return true;
+			}
+			
+		});
 	}
 
 	private void setUpInterface(View view, Filter filter,
@@ -201,6 +269,16 @@ public class FilterFragment extends Fragment {
 			pastCustom.setChecked(true);
 			break;
 		}
+		
+	}
+	
+	private void setUpExcludeList(View view, ActorSearchModel exclude, LayoutInflater inflater) {
+		
+		LinearLayout list = (LinearLayout)view.findViewById(R.id.filter_exclude_cast_list);
+		
+		for (ActorData excludeData : exclude.getExcludeActors()) {
+			list.addView(generateActorExcludeRow(excludeData, inflater));
+		}
 	}
 
 	// Sets up the date picker dialogs for the two custom date pickers
@@ -233,8 +311,6 @@ public class FilterFragment extends Fragment {
 							year, month, day);
 					datePickDialog.show();
 
-					//FilterFragment.this.setCalendar(toDateEdit, cal);
-					//FilterFragment.this.filter.setLowerTimeLimit(cal);
 				}
 				return false;
 			}
@@ -264,8 +340,6 @@ public class FilterFragment extends Fragment {
 							year, month, day);
 					datePickDialog.show();
 
-					//FilterFragment.this.setCalendar(toDateEdit, cal);
-					//FilterFragment.this.filter.setUpperTimeLimit(cal);
 				}
 				return false;
 			}

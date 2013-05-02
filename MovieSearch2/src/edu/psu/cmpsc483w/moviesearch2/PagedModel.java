@@ -26,7 +26,7 @@ public abstract class PagedModel implements CachedDataSource, Parcelable {
 
 	public PagedModel(Parcel in) {
 		this.data = new ArrayList<Object>();
-		in.readList(this.data, null);
+		in.readList(this.data, Object.class.getClassLoader());
 
 		this.totalResults = in.readInt();
 		this.nextPage = in.readInt();

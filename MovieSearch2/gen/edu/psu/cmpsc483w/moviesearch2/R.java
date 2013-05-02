@@ -33,17 +33,17 @@ public final class R {
         public static final int ic_launcher=0x7f020003;
     }
     public static final class id {
-        public static final int action_filter_search=0x7f090035;
-        public static final int action_perform_search=0x7f090034;
-        public static final int action_perform_subsearch=0x7f090031;
-        public static final int action_search_type=0x7f090033;
-        public static final int action_settings=0x7f090032;
+        public static final int action_filter_search=0x7f090038;
+        public static final int action_perform_search=0x7f090037;
+        public static final int action_perform_subsearch=0x7f090034;
+        public static final int action_search_type=0x7f090036;
+        public static final int action_settings=0x7f090035;
         public static final int actionbar_spinner_dropdown_content=0x7f090001;
         public static final int actionbar_spinner_view_content=0x7f090003;
         public static final int actionbar_spinner_view_header=0x7f090002;
-        public static final int button_filter_close=0x7f09001d;
-        public static final int checkbox_filter_vote_number=0x7f090026;
-        public static final int checkbox_filter_vote_range=0x7f090022;
+        public static final int button_filter_close=0x7f09001f;
+        public static final int checkbox_filter_vote_number=0x7f090029;
+        public static final int checkbox_filter_vote_range=0x7f090025;
         public static final int content_wrapper=0x7f090005;
         public static final int detail_cast_list=0x7f090013;
         public static final int detail_cast_list_header=0x7f090012;
@@ -58,35 +58,38 @@ public final class R {
         public static final int detail_running_time=0x7f09000e;
         public static final int detail_tagline=0x7f09000d;
         public static final int detail_tagline_header=0x7f09000c;
-        public static final int edit_filter_date_custom_lower=0x7f09002e;
-        public static final int edit_filter_date_custom_upper=0x7f09002f;
-        public static final int edit_filter_vote_number=0x7f090027;
-        public static final int edit_filter_vote_rating_lower=0x7f090023;
-        public static final int edit_filter_vote_rating_upper=0x7f090024;
-        public static final int filter_date=0x7f090028;
-        public static final int filter_date_custom=0x7f09002c;
-        public static final int filter_exclude_cast=0x7f09001e;
-        public static final int filter_vote_number=0x7f090025;
-        public static final int filter_vote_range=0x7f090021;
-        public static final int filter_votes=0x7f090020;
+        public static final int edit_filter_date_custom_lower=0x7f090031;
+        public static final int edit_filter_date_custom_upper=0x7f090032;
+        public static final int edit_filter_vote_number=0x7f09002a;
+        public static final int edit_filter_vote_rating_lower=0x7f090026;
+        public static final int edit_filter_vote_rating_upper=0x7f090027;
+        public static final int filter_actor_exclude_row_name=0x7f09001d;
+        public static final int filter_actor_exclude_row_remove=0x7f09001c;
+        public static final int filter_date=0x7f09002b;
+        public static final int filter_date_custom=0x7f09002f;
+        public static final int filter_exclude_cast=0x7f090020;
+        public static final int filter_exclude_cast_list=0x7f090021;
+        public static final int filter_vote_number=0x7f090028;
+        public static final int filter_vote_range=0x7f090024;
+        public static final int filter_votes=0x7f090023;
         public static final int gridview_actor_subsearch=0x7f090004;
-        public static final int gridview_content=0x7f09001c;
+        public static final int gridview_content=0x7f09001e;
         public static final int gridview_results=0x7f090014;
         public static final int imageview_actor_subsearch_grid_item=0x7f090015;
         public static final int imageview_content_grid_item=0x7f090017;
         public static final int main_content_fragment=0x7f090006;
         public static final int numberpicker_dialog_vote=0x7f09001b;
-        public static final int radio_filter_date_custom=0x7f09002d;
-        public static final int radio_filter_date_past_month=0x7f090029;
-        public static final int radio_filter_date_past_three_month=0x7f09002a;
-        public static final int radio_filter_date_past_year=0x7f09002b;
-        public static final int search_filter_add_exclude_cast=0x7f09001f;
+        public static final int radio_filter_date_custom=0x7f090030;
+        public static final int radio_filter_date_past_month=0x7f09002c;
+        public static final int radio_filter_date_past_three_month=0x7f09002d;
+        public static final int radio_filter_date_past_year=0x7f09002e;
+        public static final int search_filter_add_exclude_cast=0x7f090022;
         public static final int spinner_actionbar_search_type=0x7f090000;
         public static final int textview_actor_subsearch_grid_item_name=0x7f090016;
         public static final int textview_content_grid_item_release_date=0x7f090019;
         public static final int textview_content_grid_item_title=0x7f090018;
         public static final int textview_dialog_vote_prompt=0x7f09001a;
-        public static final int textview_topic_no_data=0x7f090030;
+        public static final int textview_topic_no_data=0x7f090033;
     }
     public static final class layout {
         public static final int actionbar_spinner=0x7f030000;
@@ -100,9 +103,10 @@ public final class R {
         public static final int actor_subsearch_no_data=0x7f030008;
         public static final int content_grid_item=0x7f030009;
         public static final int dialog_vote_rating=0x7f03000a;
-        public static final int fragment_content=0x7f03000b;
-        public static final int fragment_filter=0x7f03000c;
-        public static final int topic_no_data=0x7f03000d;
+        public static final int filter_actor_exclude_row=0x7f03000b;
+        public static final int fragment_content=0x7f03000c;
+        public static final int fragment_filter=0x7f03000d;
+        public static final int topic_no_data=0x7f03000e;
     }
     public static final class menu {
         public static final int actor_subsearch=0x7f080000;

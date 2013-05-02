@@ -33,6 +33,13 @@
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
 		            android:text="@string/filter_exclude_cast_header" />
+		        <LinearLayout
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:orientation="vertical"
+		            android:id="@+id/filter_exclude_cast_list">
+		            
+		        </LinearLayout>
 		        <SearchView
 		            android:id="@+id/search_filter_add_exclude_cast"
 		            android:layout_width="wrap_content"

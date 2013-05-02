@@ -2,6 +2,7 @@ package edu.psu.cmpsc483w.moviesearch2;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -251,4 +252,31 @@ public class SearchActivity extends Activity implements
 			super.onBackPressed();
 		}
 	}
+
+	@Override
+	public void startSubsearchActivity(String query) {
+		Intent intent = new Intent(SearchActivity.this,
+				ActorSubsearchActivity.class);
+		intent.putExtra("query", query);
+		SearchActivity.this.startActivityForResult(intent,
+				FilterFragment.FILTER_FRAGMENT_SUBSEARCH_REQUEST);
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// Look for the request code
+		if (requestCode == FilterFragment.FILTER_FRAGMENT_SUBSEARCH_REQUEST) {
+			// Check that it was successful
+			if (resultCode == RESULT_OK) {
+				ActorData result = data.getParcelableExtra("result");
+				FilterFragment filterFragment = (FilterFragment) getFragmentManager().
+						findFragmentByTag(FilterFragment.TAG);
+				
+				if (filterFragment != null) {
+					filterFragment.addActorExcludeData(result);
+				}
+			}
+		}
+	}
+
 }
