@@ -199,7 +199,6 @@ public class ContentActivity extends SearchActivity {
 			ActorSearchModel exclude = filterFragment.requestActorSearchModel();
 			
 			this.handleFilterData(filter, exclude);
-			Log.i("Hi","Bye");
 		}
 		
 		super.removeFilterFragment();

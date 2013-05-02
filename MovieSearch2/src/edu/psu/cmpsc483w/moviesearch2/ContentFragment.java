@@ -52,14 +52,12 @@ public class ContentFragment extends Fragment {
 
 		if (savedInstanceState == null) {
 			this.topic = new TopicModel(TopicModel.TOPIC_NOW_PLAYING);
-			this.image = new ImageModel(this.getActivity()
-					.getApplicationContext(), R.drawable.film_reel);
 		} else {
 			this.topic = savedInstanceState.getParcelable("topic");
-			this.image = new ImageModel(this.getActivity()
-					.getApplicationContext(), R.drawable.film_reel);
-
+			
 		}
+		this.image = new ImageModel(this.getActivity()
+				.getApplicationContext(), R.drawable.film_reel);
 
 	}
 

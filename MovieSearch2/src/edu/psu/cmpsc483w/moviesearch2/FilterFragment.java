@@ -229,12 +229,12 @@ public class FilterFragment extends Fragment {
 
 					DatePickerDialog datePickDialog = new DatePickerDialog(
 							FilterFragment.this.getActivity(),
-							new FilterDatePickerListener(fromDateEdit), year,
-							month, day);
+							new FilterDatePickerListener(fromDateEdit, FilterDatePickerListener.LOWER_TIME),
+							year, month, day);
 					datePickDialog.show();
 
-					FilterFragment.this.setCalendar(toDateEdit, cal);
-					FilterFragment.this.filter.setLowerTimeLimit(cal);
+					//FilterFragment.this.setCalendar(toDateEdit, cal);
+					//FilterFragment.this.filter.setLowerTimeLimit(cal);
 				}
 				return false;
 			}
@@ -260,12 +260,12 @@ public class FilterFragment extends Fragment {
 
 					DatePickerDialog datePickDialog = new DatePickerDialog(
 							FilterFragment.this.getActivity(),
-							new FilterDatePickerListener(toDateEdit), year,
-							month, day);
+							new FilterDatePickerListener(toDateEdit, FilterDatePickerListener.UPPER_TIME),
+							year, month, day);
 					datePickDialog.show();
 
-					FilterFragment.this.setCalendar(toDateEdit, cal);
-					FilterFragment.this.filter.setUpperTimeLimit(cal);
+					//FilterFragment.this.setCalendar(toDateEdit, cal);
+					//FilterFragment.this.filter.setUpperTimeLimit(cal);
 				}
 				return false;
 			}
@@ -290,9 +290,14 @@ public class FilterFragment extends Fragment {
 
 	private class FilterDatePickerListener implements OnDateSetListener {
 		EditText source;
-
-		public FilterDatePickerListener(EditText source) {
+		int type;
+		
+		public final static int LOWER_TIME = 0;
+		public final static int UPPER_TIME = 1;
+		
+		public FilterDatePickerListener(EditText source, int type) {
 			this.source = source;
+			this.type = type;
 		}
 
 		@Override
@@ -304,6 +309,13 @@ public class FilterFragment extends Fragment {
 					.getDateFormat(FilterFragment.this.getActivity()
 							.getApplicationContext());
 			this.source.setText(dateFormat.format(cal.getTime()));
+			
+			if (this.type == LOWER_TIME) {
+				FilterFragment.this.filter.setLowerTimeLimit(cal);
+			} else {
+				FilterFragment.this.filter.setUpperTimeLimit(cal);
+			}
+			
 		}
 
 	}

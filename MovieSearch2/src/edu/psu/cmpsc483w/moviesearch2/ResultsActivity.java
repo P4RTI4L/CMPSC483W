@@ -11,11 +11,13 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class ResultsActivity extends SearchActivity {
 
 	private DualModel dualModel;
+	private ImageModel image;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +35,9 @@ public class ResultsActivity extends SearchActivity {
 			this.appliedFilter = savedInstanceState.getParcelable("filter");
 		}
 
+		this.image = new ImageModel(this.getApplicationContext(),
+				R.drawable.film_reel);
+		
 		GridView gridView = (GridView) this.findViewById(R.id.gridview_results);
 		gridView.setAdapter(new ResultsAdapter(this, this.dualModel));
 
@@ -52,6 +57,13 @@ public class ResultsActivity extends SearchActivity {
 		});
 	}
 
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		
+		this.image.trimCache();
+	}
+	
 	/**
 	 * Set up the {@link android.app.ActionBar}.
 	 */
@@ -94,6 +106,7 @@ public class ResultsActivity extends SearchActivity {
 		private class ViewHolder {
 			TextView title;
 			TextView date;
+			ImageView poster;
 		}
 
 		public ResultsAdapter(Context context, CachedDataSource data) {
@@ -140,6 +153,9 @@ public class ResultsActivity extends SearchActivity {
 
 			viewHolder.title.setText(movieData.getTitle());
 			viewHolder.date.setText(movieData.getReleaseDate());
+			
+			ResultsActivity.this.image.setImageViewWithUrl(viewHolder.poster,
+					movieData.getPosterPath(), TmdbModel.POSTER_IMAGE);
 		}
 
 		@Override
@@ -153,7 +169,8 @@ public class ResultsActivity extends SearchActivity {
 					.findViewById(R.id.textview_content_grid_item_title);
 			viewHolder.date = (TextView) contentView
 					.findViewById(R.id.textview_content_grid_item_release_date);
-
+			viewHolder.poster = (ImageView) contentView.findViewById(R.id.imageview_content_grid_item);
+			
 			contentView.setTag(viewHolder);
 
 			return contentView;

@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
 
@@ -20,7 +21,8 @@ public class ActorSubsearchActivity extends Activity {
 
 	public String query;
 	public ActorSubsearchModel subsearchModel;
-
+	public ImageModel image;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -35,6 +37,8 @@ public class ActorSubsearchActivity extends Activity {
 			this.subsearchModel = savedInstanceState.getParcelable("subsearch");
 			this.query = savedInstanceState.getString("query");
 		}
+		
+		image = new ImageModel(this.getApplicationContext(), R.drawable.film_reel);
 
 		GridView actorGridView = (GridView) this
 				.findViewById(R.id.gridview_actor_subsearch);
@@ -70,6 +74,13 @@ public class ActorSubsearchActivity extends Activity {
 
 	}
 
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		
+		this.image.trimCache();
+	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -161,6 +172,7 @@ public class ActorSubsearchActivity extends Activity {
 
 		private class ViewHolder {
 			TextView name;
+			ImageView photo;
 		}
 
 		public ActorSubsearchAdapter(Context context, CachedDataSource data,
@@ -174,6 +186,9 @@ public class ActorSubsearchActivity extends Activity {
 			ActorData actorData = (ActorData) contentData;
 
 			viewHolder.name.setText(actorData.getName());
+			
+			ActorSubsearchActivity.this.image.setImageViewWithUrl(viewHolder.photo,
+					actorData.getProfilePath(), TmdbModel.PROFILE_IMAGE);
 		}
 
 		@Override
@@ -184,7 +199,8 @@ public class ActorSubsearchActivity extends Activity {
 			ViewHolder viewHolder = new ViewHolder();
 			viewHolder.name = (TextView) contentView
 					.findViewById(R.id.textview_actor_subsearch_grid_item_name);
-
+			viewHolder.photo = (ImageView) contentView.findViewById(R.id.imageview_actor_subsearch_grid_item);
+			
 			contentView.setTag(viewHolder);
 
 			return contentView;

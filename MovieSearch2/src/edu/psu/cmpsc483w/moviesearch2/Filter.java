@@ -100,7 +100,6 @@ public class Filter implements Parcelable {
 		try {
 			releaseDate.setTime(df.parse(data.getReleaseDate()));
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			
 		}
 		// TMDb always sends dates as YYYY-MM-DD
