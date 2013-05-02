@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="actionbar_searchtype_header_size">10sp</dimen>
+	<dimen name="actionbar_searchtype_content_size">10sp</dimen>
+</resources>

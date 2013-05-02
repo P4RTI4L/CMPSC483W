@@ -8,13 +8,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/actionbar_spinner_view_header"
-        android:textSize="14sp"
+        android:textSize="@dimen/actionbar_searchtype_header_size"
         android:textColor="@android:color/white" />
     <TextView 
         android:id="@+id/actionbar_spinner_view_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="12sp"
+        android:textSize="@dimen/actionbar_searchtype_content_size"
         android:textColor="@android:color/white" />
 
 </LinearLayout>

@@ -19,7 +19,8 @@ import android.widget.Spinner;
 public class ContentActivity extends SearchActivity {
 
 	private final static int ACTOR_SUBSEARCH_REQUEST = 0;
-
+	private final static int DEFAULT_TOPIC_SELECTED = 0;
+	
 	private DualModel dualModel;
 	private String query;
 
@@ -28,18 +29,18 @@ public class ContentActivity extends SearchActivity {
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.activity_content);
 
-		this.setUpNavigationDropDown();
-
 		if (savedInstanceState == null) {
 			this.dualModel = new DualModel("");
 			this.query = "";
+			this.setUpNavigationDropDown(DEFAULT_TOPIC_SELECTED);
 		} else {
 			this.dualModel = savedInstanceState.getParcelable("dual");
 			this.query = savedInstanceState.getString("query");
+			this.setUpNavigationDropDown(savedInstanceState.getInt("topicIndex"));
 		}
 	}
 
-	public void setUpNavigationDropDown() {
+	public void setUpNavigationDropDown(int position) {
 		final String[] topics = new String[] { TopicModel.TOPIC_NOW_PLAYING,
 				TopicModel.TOPIC_TOP_RATED, TopicModel.TOPIC_POPULAR,
 				TopicModel.TOPIC_UPCOMING };
@@ -48,7 +49,9 @@ public class ContentActivity extends SearchActivity {
 				R.layout.actionbar_spinner_dropdown_view, this.getResources()
 						.getStringArray(R.array.actionbar_navigation_values));
 
-		this.getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+		ActionBar actionBar = this.getActionBar();
+		
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 
 		FragmentManager manager = this.getFragmentManager();
 
@@ -65,8 +68,11 @@ public class ContentActivity extends SearchActivity {
 			}
 		};
 
-		this.getActionBar().setListNavigationCallbacks(navigationAdapter,
+		actionBar.setListNavigationCallbacks(navigationAdapter,
 				navigationListener);
+		
+		actionBar.setSelectedNavigationItem(position);
+		
 	}
 
 	@Override
@@ -85,7 +91,8 @@ public class ContentActivity extends SearchActivity {
 
 		savedInstanceState.putParcelable("dual", this.dualModel);
 		savedInstanceState.putString("query", this.query);
-
+		savedInstanceState.putInt("topicIndex", getActionBar().getSelectedNavigationIndex());	
+		
 		super.onSaveInstanceState(savedInstanceState);
 	}
 

@@ -8,15 +8,13 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
-/**
- * @author tdc5103
- * 
- */
 public class SearchActivity extends Activity implements
 		FilterFragment.FilterFragmentReceiver {
 
@@ -30,7 +28,9 @@ public class SearchActivity extends Activity implements
 	protected Filter appliedFilter;
 	// Whether the filter fragment is visible or not
 	protected boolean isFilterVisible;
-
+	// The index of the search type selected
+	protected int searchTypeSelected;
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -43,10 +43,12 @@ public class SearchActivity extends Activity implements
 		if (savedInstanceState == null) {
 			this.appliedFilter = new Filter();
 			this.isFilterVisible = false;
+			this.searchTypeSelected = 0;
 		} else {
 			this.appliedFilter = savedInstanceState.getParcelable("filter");
 			this.isFilterVisible = savedInstanceState
 					.getBoolean("filterVisible");
+			this.searchTypeSelected = savedInstanceState.getInt("searchType");
 		}
 	}
 
@@ -59,7 +61,8 @@ public class SearchActivity extends Activity implements
 	public void onSaveInstanceState(Bundle savedInstanceState) {
 		savedInstanceState.putParcelable("filter", this.appliedFilter);
 		savedInstanceState.putBoolean("filterVisible", this.isFilterVisible);
-
+		savedInstanceState.putInt("searchType", this.searchTypeSelected);
+		
 		super.onSaveInstanceState(savedInstanceState);
 	}
 
@@ -78,11 +81,30 @@ public class SearchActivity extends Activity implements
 				.getActionView();
 		String[] values = this.getResources().getStringArray(
 				R.array.actionbar_spinner_values);
-
+		
 		ActionbarSpinnerAdapter adapter = new ActionbarSpinnerAdapter(this,
 				R.layout.actionbar_spinner, values);
 		searchType.setAdapter(adapter);
 
+		searchType.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view,
+					int position, long id) {
+				// TODO Auto-generated method stub
+				SearchActivity.this.searchTypeSelected = position;
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> parent) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
+		
+		searchType.setSelection(this.searchTypeSelected);
+		
 		return true;
 	}
 

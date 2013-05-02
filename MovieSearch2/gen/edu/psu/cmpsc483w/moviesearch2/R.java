@@ -15,6 +15,8 @@ public final class R {
     public static final class attr {
     }
     public static final class dimen {
+        public static final int actionbar_searchtype_content_size=0x7f040003;
+        public static final int actionbar_searchtype_header_size=0x7f040002;
         /**  Default screen margins, per the Android Design guidelines. 
 
          Customize dimensions originally defined in res/values/dimens.xml (such as
